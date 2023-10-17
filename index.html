@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <form>
+        <label for="field1">Поле 1:</label>
+        <input type="text" id="field1" name="field1">
+        <br>
+
+        <label for="field2">Поле 2:</label>
+        <input type="text" id="field2" name="field2">
+        <br>
+
+        <button type="button" onclick="addFields()">Добавить</button>
+        <br>
+
+        <div id="extraFields">
+            <!-- Дополнительные поля будут добавлены сюда -->
+        </div>
+        <br>
+
+        <button type="button" onclick="saveData()">Сохранить</button>
+        <br>
+
+        <textarea id="savedData" rows="10" cols="30"></textarea>
+    </form>
+
+    <script>
+        function addFields() {
+            // Код для добавления дополнительных полей, как у вас было ранее
+        }
+
+        function saveData() {
+            const formData = document.forms[0];
+            const dataToSave = {};
+
+            for (const input of formData.elements) {
+                if (input.type === "text" || input.type === "textarea") {
+                    dataToSave[input.name] = input.value;
+                }
+            }
+
+            const jsonData = JSON.stringify(dataToSave);
+
+            // Сохраняем данные в localStorage, чтобы передать их на следующую страницу
+            localStorage.setItem("dataToPass", jsonData);
+
+            // Перенаправляем пользователя на Page.html
+            window.location.href = "Page.html";
+        }
+    </script>
+</body>
+</html>
