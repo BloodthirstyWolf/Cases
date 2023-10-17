@@ -5,15 +5,23 @@
         body {
             background-color: white;
             margin: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
         }
 
         input[type="text"] {
             width: 100%;
             padding: 10px;
             margin: 5px 0;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         button {
@@ -21,6 +29,7 @@
             background-color: #007bff;
             color: white;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
         }
 
@@ -30,7 +39,7 @@
     </style>
 </head>
 <body>
-    <h1>Ваша страница</h1>
+    <h1>Редактировать страницу</h1>
     <div>
         <label for="russian">Русский:</label>
         <input type="text" id="russian">
