@@ -4,50 +4,55 @@
 </head>
 <body>
     <form>
-        <label for="field1">Поле 1:</label>
-        <input type="text" id="field1" name="field1">
-        <br>
-
-        <label for="field2">Поле 2:</label>
-        <input type="text" id="field2" name="field2">
-        <br>
+        <div>
+            <label for="russianText">Русский:</label>
+            <textarea id="russianText" name="russianText" rows="4" cols="50"></textarea>
+        </div>
+        <div>
+            <label for="englishText">Английский:</label>
+            <textarea id="englishText" name="englishText" rows="4" cols="50"></textarea>
+        </div>
 
         <button type="button" onclick="addFields()">Добавить</button>
         <br>
 
         <div id="extraFields">
-            <!-- Дополнительные поля будут добавлены сюда -->
+            <!-- Дополнительные абзацы будут добавлены сюда -->
         </div>
-        <br>
 
-        <button type="button" onclick="saveData()">Сохранить</button>
-        <br>
-
-        <textarea id="savedData" rows="10" cols="30"></textarea>
+        <!-- Кнопка для перехода на Page.html -->
+        <button type="button" onclick="goToPage()">Перейти к просмотру</button>
     </form>
 
     <script>
         function addFields() {
-            // Код для добавления дополнительных полей, как у вас было ранее
+            const extraFields = document.getElementById("extraFields");
+
+            const russianText = document.createElement("div");
+            russianText.innerHTML = '<label for="russianText">Русский:</label><textarea name="russianText" rows="4" cols="50"></textarea>';
+            extraFields.appendChild(russianText);
+
+            const englishText = document.createElement("div");
+            englishText.innerHTML = '<label for="englishText">Английский:</label><textarea name="englishText" rows="4" cols="50"></textarea>';
+            extraFields.appendChild(englishText);
         }
 
-        function saveData() {
-            const formData = document.forms[0];
-            const dataToSave = {};
+        function goToPage() {
+            // Собрать данные для передачи на Page.html
+            const dataToPass = [];
 
-            for (const input of formData.elements) {
-                if (input.type === "text" || input.type === "textarea") {
-                    dataToSave[input.name] = input.value;
-                }
+            const russianTextareas = document.querySelectorAll('textarea[name="russianText"]');
+            const englishTextareas = document.querySelectorAll('textarea[name="englishText"]');
+
+            for (let i = 0; i < russianTextareas.length; i++) {
+                dataToPass.push({
+                    russian: russianTextareas[i].value,
+                    english: englishTextareas[i].value
+                });
             }
 
-            const jsonData = JSON.stringify(dataToSave);
-
-            // Сохраняем данные в localStorage, чтобы передать их на следующую страницу
-            localStorage.setItem("dataToPass", jsonData);
-
-            // Перенаправляем пользователя на Page.html
-            window.location.href = "Page.html";
+            // Преобразовать данные в JSON и передать их на Page.html
+            window.location.href = "Page.html?data=" + encodeURIComponent(JSON.stringify(dataToPass));
         }
     </script>
 </body>
