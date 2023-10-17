@@ -52,7 +52,10 @@
             }
 
             // Преобразовать данные в JSON и передать их на Page.html
-            window.location.href = "Page.html?data=" + encodeURIComponent(JSON.stringify(dataToPass));
+            const jsonData = JSON.stringify(dataToPass);
+            const url = "Page.html?data=" + encodeURIComponent(jsonData);
+
+            window.location.href = url;
         }
     </script>
 </body>
