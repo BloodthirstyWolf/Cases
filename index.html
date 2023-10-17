@@ -2,80 +2,61 @@
 <html>
 <head>
     <style>
-  body {
-  background-color: #fff; /* Белый фон */
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тень для контейнера */
-}
+        body {
+            background-color: white;
+            margin: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+        }
 
-#pagearea {
-  background-color: #fff; /* Белый фон для контейнера */
-  padding: 20px;
-  border-radius: 8px; /* Закругленные углы контейнера */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень для контейнера */
-      }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
-    <form>
-        <div>
-            <label for="russianText">Русский:</label>
-            <textarea id="russianText" name="russianText" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <label for="englishText">Английский:</label>
-            <textarea id="englishText" name="englishText" rows="4" cols="50"></textarea>
-        </div>
-
-        <button type="button" onclick="addFields()">Добавить</button>
-        <br>
-
-        <div id="extraFields">
-            <!-- Дополнительные абзацы будут добавлены сюда -->
-        </div>
-
-        <!-- Кнопка для перехода на Page.html -->
-        <button type="button" onclick="goToPage()">Перейти к просмотру</button>
-    </form>
+    <h1>Ваша страница</h1>
+    <div>
+        <label for="russian">Русский:</label>
+        <input type="text" id="russian">
+    </div>
+    <div>
+        <label for="english">Английский:</label>
+        <input type="text" id="english">
+    </div>
+    <button id="addButton">Добавить</button>
+    <div id="additionalFields"></div>
+    <button id="saveButton">Сохранить</button>
 
     <script>
-        function addFields() {
-            const extraFields = document.getElementById("extraFields");
+        document.getElementById("addButton").addEventListener("click", function () {
+            const additionalFields = document.getElementById("additionalFields");
 
-            const russianText = document.createElement("div");
-            russianText.innerHTML = '<label for="russianText">Русский:</label><textarea name="russianText" rows="4" cols="50"></textarea>';
-            extraFields.appendChild(russianText);
+            const russianInput = document.createElement("input");
+            russianInput.type = "text";
+            russianInput.placeholder = "Русский";
+            additionalFields.appendChild(russianInput);
 
-            const englishText = document.createElement("div");
-            englishText.innerHTML = '<label for="englishText">Английский:</label><textarea name="englishText" rows="4" cols="50"></textarea>';
-            extraFields.appendChild(englishText);
-        }
-
-        function goToPage() {
-            // Собрать данные для передачи на Page.html
-            const dataToPass = [];
-
-            const russianTextareas = document.querySelectorAll('textarea[name="russianText"]');
-            const englishTextareas = document.querySelectorAll('textarea[name="englishText"]');
-
-            for (let i = 0; i < russianTextareas.length; i++) {
-                dataToPass.push({
-                    russian: russianTextareas[i].value,
-                    english: englishTextareas[i].value
-                });
-            }
-
-            // Преобразовать данные в JSON и передать их на Page.html
-            const jsonData = JSON.stringify(dataToPass);
-            const url = "Page.html?data=" + encodeURIComponent(jsonData);
-
-            window.location.href = url;
-        }
+            const englishInput = document.createElement("input");
+            englishInput.type = "text";
+            englishInput.placeholder = "Английский";
+            additionalFields.appendChild(englishInput);
+        });
     </script>
 </body>
 </html>
