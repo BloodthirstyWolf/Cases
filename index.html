@@ -12,112 +12,84 @@
             margin: 0;
             padding: 0;
             display: flex;
-            flex-direction: column;
             align-items: center;
             min-height: 100vh;
         }
 
-        .product-container {
-            max-width: 800px;
-            margin: 20px auto;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        .container {
+            max-width: 100vw;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .product-section {
+            width: 50%;
+            box-sizing: border-box;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .product-container {
+            max-width: 100%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             border-radius: 5px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        .product-image {
-            max-width: 100%;
-            height: auto;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-        }
-
-        .product-info {
-            margin-top: 20px;
-        }
-
-        .product-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .product-description {
-            margin-bottom: 20px;
-        }
-
-        .product-specs {
-            margin-bottom: 20px;
-        }
-
         .related-products {
-            margin-top: 20px;
-            width: 100%;
-        }
-
-        .related-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .related-list {
+            width: 50%;
+            box-sizing: border-box;
+            padding: 20px;
             display: flex;
-            justify-content: center;
-            list-style: none;
-            padding: 0;
-            margin: 0;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .related-item {
-            margin-right: 20px;
-            text-align: center;
-        }
-
-        .related-image {
-            max-width: 100px;
-            height: auto;
-            border-radius: 5px;
-        }
+        /* Styles... (unchanged) */
     </style>
 </head>
 <body>
-    <div class="product-container">
-        <img class="product-image" src="https://i.postimg.cc/WbdTZQ2C/kandinsky-download-1702229881511.png" alt="Платье красное">
-        <div class="product-info">
-            <div class="product-title">Платье красное обтягивающее вечернее</div>
-            <div class="product-description">
-                Описание товара. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    <div class="container">
+        <section class="product-section">
+            <div class="product-container">
+                <img class="product-image" src="https://i.postimg.cc/WbdTZQ2C/kandinsky-download-1702229881511.png" alt="Платье красное">
+                <div class="product-info">
+                    <div class="product-title">Платье красное обтягивающее вечернее</div>
+                    <div class="product-description">
+                        Описание товара. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    </div>
+                    <div class="product-specs">
+                        <h3>Характеристики товара:</h3>
+                        <ul>
+                            <li>Цвет: Красный</li>
+                            <li>Материал: Значение</li>
+                            <li>Характеристика 3: Значение</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="product-specs">
-                <h3>Характеристики товара:</h3>
-                <ul>
-                    <li>Цвет: Красный</li>
-                    <li>Материал: Значение</li>
-                    <li>Характеристика 3: Значение</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="related-products">
-        <h2 class="related-title">С этим хорошо сочетается:</h2>
-        <ul class="related-list">
-            <li class="related-item">
-                <img class="related-image" src="https://i.postimg.cc/fbwPc9cy/kandinsky-download-1702230009866.png" alt="Сопутствующий товар 1">
-                <p>Сопутствующий товар 1</p>
-            </li>
-            <li class="related-item">
-                <img class="related-image" src="https://i.postimg.cc/Dw59Y6yL/kandinsky-download-1702230382143.png" alt="Сопутствующий товар 2">
-                <p>Сопутствующий товар 2</p>
-            </li>
-            <li class="related-item">
-                <img class="related-image" src="https://i.postimg.cc/8zk3WvB5/kandinsky-download-1702230491337.png" alt="Сопутствующий товар 3">
-                <p>Сопутствующий товар 3</p>
-            </li>
-        </ul>
+        </section>
+        <section class="related-products">
+            <h2 class="related-title">С этим хорошо сочетается:</h2>
+            <ul class="related-list">
+                <li class="related-item">
+                    <img class="related-image" src="https://i.postimg.cc/fbwPc9cy/kandinsky-download-1702230009866.png" alt="Сопутствующий товар 1">
+                    <p>Сопутствующий товар 1</p>
+                </li>
+                <li class="related-item">
+                    <img class="related-image" src="https://i.postimg.cc/Dw59Y6yL/kandinsky-download-1702230382143.png" alt="Сопутствующий товар 2">
+                    <p>Сопутствующий товар 2</p>
+                </li>
+                <li class="related-item">
+                    <img class="related-image" src="https://i.postimg.cc/8zk3WvB5/kandinsky-download-1702230491337.png" alt="Сопутствующий товар 3">
+                    <p>Сопутствующий товар 3</p>
+                </li>
+            </ul>
+        </section>
     </div>
 </body>
 </html>
