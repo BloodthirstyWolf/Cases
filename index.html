@@ -1,72 +1,115 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Название товара</title>
     <style>
         body {
-            background-color: white;
-            margin: 20px;
-            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        .product-container {
+            max-width: 800px;
+            margin: 20px auto;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            margin: 70px;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            border: 1px solid #ccc;
+            padding: 20px;
             border-radius: 5px;
         }
 
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             border-radius: 5px;
-            cursor: pointer;
         }
 
-        button:hover {
-            background-color: #0056b3;
+        .product-info {
+            margin-top: 20px;
+        }
+
+        .product-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .product-description {
+            margin-bottom: 20px;
+        }
+
+        .product-specs {
+            margin-bottom: 20px;
+        }
+
+        .related-products {
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+        }
+
+        .related-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .related-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .related-item {
+            display: inline-block;
+            margin-right: 20px;
+            text-align: center;
+        }
+
+        .related-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
-    <h1>Редактировать страницу</h1>
-    <div>
-        <label for="russian">Русский:</label>
-        <input type="text" id="russian">
+    <div class="product-container">
+        <img class="product-image" src="https://i.postimg.cc/WbdTZQ2C/kandinsky-download-1702229881511.png" alt="Платье красное">
+        <div class="product-info">
+            <div class="product-title">Платье красное обтягивающее вечернее</div>
+            <div class="product-description">
+                Описание товара. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </div>
+            <div class="product-specs">
+                <h3>Характеристики товара:</h3>
+                <ul>
+                    <li>Цвет: Красный</li>
+                    <li>Материал: Полиэстер, эластан</li>
+                    <li>Рост модели: 165см </li>
+                </ul>
+            </div>
+        </div>
+        <div class="related-products">
+            <h2 class="related-title">С этим хорошо сочетается:</h2>
+            <ul class="related-list">
+                <li class="related-item">
+                    <img class="related-image" src="related-product1.jpg" alt="Сопутствующий товар 1">
+                    <p>Сопутствующий товар 1</p>
+                </li>
+                <li class="related-item">
+                    <img class="related-image" src="related-product2.jpg" alt="Сопутствующий товар 2">
+                    <p>Сопутствующий товар 2</p>
+                </li>
+                <li class="related-item">
+                    <img class="related-image" src="related-product3.jpg" alt="Сопутствующий товар 3">
+                    <p>Сопутствующий товар 3</p>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div>
-        <label for="english">Английский:</label>
-        <input type="text" id="english">
-    </div>
-    <button id="addButton">Добавить</button>
-    <div id="additionalFields"></div>
-    <button id="saveButton">Сохранить</button>
-
-    <script>
-        document.getElementById("addButton").addEventListener("click", function () {
-            const additionalFields = document.getElementById("additionalFields");
-
-            const russianInput = document.createElement("input");
-            russianInput.type = "text";
-            russianInput.placeholder = "Русский";
-            additionalFields.appendChild(russianInput);
-
-            const englishInput = document.createElement("input");
-            englishInput.type = "text";
-            englishInput.placeholder = "Английский";
-            additionalFields.appendChild(englishInput);
-        });
-    </script>
 </body>
 </html>
