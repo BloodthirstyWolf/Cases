@@ -31,25 +31,12 @@
             align-items: center;
         }
 
-        .related-image {
-            width: 50px; /* Изменено на ±50px */
-            height: 50px; /* Изменено на ±50px */
-            border-radius: 10px; /* Закругление углов */
-            border: 2px solid #ccc; /* Цвет и толщина рамки */
-        }
-
         .related-item {
             text-align: center;
             margin-bottom: 10px;
-        }
-
-        .product-container {
-            max-width: 100%;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            border-radius: 10px; /* Закругление углов */
+            border: 2px solid #ccc; /* Цвет и толщина рамки */
+            padding: 10px; /* Добавим внутренний отступ */
         }
 
         .related-products {
@@ -63,6 +50,23 @@
             border: 2px solid #ddd; /* Цвет и толщина рамки */
             background-color: #f9f9f9; /* Цвет фона */
             margin-left: 20px; /* Добавим немного отступа от основного контейнера */
+            max-height: 70vh; /* Ограничим высоту контейнера */
+            overflow-y: auto; /* Добавим вертикальный скролл при необходимости */
+        }
+
+        .related-image {
+            width: 100%; /* Займет 100% ширины родительского контейнера */
+            height: auto; /* Поддерживает пропорции */
+            border-radius: 10px; /* Закругление углов у изображения, а не у контейнера */
+        }
+
+        .product-container {
+            max-width: 100%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
     </style>
 </head>
