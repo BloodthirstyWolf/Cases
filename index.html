@@ -3,111 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Название товара</title>
+    <title>Название товара - Интернет-магазин</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #fff;
-            color: #000;
             margin: 0;
             padding: 0;
-            display: flex;
-            align-items: center;
-            min-height: 100vh;
+            background-color: #fff;
         }
 
         .container {
+            display: flex;
             max-width: 100vw;
-            display: flex;
-            justify-content: space-around;
+            overflow-x: hidden;
         }
 
-        .product-section {
-            width: 50%;
-            box-sizing: border-box;
+        .product-info {
+            flex: 1;
             padding: 20px;
             display: flex;
-            flex-direction: column;
-            align-items: center;
         }
 
-        .related-item {
-            text-align: center;
-            margin-bottom: 10px;
-            border-radius: 10px; /* Закругление углов */
-            border: 2px solid #ccc; /* Цвет и толщина рамки */
-            padding: 10px; /* Добавим внутренний отступ */
+        .product-image {
+            max-width: 50%;
         }
 
-        .related-products {
-            width: 50%;
-            box-sizing: border-box;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border-radius: 10px; /* Закругление углов */
-            border: 2px solid #ddd; /* Цвет и толщина рамки */
-            background-color: #f9f9f9; /* Цвет фона */
-            margin-left: 20px; /* Добавим немного отступа от основного контейнера */
-            max-height: 70vh; /* Ограничим высоту контейнера */
-            overflow-y: auto; /* Добавим вертикальный скролл при необходимости */
-        }
-
-        .related-image {
-            width: 100%; /* Займет 100% ширины родительского контейнера */
-            height: auto; /* Поддерживает пропорции */
-            border-radius: 10px; /* Закругление углов у изображения, а не у контейнера */
-        }
-
-        .product-container {
-            max-width: 100%;
+        .product-details {
+            flex: 1;
+            padding-left: 20px;
+            border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        }
+
+        .characteristics {
+            margin-bottom: 20px;
+        }
+
+        .set-contains {
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            max-width: 100%;
+        }
+
+        .item-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .item-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            text-align: center;
+        }
+
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <section class="product-section">
-            <div class="product-container">
-                <img class="product-image" src="https://i.postimg.cc/WbdTZQ2C/kandinsky-download-1702229881511.png" alt="Платье красное">
-                <div class="product-info">
-                    <div class="product-title">Платье красное обтягивающее вечернее</div>
-                    <div class="product-description">
-                        Описание товара. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </div>
-                    <div class="product-specs">
-                        <h3>Характеристики товара:</h3>
-                        <ul>
-                            <li>Цвет: Красный</li>
-                            <li>Материал: Значение</li>
-                            <li>Характеристика 3: Значение</li>
-                        </ul>
-                    </div>
-                </div>
+
+<div class="container">
+    <div class="product-info">
+        <div class="product-image">
+            <!-- Здесь размещается фото товара -->
+            <img src="product-image.jpg" alt="Товар">
+        </div>
+        <div class="product-details">
+            <div class="characteristics">
+                <h2>Характеристики товара</h2>
+                <p><strong>Набор содержит:</strong></p>
+                <ul>
+                    <!-- Здесь выводится список характеристик товара -->
+                    <li>Характеристика 1</li>
+                    <li>Характеристика 2</li>
+                    <!-- Добавьте другие характеристики по необходимости -->
+                </ul>
             </div>
-        </section>
-        <section class="related-products">
-            <h2 class="related-title">С этим хорошо сочетается:</h2>
-            <ul class="related-list">
-                <li class="related-item">
-                    <img class="related-image" src="https://i.postimg.cc/fbwPc9cy/kandinsky-download-1702230009866.png" alt="Сопутствующий товар 1">
-                    <p>Сопутствующий товар 1</p>
-                </li>
-                <li class="related-item">
-                    <img class="related-image" src="https://i.postimg.cc/Dw59Y6yL/kandinsky-download-1702230382143.png" alt="Сопутствующий товар 2">
-                    <p>Сопутствующий товар 2</p>
-                </li>
-                <li class="related-item">
-                    <img class="related-image" src="https://i.postimg.cc/8zk3WvB5/kandinsky-download-1702230491337.png" alt="Сопутствующий товар 3">
-                    <p>Сопутствующий товар 3</p>
-                </li>
-            </ul>
-        </section>
+        </div>
     </div>
+
+    <div class="set-contains">
+        <div class="header">
+            <h2>Этот набор содержит</h2>
+        </div>
+        <div class="item-list">
+            <!-- Здесь выводится список деталей набора -->
+            <div class="item">
+                <img src="product1.jpg" alt="Товар 1">
+                <div class="item-info">Товар 1</div>
+            </div>
+            <div class="item">
+                <img src="product2.jpg" alt="Товар 2">
+                <div class="item-info">Товар 2</div>
+            </div>
+            <!-- Добавьте другие детали по необходимости -->
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
