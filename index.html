@@ -22,21 +22,24 @@
             flex: 1;
             padding: 20px;
             display: flex;
+            flex-direction: column;
         }
 
         .product-image {
-            max-width: 50%;
+            max-height: 100vh;
+            width: auto;
         }
 
         .product-details {
-            flex: 1;
-            padding-left: 20px;
+            padding-top: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            background-color: #fff;
         }
 
         .characteristics {
             margin-bottom: 20px;
+            color: #000;
         }
 
         .set-contains {
@@ -94,13 +97,14 @@
         <div class="product-details">
             <div class="characteristics">
                 <h2>Характеристики товара</h2>
-                <p><strong>Набор содержит:</strong></p>
-                <ul>
+                <p style="background-color: #fff; padding: 10px; border-radius: 10px;">
+                    <strong>Набор содержит:</strong>
+                    <br>
                     <!-- Здесь выводится список характеристик товара -->
-                    <li>Лампа ультрафиолетовая</li>
-                    <li>Пилка 2 шт</li>
+                    <span>Пилка 3 шт.</span><br>
+                    <span>Лак для наращивания ногтей 3 шт.</span>
                     <!-- Добавьте другие характеристики по необходимости -->
-                </ul>
+                </p>
             </div>
         </div>
     </div>
