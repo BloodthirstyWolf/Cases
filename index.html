@@ -32,7 +32,6 @@
 
         .product-info {
             display: flex;
-            flex-direction: column;
             padding: 40px;
         }
 
@@ -50,6 +49,8 @@
 
         .product-details {
             flex: 1;
+            display: flex;
+            flex-direction: column;
             padding-left: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -60,8 +61,8 @@
         }
 
         .buy-button {
-            margin-top: 20px;
             text-align: right;
+            margin-top: auto;
         }
 
         .buy-button button {
@@ -79,6 +80,7 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             max-width: 100%;
+            margin-left: auto;
             margin-top: 20px;
         }
 
@@ -117,7 +119,6 @@
             color: #fff;
             padding: 10px;
             text-align: center;
-            margin-top: 20px;
         }
     </style>
 </head>
@@ -151,54 +152,23 @@
                     <li>Щетка для ногтей</li>
                 </ul>
             </div>
-            <div class="set-contains">
-                <div class="header">
-                    <h2>Этот набор содержит</h2>
-                </div>
-                <div class="item-list">
-                    <div class="item" onclick="location.href='#';">
-                        <img src="https://nasnegopadi.ru/image/cache/catalog/product/1.1.5.3.01/1.1.5.3.01_1-1200x800.jpg"
-                             alt="Товар 1">
-                        <div class="item-info">Ультрафиолетовая лампа</div>
-                    </div>
-                    <div class="item" onclick="location.href='#';">
-                        <img src="https://cdn1.ozone.ru/s3/multimedia-4/6350917492.jpg" alt="Товар 2">
-                        <div class="item-info">Щетка для ногтей</div>
-                    </div>
-                    <div class="item" onclick="location.href='#';">
-                        <img src="https://images.fyndiq.se/image/upload/f_auto/t_250x250/prod/94399d2065b64813/female-nail-extension-gel-phototherapy-gel-cosmetic-non-toxic-fa-clear-e1589"
-                             alt="Товар 3">
-                        <div class="item-info">Лак для наращивания ногтей</div>
-                    </div>
-                    <div class="item" onclick="location.href='#';">
-                        <img src="https://ir.ozone.ru/s3/multimedia-q/6459854054.jpg" alt="Товар 4">
-                        <div class="item-info">Ручка фрезер</div>
-                    </div>
-                    <div class="item" onclick="location.href='#';">
-                        <img src="https://www.dhresource.com/600x600/f2/albu/g10/M01/36/20/rBVaWV3G_jqAOKVzAAKdw41OPv4375.jpg"
-                             alt="Товар 5">
-                        <div class="item-info">Фрезы для маникюра</div>
-                    </div>
-                    <div class="item" onclick="location.href='#';">
-                        <img src="https://avatars.mds.yandex.net/i?id=aa29104c4948e325bc3aa425cc335df7-5869563-images-thumbs&n=13"
-                             alt="Товар 6">
-                        <div class="item-info">Разделители для пальцев мягкие</div>
-                    </div>
-                    <div class="item" onclick="location.href='#';">
-                        <img src="https://avatars.mds.yandex.net/i?id=8bba4a99c3fdbd46d2f155fa18d2b988-4446390-images-thumbs&n=13"
-                             alt="Товар 7">
-                        <div class="item-info">Стразы для ногтей</div>
-                    </div>
-                    <div class="item" onclick="location.href='#';">
-                        <img src="https://ae04.alicdn.com/kf/H9c9b3238e52e4dc9a1d3f6d4d3d75515d/12.jpg"
-                             alt="Товар 8">
-                        <div class="item-info">Тонкий скотч для ногтей</div>
-                    </div>
-                </div>
-            </div>
             <div class="buy-button">
                 <button onclick="location.href='#'">Купить</button>
             </div>
+        </div>
+    </div>
+
+    <div class="set-contains">
+        <div class="header">
+            <h2>Этот набор содержит</h2>
+        </div>
+        <div class="item-list">
+            <div class="item" onclick="location.href='#';">
+                <img src="https://nasnegopadi.ru/image/cache/catalog/product/1.1.5.3.01/1.1.5.3.01_1-1200x800.jpg"
+                     alt="Товар 1">
+                <div class="item-info">Ультрафиолетовая лампа</div>
+            </div>
+            <!-- Добавьте другие детали по необходимости -->
         </div>
     </div>
 </div>
