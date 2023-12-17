@@ -3,113 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Набор для маникюра</title>
+    <title>Абстрактный Шаблон</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #fff;
+            font-family: Arial, sans-serif;
         }
 
         .container {
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            max-width: 100vw;
-            overflow-x: hidden;
-        }
-
-        .header-bar {
-            background-color: #ff6600;
-            padding: 10px;
-            text-align: center;
-            color: #fff;
-        }
-
-        .header-bar a {
-            color: #fff;
-        }
-
-        .product-info {
-            display: flex;
-            flex-direction: column;
-            padding: 40px;
-        }
-
-        .product-image {
-            max-width: 100%;
-            height: auto;
-            overflow: hidden;
-            margin-bottom: 20px; /* Добавленный стиль для отступа между изображением и описанием */
-        }
-
-        .product-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .product-details {
-            flex: 1;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            position: relative;
-        }
-
-        .characteristics {
-            margin-bottom: 20px;
-        }
-
-        .buy-button {
-            text-align: right;
-            margin-top: auto; /* Размещение внизу блока */
-        }
-
-        .buy-button button {
-            background-color: #ff6600;
-            color: #fff;
-            padding: 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .set-contains {
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            margin-top: 20px; /* Добавленный стиль для отступа сверху */
-        }
-
-        .item-list {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-
-        .item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-        }
-
-        .item img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .item-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 10px;
-            text-align: center;
         }
 
         .header {
@@ -118,53 +24,45 @@
             padding: 10px;
             text-align: center;
         }
+
+        .content {
+            flex: 1;
+            display: flex;
+        }
+
+        .left-section {
+            flex: 1;
+            background-color: red;
+        }
+
+        .right-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .right-upper {
+            flex: 1;
+            background-color: blue;
+        }
+
+        .right-lower {
+            flex: 1;
+            background-color: green;
+        }
     </style>
 </head>
 <body>
 
-<div class="header-bar">
-    <a href="#">Главная</a> |
-    <a href="#">Регистрация</a> |
-    <a href="#">Вход</a> |
-    <a href="#">О нас</a> |
-    <a href="#">Корзина</a>
-</div>
-
 <div class="container">
-    <div class="product-info">
-        <div class="product-image">
-            <img src="https://cdn1.ozone.ru/s3/multimedia-q/6292212638.jpg" alt="Товар">
-        </div>
-        <div class="product-details">
-            <div class="characteristics">
-                <h2>Характеристики товара</h2>
-                <p><strong>Набор содержит:</strong></p>
-                <ul>
-                    <li>Пилки 3 шт.</li>
-                    <li>Лак для наращивания ногтей 3 шт.</li>
-                    <li>Ручка фрезер</li>
-                    <li>Фрезы для маникюра набор</li>
-                    <li>Разделители для пальцев мягкие</li>
-                    <li>Стразы для маникюра</li>
-                    <li>Тонкий скотч для маникюра</li>
-                    <li>Щетка для ногтей</li>
-                </ul>
-            </div>
-            <div class="buy-button">
-                <button>Купить</button>
-            </div>
-        </div>
+    <div class="header">
+        <h1>Заголовок</h1>
     </div>
-
-    <div class="set-contains">
-        <h2>Этот набор содержит</h2>
-        <div class="item-list">
-            <div class="item" onclick="location.href='#';">
-                <img src="https://nasnegopadi.ru/image/cache/catalog/product/1.1.5.3.01/1.1.5.3.01_1-1200x800.jpg"
-                     alt="Товар 1">
-                <div class="item-info">Ультрафиолетовая лампа</div>
-            </div>
-            <!-- Добавьте другие детали по необходимости -->
+    <div class="content">
+        <div class="left-section"></div>
+        <div class="right-section">
+            <div class="right-upper"></div>
+            <div class="right-lower"></div>
         </div>
     </div>
 </div>
