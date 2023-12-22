@@ -19,18 +19,60 @@
             top: 0;
             width: 100%;
             z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        /* Дополнительные стили или структура вашего сайта могут быть добавлены здесь */
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav li {
+            margin-right: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #FFFFFF;
+            font-weight: bold;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #F2DDC6; /* Светло-коричневый цвет при наведении */
+        }
 
         section {
-            margin-top: 50px; /* Установите отступ для контента, чтобы он не перекрывался хедером */
+            margin-top: 70px; /* Установите отступ для контента, чтобы он не перекрывался хедером */
+            padding: 20px;
+        }
+
+        /* Стили для карусели */
+        .carousel-container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .carousel {
+            aspect-ratio: 16/9; /* Соотношение сторон 16:9 для десктопа */
+        }
+
+        @media (max-width: 767px) {
+            .carousel {
+                aspect-ratio: 1/1; /* Соотношение сторон 1:1 для телефона */
+            }
         }
     </style>
-    <title>Лисье логово</title>
+    <title>Ваш сайт</title>
 </head>
 <body>
-<header>
+    <header>
+        <!-- Здесь может быть ваша навигационная структура, логотип и другие элементы хедера -->
         <nav>
             <ul>
                 <li><a href="#">Главная</a></li>
@@ -38,43 +80,47 @@
                 <li><a href="#">Контакты</a></li>
             </ul>
         </nav>
-</header>
 
+        <!-- Дополнительные кнопки или элементы хедера могут быть добавлены здесь -->
+        <div>
+            <button>Войти</button>
+            <button>Регистрация</button>
+        </div>
+    </header>
 
-
-
-
-
-
-    
-<div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="316003a4ec765600a262762673d4c2ae.jpg" class="d-block w-100" alt="Изображение 1">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Схема выдра крючком </h5>
-        <p><a href="https://avatars.mds.yandex.net/i?id=a3be2ab96f0147e40974736f3b07708d_l-8187767-images-thumbs&n=13">Ссылка 1</a></p>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <img src="https://avatars.mds.yandex.net/i?id=a3be2ab96f0147e40974736f3b07708d_l-8187767-images-thumbs&n=13" class="d-block w-100" alt="Изображение 2">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Схема змея крючком </h5>
-        <p><a href="316003a4ec765600a262762673d4c2ae.jpg">Ссылка 2</a></p>
-      </div>
-    </div>
-    <!-- Добавьте дополнительные элементы карусели по необходимости -->
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
-
+    <section>
+        <!-- Здесь может быть ваш контент -->
+        <h1>Добро пожаловать на сайт!</h1>
+        <div class="carousel-container">
+            <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="316003a4ec765600a262762673d4c2ae.jpg" class="d-block w-100" alt="Изображение 1">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Схема вязания выдра</h5>
+                            <p><a href="ссылка_1">Ссылка 1</a></p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://avatars.mds.yandex.net/i?id=a3be2ab96f0147e40974736f3b07708d_l-8187767-images-thumbs&n=13" class="d-block w-100" alt="Изображение 2">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Схема вязания питон</h5>
+                            <p><a href="ссылка_2">Ссылка 2</a></p>
+                        </div>
+                    </div>
+                    <!-- Добавьте дополнительные элементы карусели по необходимости -->
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
