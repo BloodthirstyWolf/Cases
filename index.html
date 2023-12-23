@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,6 +67,48 @@
                 aspect-ratio: 1/1; /* Соотношение сторон 1:1 для телефона */
             }
         }
+
+        .carousel-caption {
+            background: rgba(62, 39, 35, 0.7); /* Полупрозрачный темно-коричневый фон для подписи */
+            padding: 15px;
+        }
+
+        .carousel-caption h5, .carousel-caption p {
+            color: #FFFFFF; /* Белый текст в подписи */
+            margin: 0;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            font-size: 2rem; /* Размер шрифта для стрелок */
+            color: #FFFFFF; /* Белый цвет для стрелок */
+            background: none; /* Фон стрелок прозрачный */
+            border: none; /* Убираем границу стрелок */
+        }
+
+        /* Добавление стрелок внутри кнопок */
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: transparent;
+            border: none;
+        }
+
+        /* Стили для кнопок */
+        button {
+            background-color: #FFFFFF; /* Белый цвет фона кнопок */
+            color: #3E2723; /* Темно-коричневый цвет текста кнопок */
+            padding: 10px 20px; /* Отступы вокруг текста кнопок */
+            font-size: 18px; /* Размер шрифта */
+            border: none; /* Убираем границу кнопок */
+            border-radius: 10px; /* Закругленные края */
+            cursor: pointer; /* Курсор при наведении */
+            transition: background-color 0.3s ease, color 0.3s ease; /* Плавные переходы цветов при наведении */
+        }
+
+        button:hover {
+            background-color: #F2DDC6; /* Светло-коричневый цвет при наведении */
+            color: #3E2723; /* Темно-коричневый цвет текста при наведении */
+        }
     </style>
     <title>Ваш сайт</title>
 </head>
@@ -96,27 +138,25 @@
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <img src="316003a4ec765600a262762673d4c2ae.jpg" class="d-block w-100" alt="Изображение 1">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Схема вязания выдра</h5>
-                            <p><a href="ссылка_1">Ссылка 1</a></p>
+                        <div class="carousel-caption">
+                            <h5>Фото 1</h5>
+                            <p>Описание фото 1</p>
                         </div>
                     </div>
                     <div class="carousel-item">
                         <img src="https://avatars.mds.yandex.net/i?id=a3be2ab96f0147e40974736f3b07708d_l-8187767-images-thumbs&n=13" class="d-block w-100" alt="Изображение 2">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Схема вязания питон</h5>
-                            <p><a href="ссылка_2">Ссылка 2</a></p>
+                        <div class="carousel-caption">
+                            <h5>Фото 2</h5>
+                            <p>Описание фото 2</p>
                         </div>
                     </div>
                     <!-- Добавьте дополнительные элементы карусели по необходимости -->
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
+                    &lt; <!-- Стрелка влево -->
                 </button>
                 <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
+                    &gt; <!-- Стрелка вправо -->
                 </button>
             </div>
         </div>
