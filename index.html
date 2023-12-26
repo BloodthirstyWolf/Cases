@@ -60,8 +60,17 @@
 
         .carousel {
             aspect-ratio: 16/9; /* Соотношение сторон 16:9 для десктопа */
-            overflow: hidden; /* Скрытие части изображения за пределами карусели */
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Тень снизу */
+            overflow: hidden; /* Скрытие частей изображения за границами карусели */
+            position: relative;
+        }
+
+        .carousel img {
+            height: 100%; /* 100% по высоте карусели */
+            width: auto; /* Ширина auto для обрезки по краям */
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%); /* Центрирование изображения по горизонтали */
         }
 
         @media (max-width: 767px) {
@@ -70,24 +79,12 @@
             }
         }
 
-        .carousel-inner {
-            height: 100%; /* 100% по высоте для изображений внутри карусели */
-        }
-
-        .carousel-item {
-            display: flex;
-            justify-content: center; /* Центрирование изображения по горизонтали */
-        }
-
-        .carousel-item img {
-            height: 100%; /* 100% по высоте для изображений */
-            width: auto; /* Автоматическое определение ширины с обрезкой по краям */
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Тень вокруг изображений */
-        }
-
         .carousel-caption {
-            background: linear-gradient(to bottom, transparent 0%, #3E2723 33%); /* Градиентная тень с коричневого к прозрачному */
+            background: linear-gradient(rgba(62, 39, 35, 0.7), rgba(62, 39, 35, 0)); /* Градиент от коричневого до прозрачного */
             padding: 15px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
         }
 
         .carousel-caption h5, .carousel-caption p {
@@ -123,8 +120,8 @@
         }
 
         button:hover {
-            background-color: #F2DDC6; /* Светло-коричневый цвет при наведении */
-            color: #3E2723; /* Темно-коричневый цвет текста при наведении */
+            background-color: transparent; /* Прозрачный фон при наведении */
+            color: #F2DDC6; /* Светло-коричневый цвет текста при наведении */
         }
     </style>
     <title>Ваш сайт</title>
@@ -154,14 +151,14 @@
             <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="316003a4ec765600a262762673d4c2ae.jpg" class="d-block" alt="Изображение 1">
+                        <img src="путь_к_изображению1.jpg" class="d-block" alt="Изображение 1">
                         <div class="carousel-caption">
                             <h5>Фото 1</h5>
                             <p>Описание фото 1</p>
                         </div>
                     </div>
                     <div class="carousel-item">
-                        <img src="kandinsky-download-1703000345708.png" class="d-block" alt="Изображение 2">
+                        <img src="путь_к_изображению2.jpg" class="d-block" alt="Изображение 2">
                         <div class="carousel-caption">
                             <h5>Фото 2</h5>
                             <p>Описание фото 2</p>
