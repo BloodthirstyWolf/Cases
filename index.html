@@ -57,7 +57,7 @@
     .container {
         height: 100vh; /* 100% высоты экрана */
         display: flex;
-        align-items: flex-end; /* Текст в левом нижнем углу */
+        align-items: center; /* Текст по центру вертикали */
         justify-content: flex-end; /* Изображение у правого края */
         background-image: url('https://i.postimg.cc/fyWSDz1M/IMG-20231230-210438.png');
         background-size: cover;
@@ -65,6 +65,7 @@
         font-family: 'Matryoshka', sans-serif;
         padding: 20px; /* Добавил отступы для текста */
         box-sizing: border-box; /* Учтем padding в общей ширине и высоте контейнера */
+        margin: 0; /* Убрал внешний отступ для body */
     }
 
     .content {
