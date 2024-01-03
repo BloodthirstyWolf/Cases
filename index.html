@@ -16,6 +16,7 @@
         margin: 0;
         padding: 0;
         font-family: Arial, sans-serif;
+        overflow-x: hidden; /* Исправил отображение на мобильных устройствах */
     }
 
     header {
@@ -65,7 +66,7 @@
         font-family: 'Matryoshka', sans-serif;
         padding: 20px; /* Добавил отступы для текста */
         box-sizing: border-box; /* Учтем padding в общей ширине и высоте контейнера */
-        margin: 0; /* Убрал внешний отступ для body */
+        margin: 0; /* Убрал margin, который мог создавать отступы */
     }
 
     .content {
