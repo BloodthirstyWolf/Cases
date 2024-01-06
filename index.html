@@ -19,18 +19,43 @@
       margin: 0;
     }
 
-    header {
-        background-color: #3E2723; /* Темно-коричневый цвет */
-        color: #FFFFFF; /* Белый текст */
-        padding: 10px;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 1000;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+     header {
+            background-color: #3E2723;
+            padding: 10px 20px;
+            position: fixed;
+            width: 100%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        header a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+
+        header a:hover {
+            border-bottom: 2px solid #fff;
+        }
+
+        .buttons-container {
+            margin-left: auto;
+        }
+
+        .button {
+            background-color: #fff;
+            color: #3E2723;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #ddd;
+        }
 
     .first-container {
       position: relative;
