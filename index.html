@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <title>Your Page</title>
   <style>
     @font-face {
       font-family: 'Matryoshka';
@@ -18,12 +17,61 @@
       margin: 0;
     }
 
+    header {
+      background-color: #3E2723;
+      padding: 10px 20px;
+      position: fixed;
+      width: 100%;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    nav {
+      display: flex;
+      list-style: none;
+      padding: 0;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 20px;
+      font-size: 16px;
+    }
+
+    nav a:hover {
+      border-bottom: 2px solid #fff;
+      background-color: transparent;
+    }
+
+    .buttons-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .button {
+      background-color: #fff;
+      color: #3E2723;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 20px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #fff;
+    }
+
     .first-container {
       position: relative;
       height: 100vh;
+      background-image: url('https://i.postimg.cc/fyWSDz1M/IMG-20231230-210438.png');
       background-size: cover;
       color: #fff;
-      font-family: 'Matryoshka', sans-serif; /* Применение шрифта к первому контейнеру */
+      font-family: 'Matryoshka', sans-serif;
     }
 
     .text-container {
@@ -31,6 +79,7 @@
       bottom: 0;
       left: 0;
       padding: 20px;
+      font-family: 'YourFont', sans-serif;
     }
 
     .second-container {
@@ -63,25 +112,21 @@
       margin-bottom: 10px;
     }
   </style>
+  <title>Your Page</title>
 </head>
 <body>
-<header>
-        <!-- Здесь может быть ваша навигационная структура, логотип и другие элементы хедера -->
-        <nav>
-            <ul>
-                <li><a href="#">Главная</a></li>
-                <li><a href="#">О нас</a></li>
-                <li><a href="#">Контакты</a></li>
-            </ul>
-        </nav>
+  <header>
+    <nav>
+      <a href="#">Главная</a>
+      <a href="#">О нас</a>
+      <a href="#">Контакты</a>
+    </nav>
+    <div class="buttons-container">
+      <button class="button">Войти</button>
+      <button class="button">Регистрация</button>
+    </div>
+  </header>
 
-        <!-- Дополнительные кнопки или элементы хедера могут быть добавлены здесь -->
-        <div>
-            <button>Войти</button>
-            <button>Регистрация</button>
-        </div>
-</header>
-  
   <div class="container-fluid first-container">
     <img src="path/to/your/background-image.jpg" alt="Background Image">
     <div class="text-container">
@@ -130,6 +175,5 @@
       <img src="path/to/image2.jpg" alt="Image 2">
     </div>
   </div>
-
 </body>
 </html>
