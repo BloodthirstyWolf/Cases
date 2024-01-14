@@ -12,6 +12,13 @@
       font-style: normal;
     }
 
+    @font-face {
+      font-family: 'SenseiMedium';
+      src: url('path/to/sensei_medium.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
     body, html {
       height: 100%;
       margin: 0;
@@ -70,7 +77,7 @@
       height: 100vh;
       background-image: url('https://i.postimg.cc/fyWSDz1M/IMG-20231230-210438.png');
       background-size: cover;
-      color: #fff;
+      color: #C62C2A; /* Изменен цвет текста */
       font-family: 'Matryoshka', sans-serif;
     }
 
@@ -81,10 +88,15 @@
       padding: 20px;
     }
 
-    .text-container p {
+    .text-container h1 {
       font-family: 'Matryoshka', sans-serif;
-      font-size: 24px;
-      color: #fff;
+      font-size: 36px; /* Увеличен размер текста */
+    }
+
+    .text-container p {
+      font-family: 'SenseiMedium', sans-serif; /* Использование нового шрифта */
+      font-size: 18px; /* Размер подписи */
+      color: #85928E; /* Цвет подписи */
     }
 
     .second-container {
@@ -135,7 +147,8 @@
   <div class="container-fluid first-container">
     <img src="path/to/your/background-image.jpg" alt="Background Image">
     <div class="text-container">
-      <p>Your Text Here</p>
+      <h1>Your Text Here</h1>
+      <p>Subtitle or additional information</p>
     </div>
   </div>
 
