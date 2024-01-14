@@ -14,48 +14,53 @@
       font-style: normal;
       }
     
-    body, html {
-      height: 100%;
-      margin: 0;
-    }
+  body, html {
+  height: 100%;
+  margin: 0;
+}
 
-    header {
-            background-color: #3E2723;
-            padding: 10px 20px;
-            position: fixed;
-            width: 100%;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-        }
+header {
+  background-color: #3E2723;
+  padding: 10px 20px;
+  position: fixed;
+  width: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+}
 
-        header a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 10px;
-            font-size: 16px;
-        }
+nav a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 20px;
+  font-size: 16px;
+}
 
-        header a:hover {
-            border-bottom: 2px solid #fff;
-        }
+nav a:hover {
+  border-bottom: 2px solid #fff;
+  background-color: transparent; /* Делаем фон прозрачным при наведении */
+}
 
-        .buttons-container {
-            margin-left: auto;
-        }
+.buttons-container {
+  display: flex;
+  align-items: center;
+}
 
-        .button {
-            background-color: #fff;
-            color: #3E2723;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 20px;
-            margin-left: 10px;
-            cursor: pointer;
-        }
+.button {
+  background-color: #fff;
+  color: #3E2723;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 20px;
+  margin-left: 10px;
+  cursor: pointer;
+}
 
-        .button:hover {
-            background-color: #fff; /* Цвет при наведении остается таким же */
-        }
+.button:hover {
+  background-color: #fff; /* Цвет при наведении остается таким же */
+}
+
     .first-container {
       position: relative;
       height: 100vh;
