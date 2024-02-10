@@ -4,18 +4,104 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <title>Carousel Gallery</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
+    @font-face {
+      font-family: 'Gagalin';
+      src: url('Gagalin-Regular.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'SenseiMedium';
+      src: url('sensei_medium.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body, html {
+      height: 100%;
       margin: 0;
+    }
+
+    header {
+      background-color: #3E2723;
+      padding: 10px 20px;
+      position: fixed;
+      width: 100%;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    nav {
+      display: flex;
+      list-style: none;
       padding: 0;
     }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 20px;
+      font-size: 16px;
+    }
+
+    nav a:hover {
+      text-decoration: none;
+    }
+
+    .buttons-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .button {
+      background-color: #fff;
+      color: #3E2723;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 20px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #fff;
+    }
+
+    .first-container {
+      position: relative;
+      height: 100vh;
+      background-image: url('https://i.postimg.cc/fyWSDz1M/IMG-20231230-210438.png');
+      background-size: cover;
+      color: #C62C2A;
+    }
+
+    .text-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
       padding: 20px;
+    }
+
+    .text-container h1 {
+      font-family: 'Gagalin', sans-serif;
+      font-size: 3em; /* Заменено на относительный размер */
+    }
+
+    .text-container p {
+      font-family: 'SenseiMedium', sans-serif;
+      font-size: 1.5em; /* Заменено на относительный размер */
+      color: #85928E;
+    }
+
+    .second-container {
+      max-width: 100%;
+      overflow: hidden; /* Скрываем скроллбар */
+      margin: 0 auto; /* Центрируем контейнер */
+      padding: 0 20px; /* Добавляем отступы справа и слева */
     }
 
     .carousel {
@@ -62,57 +148,74 @@
       fill: #666; /* Изменяем цвет при наведении */
     }
   </style>
+  <title>Your Page</title>
 </head>
 <body>
+  <header>
+    <nav>
+      <a href="#">Главная</a>
+      <a href="#">О нас</a>
+      <a href="#">Контакты</a>
+    </nav>
+    <div class="buttons-container">
+      <button class="button">Войти</button>
+      <button class="button">Регистрация</button>
+    </div>
+  </header>
 
-<section class="container">
-  <div class="carousel" aria-label="Gallery">
-    <ol class="carousel__viewport">
-      <li class="carousel__slide">
-        <div class="carousel__snapper">
-          <img src="https://papikpro.club/uploads/posts/2022-11/1668493918_12-papikpro-com-p-posledovatelnoe-vyazanie-dlya-kris-poshago-12.jpg" alt="Image 1">
-        </div>
-      </li>
-      <li class="carousel__slide">
-        <div class="carousel__snapper">
-          <img src="https://i.pinimg.com/736x/74/a2/22/74a222c42033890a2a2db831ac994e3f.jpg" alt="Image 2">
-        </div>
-      </li>
-      <li class="carousel__slide">
-        <div class="carousel__snapper">
-          <img src="https://mtdata.ru/u2/photo4278/20655472114-0/original.jpg" alt="Image 3">
-        </div>
-      </li>
-      <!-- Добавьте дополнительные слайды и изображения при необходимости -->
-    </ol>
-    <aside class="carousel__navigation">
-      <button class="carousel__prev">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M20.38 11.76l-16.97 12a.5.5 0 01-.78-.41V2.65a.5.5 0 01.78-.41l16.97 12a.5.5 0 010 .82z"/></svg>
-      </button>
-      <button class="carousel__next">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M3.62 12.24l16.97-12a.5.5 0 00.00-.82L3.62 2.64a.5.5 0 00-.78.41v18.7a.5.5 0 00.78.41z"/></svg>
-      </button>
-    </aside>
+  <div class="container-fluid first-container">
+    <div class="text-container">
+      <h1>Лисье логово</h1>
+      <p>Из задумки в реальность</p>
+    </div>
   </div>
-</section>
 
-<script>
-  const carousel = document.querySelector('.carousel');
-  const viewport = carousel.querySelector('.carousel__viewport');
-  const slides = carousel.querySelectorAll('.carousel__slide');
-  const prevButton = carousel.querySelector('.carousel__prev');
-  const nextButton = carousel.querySelector('.carousel__next');
-  let currentIndex = 0;
+  <section class="container second-container">
+    <div class="carousel" aria-label="Gallery">
+      <ol class="carousel__viewport">
+        <li id="carousel__slide1" class="carousel__slide">
+          <div class="carousel__snapper">
+            <img src="https://papikpro.club/uploads/posts/2022-11/1668493918_12-papikpro-com-p-posledovatelnoe-vyazanie-dlya-kris-poshago-12.jpg" alt="Image 1">
+          </div>
+        </li>
+        <li id="carousel__slide2" class="carousel__slide">
+          <div class="carousel__snapper">
+            <img src="https://i.pinimg.com/736x/74/a2/22/74a222c42033890a2a2db831ac994e3f.jpg" alt="Image 2">
+          </div>
+        </li>
+        <li id="carousel__slide3" class="carousel__slide">
+          <div class="carousel__snapper">
+            <img src="https://mtdata.ru/u2/photo4278/20655472114-0/original.jpg" alt="Image 3">
+          </div>
+        </li>
+        <!-- Добавьте дополнительные слайды и изображения при необходимости -->
+      </ol>
+      <aside class="carousel__navigation">
+        <button class="carousel__prev">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M20.38 11.76l-16.97 12a.5.5 0 01-.78-.41V2.65a.5.5 0 01.78-.41l16.97 12a.5.5 0 010 .82z"/></svg>
+        </button>
+        <button class="carousel__next">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M3.62 12.24l16.97-12a.5.5 0 00.00-.82L3.62 2.64a.5.5 0 00-.78.41v18.7a.5.5 0 00.78.41z"/></svg>
+        </button>
+      </aside>
+    </div>
+  </section>
 
-  function goToSlide(index) {
-    if (index < 0 || index >= slides.length) return;
-    viewport.style.transform = `translateX(-${index * 100}%)`;
-    currentIndex = index;
-  }
+  <div class="container-fluid third-container">
+    <div class="footer-left">
+      <input type="email" placeholder="Enter your email">
+      <img src="path/to/decorative-image.jpg" alt="Decorative Image">
+    </div>
+    <div class="footer-right">
+      <img src="path/to/image4.jpg" alt="Image 4">
+      <img src="path/to/image3.jpg" alt="Image 3">
+      <img src="path/to/image1.jpg" alt="Image 1">
+      <img src="path/to/image2.jpg" alt="Image 2">
+    </div>
+  </div>
 
-  prevButton.addEventListener('click', () => goToSlide(currentIndex - 1));
-  nextButton.addEventListener('click', () => goToSlide(currentIndex + 1));
-</script>
-
+  <script>
+    // JavaScript код для управления каруселью
+  </script>
 </body>
 </html>
