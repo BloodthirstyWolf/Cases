@@ -103,16 +103,22 @@
       height: 100vh;
     }
 
+     .container {
+    padding: 0 15px; /* Отступы от края экрана */
+  }
+    
      .carousel {
       position: relative;
       padding-top: 75%;
       filter: drop-shadow(0 0 10px #0003);
       perspective: 100px;
       overflow: hidden;
+      max-width: 100%; /* Карусель будет максимально широкой, но не выходящей за пределы родительского контейнера */
     }
 
     .carousel__viewport {
       position: absolute;
+      padding-top: 56.25%; /* Соотношение сторон 16:9 для карусели */
       top: 0;
       right: 0;
       bottom: 0;
@@ -301,41 +307,42 @@
     </div>
   </div>
 
-<section class="carousel" aria-label="Gallery">
-  <ol class="carousel__viewport">
-    <li id="carousel__slide1" class="carousel__slide">
-      <div class="carousel__snapper">
-        <img src="https://papikpro.club/uploads/posts/2022-11/1668493918_12-papikpro-com-p-posledovatelnoe-vyazanie-dlya-kris-poshago-12.jpg" alt="Image 1">
-      </div>
-    </li>
-    <li id="carousel__slide2" class="carousel__slide">
-      <div class="carousel__snapper">
-        <img src="https://i.pinimg.com/736x/74/a2/22/74a222c42033890a2a2db831ac994e3f.jpg" alt="Image 2">
-      </div>
-    </li>
-    <li id="carousel__slide3" class="carousel__slide">
-      <div class="carousel__snapper">
-        <img src="https://mtdata.ru/u2/photo4278/20655472114-0/original.jpg" alt="Image 3">
-      </div>
-    </li>
-    <!-- Добавьте дополнительные слайды и изображения при необходимости -->
-  </ol>
-  <aside class="carousel__navigation">
-    <ol class="carousel__navigation-list">
-      <li class="carousel__navigation-item">
-        <a href="#carousel__slide1" class="carousel__navigation-button">Go to slide 1</a>
+<section class="container second-container">
+  <div class="carousel" aria-label="Gallery">
+    <ol class="carousel__viewport">
+      <li id="carousel__slide1" class="carousel__slide">
+        <div class="carousel__snapper">
+          <img src="https://papikpro.club/uploads/posts/2022-11/1668493918_12-papikpro-com-p-posledovatelnoe-vyazanie-dlya-kris-poshago-12.jpg" alt="Image 1">
+        </div>
       </li>
-      <li class="carousel__navigation-item">
-        <a href="#carousel__slide2" class="carousel__navigation-button">Go to slide 2</a>
+      <li id="carousel__slide2" class="carousel__slide">
+        <div class="carousel__snapper">
+          <img src="https://i.pinimg.com/736x/74/a2/22/74a222c42033890a2a2db831ac994e3f.jpg" alt="Image 2">
+        </div>
       </li>
-      <li class="carousel__navigation-item">
-        <a href="#carousel__slide3" class="carousel__navigation-button">Go to slide 3</a>
+      <li id="carousel__slide3" class="carousel__slide">
+        <div class="carousel__snapper">
+          <img src="https://mtdata.ru/u2/photo4278/20655472114-0/original.jpg" alt="Image 3">
+        </div>
       </li>
-      <!-- Добавьте дополнительные элементы, если необходимо -->
+      <!-- Добавьте дополнительные слайды и изображения при необходимости -->
     </ol>
-  </aside>
+    <aside class="carousel__navigation">
+      <ol class="carousel__navigation-list">
+        <li class="carousel__navigation-item">
+          <a href="#carousel__slide1" class="carousel__navigation-button">Go to slide 1</a>
+        </li>
+        <li class="carousel__navigation-item">
+          <a href="#carousel__slide2" class="carousel__navigation-button">Go to slide 2</a>
+        </li>
+        <li class="carousel__navigation-item">
+          <a href="#carousel__slide3" class="carousel__navigation-button">Go to slide 3</a>
+        </li>
+        <!-- Добавьте дополнительные элементы, если необходимо -->
+      </ol>
+    </aside>
+  </div>
 </section>
-
 
   <div class="container-fluid third-container">
     <div class="footer-left">
