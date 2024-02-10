@@ -75,8 +75,6 @@
       position: relative;
       height: 100vh;
       background-image: url('https://i.postimg.cc/fyWSDz1M/IMG-20231230-210438.png');
-      background-position: right center;
-      overflow: hidden;
       background-size: cover;
       color: #C62C2A;
     }
@@ -103,186 +101,48 @@
       height: 100vh;
     }
 
-     .container {
-    padding: 0 15px; /* Отступы от края экрана */
-  }
-    
-     .carousel {
-      position: relative;
-      padding-top: 75%;
-      filter: drop-shadow(0 0 10px #0003);
-      perspective: 100px;
+    .carousel {
+      max-width: 100%;
       overflow: hidden;
-      max-width: 100%; /* Карусель будет максимально широкой, но не выходящей за пределы родительского контейнера */
     }
 
     .carousel__viewport {
-      position: absolute;
-      padding-top: 56.25%; /* Соотношение сторон 16:9 для карусели */
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
       display: flex;
-      overflow-x: scroll;
-      counter-reset: item;
-      scroll-behavior: smooth;
-      scroll-snap-type: x mandatory;
+      flex-direction: row;
+      transition: transform 0.3s ease;
     }
 
     .carousel__slide {
-      position: relative;
-      flex: 0 0 100%;
+      flex: 0 0 auto;
       width: 100%;
-      background-color: #f99;
-      counter-increment: item;
-    }
-
-    .carousel__slide:nth-child(even) {
-      background-color: #99f;
-    }
-
-    .carousel__slide:before {
-      content: counter(item);
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate3d(-50%,-40%,70px);
-      color: #fff;
-      font-size: 2em;
+      list-style: none;
     }
 
     .carousel__snapper {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
-      height: 100%;
-      scroll-snap-align: center;
-    }
-
-    @media (hover: hover) {
-      .carousel__snapper {
-        animation-name: tonext, snap;
-        animation-timing-function: ease;
-        animation-duration: 4s;
-        animation-iteration-count: infinite;
-      }
-
-      .carousel__slide:last-child .carousel__snapper {
-        animation-name: tostart, snap;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .carousel__snapper {
-        animation-name: none;
-      }
-    }
-
-    .carousel:hover .carousel__snapper,
-    .carousel:focus-within .carousel__snapper {
-      animation-name: none;
+      overflow: hidden;
     }
 
     .carousel__navigation {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      text-align: center;
-    }
-
-    .carousel__navigation-list,
-    .carousel__navigation-item {
-      display: inline-block;
-    }
-
-    .carousel__navigation-button {
-      display: inline-block;
-      width: 1.5rem;
-      height: 1.5rem;
-      background-color: #333;
-      background-clip: content-box;
-      border: 0.25rem solid transparent;
-      border-radius: 50%;
-      font-size: 0;
-      transition: transform 0.1s;
-    }
-
-    .carousel::before,
-    .carousel::after,
-    .carousel__prev,
-    .carousel__next {
-      position: absolute;
-      top: 0;
-      margin-top: 37.5%;
-      width: 4rem;
-      height: 4rem;
-      transform: translateY(-50%);
-      border-radius: 50%;
-      font-size: 0;
-      outline: 0;
-    }
-
-    .carousel::before,
-    .carousel__prev {
-      left: -1rem;
-    }
-
-    .carousel::after,
-    .carousel__next {
-      right: -1rem;
-    }
-
-    .carousel::before,
-    .carousel::after {
-      content: '';
-      z-index: 1;
-      background-color: #333;
-      background-size: 1.5rem 1.5rem;
-      background-repeat: no-repeat;
-      background-position: center center;
-      color: #fff;
-      font-size: 2.5rem;
-      line-height: 4rem;
-      text-align: center;
-      pointer-events: none;
-    }
-
-    .carousel::before {
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='0,50 80,100 80,0' fill='%23fff'/%3E%3C/svg%3E");
-    }
-
-    .carousel::after {
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='100,50 20,100 20,0' fill='%23fff'/%3E%3C/svg%3E");
-    }
-
-    .third-container {
       display: flex;
       justify-content: space-between;
-      padding: 20px;
-      font-family: 'Matryoshka', sans-serif;
+      margin-top: 1rem;
     }
 
-    .footer-left {
-      display: flex;
-      align-items: flex-end;
+    .carousel__prev,
+    .carousel__next {
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      fill: #000;
+      outline: none;
+      transition: fill 0.3s ease;
     }
 
-    .footer-left input {
-      margin-right: 10px;
-    }
-
-    .footer-right img {
-      border-radius: 50%;
-      margin-bottom: 10px;
-    }
-
-    @media only screen and (max-width: 767px) {
-      .first-container {
-        background-size: cover;
-      }
+    .carousel__prev:hover,
+    .carousel__next:hover {
+      fill: #666;
     }
   </style>
   <title>Your Page</title>
@@ -307,42 +167,36 @@
     </div>
   </div>
 
-<section class="container second-container">
-  <div class="carousel" aria-label="Gallery">
-    <ol class="carousel__viewport">
-      <li id="carousel__slide1" class="carousel__slide">
-        <div class="carousel__snapper">
-          <img src="https://papikpro.club/uploads/posts/2022-11/1668493918_12-papikpro-com-p-posledovatelnoe-vyazanie-dlya-kris-poshago-12.jpg" alt="Image 1">
-        </div>
-      </li>
-      <li id="carousel__slide2" class="carousel__slide">
-        <div class="carousel__snapper">
-          <img src="https://i.pinimg.com/736x/74/a2/22/74a222c42033890a2a2db831ac994e3f.jpg" alt="Image 2">
-        </div>
-      </li>
-      <li id="carousel__slide3" class="carousel__slide">
-        <div class="carousel__snapper">
-          <img src="https://mtdata.ru/u2/photo4278/20655472114-0/original.jpg" alt="Image 3">
-        </div>
-      </li>
-      <!-- Добавьте дополнительные слайды и изображения при необходимости -->
-    </ol>
-    <aside class="carousel__navigation">
-      <ol class="carousel__navigation-list">
-        <li class="carousel__navigation-item">
-          <a href="#carousel__slide1" class="carousel__navigation-button">Go to slide 1</a>
+  <section class="container second-container">
+    <div class="carousel" aria-label="Gallery">
+      <ol class="carousel__viewport">
+        <li id="carousel__slide1" class="carousel__slide">
+          <div class="carousel__snapper">
+            <img src="https://papikpro.club/uploads/posts/2022-11/1668493918_12-papikpro-com-p-posledovatelnoe-vyazanie-dlya-kris-poshago-12.jpg" alt="Image 1">
+          </div>
         </li>
-        <li class="carousel__navigation-item">
-          <a href="#carousel__slide2" class="carousel__navigation-button">Go to slide 2</a>
+        <li id="carousel__slide2" class="carousel__slide">
+          <div class="carousel__snapper">
+            <img src="https://i.pinimg.com/736x/74/a2/22/74a222c42033890a2a2db831ac994e3f.jpg" alt="Image 2">
+          </div>
         </li>
-        <li class="carousel__navigation-item">
-          <a href="#carousel__slide3" class="carousel__navigation-button">Go to slide 3</a>
+        <li id="carousel__slide3" class="carousel__slide">
+          <div class="carousel__snapper">
+            <img src="https://mtdata.ru/u2/photo4278/20655472114-0/original.jpg" alt="Image 3">
+          </div>
         </li>
-        <!-- Добавьте дополнительные элементы, если необходимо -->
+        <!-- Добавьте дополнительные слайды и изображения при необходимости -->
       </ol>
-    </aside>
-  </div>
-</section>
+      <aside class="carousel__navigation">
+        <button class="carousel__prev">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M20.38 11.76l-16.97 12a.5.5 0 01-.78-.41V2.65a.5.5 0 01.78-.41l16.97 12a.5.5 0 010 .82z"/></svg>
+        </button>
+        <button class="carousel__next">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M3.62 12.24l16.97-12a.5.5 0 00.00-.82L3.62 2.64a.5.5 0 00-.78.41v18.7a.5.5 0 00.78.41z"/></svg>
+        </button>
+      </aside>
+    </div>
+  </section>
 
   <div class="container-fluid third-container">
     <div class="footer-left">
@@ -357,8 +211,9 @@
     </div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+ <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
