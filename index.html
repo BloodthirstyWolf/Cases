@@ -76,15 +76,7 @@
       height: 100vh;
       background-image: url('Header.svg');
       background-size: cover;
-      background-position: right top;
       color: #C62C2A;
-    }
-
-    @media (max-width: 768px) {
-      .first-container {
-        background-position: center top;
-        height: auto;
-      }
     }
 
     .text-container {
@@ -146,6 +138,34 @@
 
     .square:hover .description {
       display: block;
+    }
+
+    @media (min-width: 768px) {
+      header {
+        height: 100%;
+        width: 100px; /* Ширина хедера на десктопе */
+        position: fixed;
+        top: 0;
+        right: 10px; /* Отступ справа */
+        background-image: url('Header.svg'); /* Замените путь на ваш SVG */
+        background-size: contain;
+        background-position: top right;
+        background-repeat: no-repeat;
+      }
+    }
+
+    @media (max-width: 767px) {
+      header {
+        height: 100px; /* Высота хедера на мобильном устройстве */
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-image: url('Header.svg'); /* Замените путь на ваш SVG */
+        background-size: cover;
+        background-position: top center;
+        background-repeat: no-repeat;
+      }
     }
   </style>
   <title>Your Page</title>
