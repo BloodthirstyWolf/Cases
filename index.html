@@ -1,151 +1,85 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Container Example</title>
-<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+<title>Fortune Wheel</title>
 <style>
-  @font-face {
-    font-family: 'Vela Sans';
-    src: url('VelaSans-Regular.ttf') format('truetype');
-  }
-
   body {
-    font-family: 'Montserrat', sans-serif;
-  }
-
-  #Container3 {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: white;
+  }
+  #wheel {
+    width: 300px;
+    height: 300px;
+    border: 5px solid #a1a1a1;
+    border-radius: 50%;
     position: relative;
   }
-
-  .title {
-    color: #003320;
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 2em;
-  }
-
-  .empty-space {
-    height: 30vh;
-    width: 100%;
-  }
-
-  .flex-container {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 0;
-    margin-bottom: 0;
-    flex-grow: 1;
-  }
-
-  .flex-item {
+  .sector {
+    position: absolute;
     width: 50%;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    flex-grow: 1;
+    height: 50%;
+    background-color: #d0e1f9;
+    border: 1px solid #a1a1a1;
+    transform-origin: 100% 100%;
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
   }
-
-  .flex-item.text {
-    flex-basis: 50%;
-    font-family: 'Vela Sans', sans-serif;
-    font-size: 1.2em;
-  }
-
-  .text {
-    text-align: center;
-    padding: 10px;
-    margin: 0;
-    width: 100%;
-  }
-
-  img {
-    max-width: 100%;
-    max-height: 100%;
-    border: none;
-  }
-
-  #Container3 .flex-container:last-child {
-    height: 170px;
-  }
-
-  /* Новый контейнер с декоративными элементами */
-  #decorative-container {
+  .sector::after {
+    content: "";
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+    left: 100%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    background-size: cover;
   }
-
-  .decorative-element {
-    width: 50px;
-    height: 50px;
-    background-color: #003320;
-    border-radius: 50%;
-  }
-
-  /* Полоса сверху вниз */
-  .top-to-bottom-line {
-    position: absolute;
-    top: 20vh; /* Начало полосы от верхней границы контейнера */
-    left: 0;
-    width: 5vw; /* Ширина полосы */
-    height: calc(100% - 20vh); /* Высота полосы до нижней границы контейнера */
-    background-color: #003320;
+  .sector:nth-child(1) { transform: rotate(0deg); }
+  .sector:nth-child(2) { transform: rotate(45deg); }
+  .sector:nth-child(3) { transform: rotate(90deg); }
+  .sector:nth-child(4) { transform: rotate(135deg); }
+  .sector:nth-child(5) { transform: rotate(180deg); }
+  .sector:nth-child(6) { transform: rotate(225deg); }
+  .sector:nth-child(7) { transform: rotate(270deg); }
+  .sector:nth-child(8) { transform: rotate(315deg); }
+  #spinButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
   }
 </style>
 </head>
 <body>
-
-<div id="Container3">
-  <h1 class="title">Points</h1>
-  <div class="empty-space"></div>
-  <div class="flex-container">
-    <div class="flex-item">
-      <img src="Point1.png" alt="Point 1">
-    </div>
-    <div class="flex-item text">
-      <p>1. Войдите в свой аккаунт и нажмите на кнопку "Создать новую страницу" в выпадающем меню или в личном кабинете</p>
-    </div>
-  </div>
-  <div class="flex-container">
-    <div class="flex-item text">
-      <p>2. Добавьте необходимое вам количество абзацев и вставьте русский и иностранный текст для каждого отдельного абзаца</p>
-    </div>
-    <div class="flex-item">
-      <img src="Point2.png" alt="Point 2">
-    </div>
-  </div>
-  <div class="flex-container">
-    <div class="flex-item">
-      <img src="Point2.png" alt="Point 2">
-    </div>
-    <div class="flex-item text">
-      <p>3. Вы можете просматривать итоговый результат и делиться им с друзьями. При желании вы можете добавить возможность редактирования другим пользователям</p>
-    </div>
-  </div>
-
-  <!-- Декоративный контейнер -->
-  <div id="decorative-container">
-    <div class="decorative-element"></div>
-    <div class="decorative-element"></div>
-    <div class="decorative-element"></div>
-  </div>
-
-  <!-- Полоса сверху вниз -->
-  <div class="top-to-bottom-line"></div>
+<div id="wheel">
+  <div class="sector" style="background-image: url('img1.png');"></div>
+  <div class="sector" style="background-image: url('img2.png');"></div>
+  <div class="sector" style="background-image: url('img3.png');"></div>
+  <div class="sector" style="background-image: url('img4.png');"></div>
+  <div class="sector" style="background-image: url('img5.png');"></div>
+  <div class="sector" style="background-image: url('img6.png');"></div>
+  <div class="sector" style="background-image: url('img7.png');"></div>
+  <div class="sector" style="background-image: url('img8.png');"></div>
 </div>
+<button id="spinButton">Spin</button>
 
+<script>
+  document.getElementById('spinButton').addEventListener('click', function() {
+    const wheel = document.getElementById('wheel');
+    const sectors = 8;
+    const stopAt = 3; // The sector where the wheel should stop (0-indexed)
+    const rotations = 5; // Full rotations before stopping
+
+    const degreesPerSector = 360 / sectors;
+    const finalAngle = rotations * 360 + (stopAt * degreesPerSector);
+
+    wheel.style.transition = 'transform 4s ease-out';
+    wheel.style.transform = `rotate(${finalAngle}deg)`;
+  });
+</script>
 </body>
 </html>
