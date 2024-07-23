@@ -32,12 +32,12 @@
   .sector::after {
     content: "";
     position: absolute;
-    top: 90%;
-    left: 90%;
+    top: 100%;
+    left: 100%;
     width: 20px;
     height: 20px;
     background-size: cover;
-    transform: translate(-50%, -50%) rotate(-45deg);
+    transform: translate(-100%, -100%) rotate(45deg);
   }
   .sector:nth-child(1) { transform: rotate(0deg); }
   .sector:nth-child(2) { transform: rotate(45deg); }
@@ -60,18 +60,32 @@
     padding: 10px 20px;
     font-size: 16px;
   }
+  #pointer {
+    width: 0; 
+    height: 0; 
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 30px solid #d0e1f9;
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 </style>
 </head>
 <body>
-<div id="wheel">
-  <div class="sector"></div>
-  <div class="sector"></div>
-  <div class="sector"></div>
-  <div class="sector"></div>
-  <div class="sector"></div>
-  <div class="sector"></div>
-  <div class="sector"></div>
-  <div class="sector"></div>
+<div id="wheel-container" style="position: relative;">
+  <div id="pointer"></div>
+  <div id="wheel">
+    <div class="sector"></div>
+    <div class="sector"></div>
+    <div class="sector"></div>
+    <div class="sector"></div>
+    <div class="sector"></div>
+    <div class="sector"></div>
+    <div class="sector"></div>
+    <div class="sector"></div>
+  </div>
 </div>
 <button id="spinButton">Spin</button>
 
