@@ -7,11 +7,15 @@
 <style>
   body {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     height: 100vh;
     margin: 0;
     background-color: white;
+  }
+  #wheel-container {
+    position: relative;
   }
   #wheel {
     width: 300px;
@@ -29,15 +33,11 @@
     transform-origin: 100% 100%;
     clip-path: polygon(100% 0, 100% 100%, 0 100%);
   }
-  .sector::after {
-    content: "";
+  .icon {
     position: absolute;
-    top: 100%;
-    left: 100%;
     width: 20px;
     height: 20px;
     background-size: cover;
-    transform: translate(-100%, -100%) rotate(45deg);
   }
   .sector:nth-child(1) { transform: rotate(0deg); }
   .sector:nth-child(2) { transform: rotate(45deg); }
@@ -47,19 +47,16 @@
   .sector:nth-child(6) { transform: rotate(225deg); }
   .sector:nth-child(7) { transform: rotate(270deg); }
   .sector:nth-child(8) { transform: rotate(315deg); }
-  .sector:nth-child(1)::after { background-image: url('img1.png'); }
-  .sector:nth-child(2)::after { background-image: url('img2.png'); }
-  .sector:nth-child(3)::after { background-image: url('img3.png'); }
-  .sector:nth-child(4)::after { background-image: url('img4.png'); }
-  .sector:nth-child(5)::after { background-image: url('img1.png'); }
-  .sector:nth-child(6)::after { background-image: url('img2.png'); }
-  .sector:nth-child(7)::after { background-image: url('img3.png'); }
-  .sector:nth-child(8)::after { background-image: url('img4.png'); }
-  #spinButton {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-  }
+
+  .sector:nth-child(1) .icon { top: 40%; left: 75%; transform: rotate(45deg); background-image: url('img1.png'); }
+  .sector:nth-child(2) .icon { top: 25%; left: 75%; transform: rotate(90deg); background-image: url('img2.png'); }
+  .sector:nth-child(3) .icon { top: 10%; left: 50%; transform: rotate(135deg); background-image: url('img3.png'); }
+  .sector:nth-child(4) .icon { top: 25%; left: 25%; transform: rotate(180deg); background-image: url('img4.png'); }
+  .sector:nth-child(5) .icon { top: 40%; left: 25%; transform: rotate(225deg); background-image: url('img5.png'); }
+  .sector:nth-child(6) .icon { top: 75%; left: 25%; transform: rotate(270deg); background-image: url('img6.png'); }
+  .sector:nth-child(7) .icon { top: 90%; left: 50%; transform: rotate(315deg); background-image: url('img7.png'); }
+  .sector:nth-child(8) .icon { top: 75%; left: 75%; transform: rotate(0deg); background-image: url('img8.png'); }
+
   #pointer {
     width: 0; 
     height: 0; 
@@ -71,20 +68,25 @@
     left: 50%;
     transform: translateX(-50%);
   }
+  #spinButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+  }
 </style>
 </head>
 <body>
-<div id="wheel-container" style="position: relative;">
+<div id="wheel-container">
   <div id="pointer"></div>
   <div id="wheel">
-    <div class="sector"></div>
-    <div class="sector"></div>
-    <div class="sector"></div>
-    <div class="sector"></div>
-    <div class="sector"></div>
-    <div class="sector"></div>
-    <div class="sector"></div>
-    <div class="sector"></div>
+    <div class="sector"><div class="icon"></div></div>
+    <div class="sector"><div class="icon"></div></div>
+    <div class="sector"><div class="icon"></div></div>
+    <div class="sector"><div class="icon"></div></div>
+    <div class="sector"><div class="icon"></div></div>
+    <div class="sector"><div class="icon"></div></div>
+    <div class="sector"><div class="icon"></div></div>
+    <div class="sector"><div class="icon"></div></div>
   </div>
 </div>
 <button id="spinButton">Spin</button>
