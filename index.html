@@ -47,8 +47,8 @@
       position: absolute;
       top: 5%;
       left: 5%;
-      width: 12vw;  /* Увеличиваем размер до 12% от ширины экрана */
-      height: auto; /* Высота пропорциональна ширине */
+      width: 30vw; /* Размер изображения теперь 30% от ширины экрана */
+      height: auto; /* Высота будет пропорциональной */
       background: url('corgi.png') no-repeat center/contain;
       z-index: 2;
     }
@@ -58,8 +58,8 @@
       position: absolute;
       bottom: 5%;
       right: 5%;
-      width: 12vw;  /* Увеличиваем размер до 12% от ширины экрана */
-      height: auto; /* Высота пропорциональна ширине */
+      width: 30vw; /* Размер изображения теперь 30% от ширины экрана */
+      height: auto; /* Высота будет пропорциональной */
       background: url('malinois.png') no-repeat center/contain;
       z-index: 2;
     }
@@ -72,8 +72,7 @@
       }
 
       .corgi, .malinois {
-        width: 20vw; /* Увеличиваем изображения еще на маленьких экранах */
-        height: auto;
+        width: 50vw; /* Уменьшаем размер изображений на маленьких экранах */
       }
     }
   </style>
