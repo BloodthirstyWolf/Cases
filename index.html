@@ -1,109 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fortune Wheel</title>
-<style>
-  body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-    background-color: white;
-  }
-  #wheel-container {
-    position: relative;
-  }
-  #wheel {
-    width: 300px;
-    height: 300px;
-    border: 5px solid #a1a1a1;
-    border-radius: 50%;
-    position: relative;
-  }
-  .sector {
-    position: absolute;
-    width: 50%;
-    height: 50%;
-    background-color: #d0e1f9;
-    border: 1px solid #a1a1a1;
-    transform-origin: 100% 100%;
-    clip-path: polygon(100% 0, 100% 100%, 0 100%);
-  }
-  .icon {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background-size: cover;
-  }
-  .sector:nth-child(1) { transform: rotate(0deg); }
-  .sector:nth-child(2) { transform: rotate(45deg); }
-  .sector:nth-child(3) { transform: rotate(90deg); }
-  .sector:nth-child(4) { transform: rotate(135deg); }
-  .sector:nth-child(5) { transform: rotate(180deg); }
-  .sector:nth-child(6) { transform: rotate(225deg); }
-  .sector:nth-child(7) { transform: rotate(270deg); }
-  .sector:nth-child(8) { transform: rotate(315deg); }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Дуга для собак</title>
+  <style>
+    /* Сброс стилей для консистентности */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  .sector:nth-child(1) .icon { top: 40%; left: 75%; transform: rotate(45deg); background-image: url('img1.png'); }
-  .sector:nth-child(2) .icon { top: 25%; left: 75%; transform: rotate(90deg); background-image: url('img2.png'); }
-  .sector:nth-child(3) .icon { top: 10%; left: 50%; transform: rotate(135deg); background-image: url('img3.png'); }
-  .sector:nth-child(4) .icon { top: 25%; left: 25%; transform: rotate(180deg); background-image: url('img4.png'); }
-  .sector:nth-child(5) .icon { top: 40%; left: 25%; transform: rotate(225deg); background-image: url('img1.png'); }
-  .sector:nth-child(6) .icon { top: 75%; left: 25%; transform: rotate(270deg); background-image: url('img2.png'); }
-  .sector:nth-child(7) .icon { top: 90%; left: 50%; transform: rotate(315deg); background-image: url('img3.png'); }
-  .sector:nth-child(8) .icon { top: 75%; left: 75%; transform: rotate(0deg); background-image: url('img4.png'); }
+    /* Основной контейнер */
+    .container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden; /* Чтобы элементы не выходили за пределы окна */
+      background-color: #d9f7d6; /* Светло-зелёный фон для примера */
+    }
 
-  #pointer {
-    width: 0; 
-    height: 0; 
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 30px solid #d0e1f9;
-    position: absolute;
-    top: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  #spinButton {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-  }
-</style>
+    /* SVG-траектория */
+    .trajectory {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 1; /* Расположено за текстом и изображениями */
+    }
+
+    /* Текстовый блок */
+    .text-block {
+      position: absolute;
+      top: 15%; /* Расположено под корги */
+      left: 10%; /* Отступ от левого края */
+      width: 60vw; /* Ограничиваем ширину блока текста */
+      z-index: 2; /* Над SVG */
+      background: white; /* Белый фон, чтобы текст не перекрывался дугой */
+      padding: 20px;
+      font-size: 1rem;
+      line-height: 1.5;
+      border-radius: 10px; /* Добавляем скругление для красоты */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Лёгкая тень */
+    }
+
+    /* Корги (левый верхний угол) */
+    .corgi {
+      position: absolute;
+      top: 5%;
+      left: 5%;
+      width: 60px;
+      height: 60px;
+      background: url('corgi.png') no-repeat center/contain;
+      z-index: 2;
+    }
+
+    /* Малина (правый нижний угол) */
+    .malinois {
+      position: absolute;
+      bottom: 5%;
+      right: 5%;
+      width: 60px;
+      height: 60px;
+      background: url('malinois.png') no-repeat center/contain;
+      z-index: 2;
+    }
+
+    /* Адаптивность для небольших экранов */
+    @media (max-width: 600px) {
+      .text-block {
+        width: 80vw; /* Увеличиваем ширину текста */
+        font-size: 0.9rem; /* Уменьшаем размер шрифта */
+      }
+
+      .corgi, .malinois {
+        width: 50px; /* Уменьшаем размер изображений */
+        height: 50px;
+      }
+    }
+  </style>
 </head>
 <body>
-<div id="wheel-container">
-  <div id="pointer"></div>
-  <div id="wheel">
-    <div class="sector"><div class="icon"></div></div>
-    <div class="sector"><div class="icon"></div></div>
-    <div class="sector"><div class="icon"></div></div>
-    <div class="sector"><div class="icon"></div></div>
-    <div class="sector"><div class="icon"></div></div>
-    <div class="sector"><div class="icon"></div></div>
-    <div class="sector"><div class="icon"></div></div>
-    <div class="sector"><div class="icon"></div></div>
+  <div class="container">
+    <!-- SVG для дуги -->
+    <svg class="trajectory" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <path d="M 0 0 A 70 70 0 0 1 100 100" 
+            stroke="black" stroke-dasharray="5, 5" fill="none" />
+    </svg>
+
+    <!-- Текстовый блок -->
+    <div class="text-block">
+      <h1>Как использовать лакомства для собак?</h1>
+      <p>Награждайте вашего питомца натуральным лакомством за выполнение команд и хорошие поступки.</p>
+      <p>Жевание помогает удовлетворить естественную потребность собаки грызть и предотвращает разрушительное поведение.</p>
+      <p>Наши натуральные лакомства способствуют чистке зубов и укреплению дёсен.</p>
+    </div>
+
+    <!-- Корги -->
+    <div class="corgi"></div>
+
+    <!-- Малина -->
+    <div class="malinois"></div>
   </div>
-</div>
-<button id="spinButton">Spin</button>
-
-<script>
-  document.getElementById('spinButton').addEventListener('click', function() {
-    const wheel = document.getElementById('wheel');
-    const sectors = 8;
-    const stopAt = 3; // The sector where the wheel should stop (0-indexed)
-    const rotations = 5; // Full rotations before stopping
-
-    const degreesPerSector = 360 / sectors;
-    const finalAngle = rotations * 360 + (stopAt * degreesPerSector);
-
-    wheel.style.transition = 'transform 4s ease-out';
-    wheel.style.transform = `rotate(${finalAngle}deg)`;
-  });
-</script>
 </body>
 </html>
