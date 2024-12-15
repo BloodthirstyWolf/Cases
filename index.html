@@ -1,103 +1,159 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Дуга для собак</title>
+  <title>Создание календаря</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
   <style>
-    /* Сброс стилей для консистентности */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
     }
-
-    /* Основной контейнер */
-    .container {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden; /* Чтобы элементы не выходили за пределы окна */
-      background-color: #d9f7d6; /* Светло-зелёный фон для примера */
+    #upload-container, #calendar-container {
+      display: none;
     }
-
-    /* SVG-траектория */
-    .trajectory {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      z-index: 1; /* Расположено за текстом и изображениями */
+    #upload-container.active, #calendar-container.active {
+      display: block;
     }
-
-    /* Текстовый блок */
-    .text-block {
-      position: absolute;
-      top: 15%; /* Расположено под корги */
-      left: 5%; /* Отступ от левого края */
-      width: 60vw; /* Ограничиваем ширину блока текста */
-      z-index: 2; /* Над SVG */
-      padding: 20px;
-      font-size: 1rem;
-      line-height: 1.5;
-      color: #333; /* Цвет текста */
+    .image-input {
+      margin: 10px 0;
     }
-
-    /* Корги (левый верхний угол) */
-    .corgi {
-      position: absolute;
-      top: 5%;
-      left: 5%;
-      width: 30vw; /* Размер изображения теперь 30% от ширины экрана */
-      height: auto; /* Высота будет пропорциональной */
-      background: url('corgi.png') no-repeat center/contain;
-      z-index: 2;
-    }
-
-    /* Малина (правый нижний угол) */
-    .malinois {
-      position: absolute;
-      bottom: 5%;
-      right: 5%;
-      width: 30vw; /* Размер изображения теперь 30% от ширины экрана */
-      height: auto; /* Высота будет пропорциональной */
-      background: url('malinois.png') no-repeat center/contain;
-      z-index: 2;
-    }
-
-    /* Адаптивность для небольших экранов */
-    @media (max-width: 600px) {
-      .text-block {
-        width: 80vw; /* Увеличиваем ширину текста */
-        font-size: 0.9rem; /* Уменьшаем размер шрифта */
-      }
-
-      .corgi, .malinois {
-        width: 50vw; /* Уменьшаем размер изображений на маленьких экранах */
-      }
+    canvas {
+      border: 1px solid #000;
+      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <!-- SVG для дуги -->
-    <svg class="trajectory" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-      <path d="M 0 0 A 70 70 0 0 1 100 100" 
-            stroke="black" stroke-dasharray="5, 5" fill="none" />
-    </svg>
-
-    <!-- Текстовый блок -->
-    <div class="text-block">
-      <h1>Как использовать лакомства для собак?</h1>
-      <p>Награждайте вашего питомца натуральным лакомством за выполнение команд и хорошие поступки.</p>
-      <p>Жевание помогает удовлетворить естественную потребность собаки грызть и предотвращает разрушительное поведение.</p>
-      <p>Наши натуральные лакомства способствуют чистке зубов и укреплению дёсен.</p>
-    </div>
-
-    <!-- Корги -->
-    <div class="corgi"></div>
-
-    <!-- Малина -->
-    <div class="malinois"></div>
+  <div id="upload-container" class="active">
+    <h1>Загрузите 12 изображений для календаря</h1>
+    <form id="image-form">
+      <!-- Поля для загрузки изображений -->
+    </form>
+    <button id="next-button" disabled>Дальше</button>
   </div>
+
+  <div id="calendar-container">
+    <h1>Создание календаря</h1>
+    <canvas id="calendar-preview" width="1280" height="720"></canvas>
+    <button id="download-button">Скачать PDF</button>
+  </div>
+
+  <script>
+    // Основные элементы и переменные
+    const uploadContainer = document.getElementById("upload-container");
+    const calendarContainer = document.getElementById("calendar-container");
+    const imageForm = document.getElementById("image-form");
+    const nextButton = document.getElementById("next-button");
+    const downloadButton = document.getElementById("download-button");
+    const canvas = document.getElementById("calendar-preview");
+    const ctx = canvas.getContext("2d");
+
+    const monthNames = [
+      "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+      "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+    ];
+
+    let images = []; // Для хранения изображений
+
+    // Создание полей для загрузки изображений
+    for (let i = 0; i < 12; i++) {
+      const div = document.createElement("div");
+      div.classList.add("image-input");
+      div.innerHTML = `
+        <label>Месяц ${monthNames[i]}: </label>
+        <input type="file" accept="image/*" data-index="${i}" required>
+        <span id="status-${i}">Не загружено</span>
+      `;
+      imageForm.appendChild(div);
+    }
+
+    // Обработка загрузки изображений
+    imageForm.addEventListener("change", (e) => {
+      const input = e.target;
+      const index = parseInt(input.dataset.index);
+
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          images[index] = event.target.result;
+          document.getElementById(`status-${index}`).textContent = "Загружено";
+
+          if (images.length === 12 && !images.includes(undefined)) {
+            nextButton.disabled = false;
+          }
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    });
+
+    // Переход к генерации календаря
+    nextButton.addEventListener("click", () => {
+      uploadContainer.classList.remove("active");
+      calendarContainer.classList.add("active");
+      generateCalendarPreview(0);
+    });
+
+    // Генерация превью для одного месяца
+    function generateCalendarPreview(month) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const img = new Image();
+      img.src = images[month];
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0, 520, 720);
+
+        ctx.fillStyle = "#000";
+        ctx.font = "30px Arial";
+        ctx.fillText(monthNames[month], 600, 50);
+
+        let dayX = 600, dayY = 100;
+        for (let i = 1; i <= 31; i++) {
+          ctx.fillText(i, dayX, dayY);
+          dayX += 50;
+          if ((i % 7) === 0) {
+            dayX = 600;
+            dayY += 50;
+          }
+        }
+      };
+    }
+
+    // Скачивание PDF
+    downloadButton.addEventListener("click", () => {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "px",
+        format: [1280, 720]
+      });
+
+      images.forEach((imgSrc, index) => {
+        pdf.setFont("Arial");
+        pdf.setFontSize(30);
+
+        const img = new Image();
+        img.src = imgSrc;
+        pdf.addImage(imgSrc, "JPEG", 0, 0, 520, 720);
+
+        pdf.text(monthNames[index], 600, 50);
+
+        let dayX = 600, dayY = 100;
+        for (let i = 1; i <= 31; i++) {
+          pdf.text(`${i}`, dayX, dayY);
+          dayX += 50;
+          if ((i % 7) === 0) {
+            dayX = 600;
+            dayY += 50;
+          }
+        }
+
+        if (index < images.length - 1) pdf.addPage();
+      });
+
+      pdf.save("calendar.pdf");
+    });
+  </script>
 </body>
 </html>
