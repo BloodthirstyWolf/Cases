@@ -80,6 +80,7 @@
         reader.onload = (event) => {
           images[index] = event.target.result;
           document.getElementById(`status-${index}`).textContent = "Загружено";
+          console.log(`Изображение для месяца ${monthNames[index]} загружено.`);
           if (images.length === 12 && !images.includes(undefined)) {
             nextButton.disabled = false;
           }
@@ -131,6 +132,13 @@
     }
 
     downloadButton.addEventListener("click", () => {
+      // Проверим, загрузились ли все изображения
+      if (images.length !== 12 || images.includes(undefined)) {
+        alert("Пожалуйста, загрузите все 12 изображений.");
+        return;
+      }
+
+      console.log("Генерация PDF началась...");
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF({
         orientation: "landscape",
@@ -144,7 +152,6 @@
       pdf.setFont("Roboto");
 
       for (let month = 0; month < 12; month++) {
-        // Рендерим каждый месяц на странице
         const img = new Image();
         img.src = images[month];
         img.onload = () => {
@@ -180,6 +187,7 @@
         };
       }
 
+      // После добавления всех страниц
       pdf.save("calendar.pdf");
     });
   </script>
