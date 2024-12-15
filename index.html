@@ -46,7 +46,7 @@
       "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
     ];
     const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    const startDays = [1, 4, 5, 1, 3, 6, 1, 4, 7, 2, 5, 7]; // Начальный день недели для каждого месяца в 2024
+    const startDays = [1, 4, 5, 1, 3, 6, 1, 4, 7, 2, 5, 7]; // Понедельник = 1
 
     const uploadContainer = document.getElementById("upload-container");
     const calendarContainer = document.getElementById("calendar-container");
@@ -56,15 +56,15 @@
     const canvas = document.getElementById("calendar-preview");
     const ctx = canvas.getContext("2d");
 
-    let images = []; // Для хранения загруженных изображений
+    let images = [];
 
-    // Поля для загрузки изображений
+    // Создание полей для загрузки изображений
     for (let i = 0; i < 12; i++) {
       const div = document.createElement("div");
       div.classList.add("image-input");
       div.innerHTML = `
         <label>Месяц ${monthNames[i]}: </label>
-        <input type="file" accept="image/*" data-index="${i}" required>
+        <input type="file" accept="image/*" data-index="${i}">
         <span id="status-${i}">Не загружено</span>
       `;
       imageForm.appendChild(div);
@@ -90,10 +90,10 @@
     nextButton.addEventListener("click", () => {
       uploadContainer.classList.remove("active");
       calendarContainer.classList.add("active");
-      generateCalendarPreview(0);
+      renderCalendarPreview(0);
     });
 
-    function generateCalendarPreview(month) {
+    function renderCalendarPreview(month) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const img = new Image();
@@ -103,28 +103,27 @@
 
         ctx.fillStyle = "#000";
         ctx.font = "40px Arial";
-        ctx.fillText(monthNames[month], 600, 70);
+        ctx.textAlign = "center";
+        ctx.fillText(monthNames[month], 880, 70);
 
         ctx.font = "24px Arial";
         const dayLabels = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
-        let x = 600, y = 120;
+        let xStart = 620, yStart = 120, cellWidth = 80, cellHeight = 50;
 
-        // Отображение дней недели
-        dayLabels.forEach((day, index) => {
-          ctx.fillText(day, x + index * 80, y);
+        // Заголовок дней недели
+        dayLabels.forEach((day, i) => {
+          ctx.fillText(day, xStart + i * cellWidth + cellWidth / 2, yStart);
         });
 
-        // Генерация дат
-        y += 40;
-        let dayOfWeek = startDays[month] - 1; // Индекс начального дня
-        let days = daysInMonth[month];
-
-        for (let day = 1; day <= days; day++) {
-          ctx.fillText(day, x + dayOfWeek * 80, y);
+        // Отображение дат
+        let x = xStart, y = yStart + cellHeight;
+        let dayOfWeek = startDays[month] - 1;
+        for (let day = 1; day <= daysInMonth[month]; day++) {
+          ctx.fillText(day, x + dayOfWeek * cellWidth + cellWidth / 2, y);
           dayOfWeek++;
           if (dayOfWeek > 6) {
             dayOfWeek = 0;
-            y += 40;
+            y += cellHeight;
           }
         }
       };
@@ -139,32 +138,28 @@
       });
 
       images.forEach((imgSrc, index) => {
-        const img = new Image();
-        img.src = imgSrc;
-
         pdf.addImage(imgSrc, "JPEG", 0, 0, 520, 720);
-        pdf.setFont("Arial");
+
+        pdf.setFont("Arial", "normal");
         pdf.setFontSize(40);
-        pdf.text(monthNames[index], 600, 70);
+        pdf.text(monthNames[index], 880, 70, null, null, "center");
 
         pdf.setFontSize(24);
         const dayLabels = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
-        let x = 600, y = 120;
+        let xStart = 620, yStart = 120, cellWidth = 80, cellHeight = 50;
 
         dayLabels.forEach((day, i) => {
-          pdf.text(day, x + i * 80, y);
+          pdf.text(day, xStart + i * cellWidth + cellWidth / 2, yStart, { align: "center" });
         });
 
-        y += 40;
+        let x = xStart, y = yStart + cellHeight;
         let dayOfWeek = startDays[index] - 1;
-        let days = daysInMonth[index];
-
-        for (let day = 1; day <= days; day++) {
-          pdf.text(`${day}`, x + dayOfWeek * 80, y);
+        for (let day = 1; day <= daysInMonth[index]; day++) {
+          pdf.text(`${day}`, x + dayOfWeek * cellWidth + cellWidth / 2, y, { align: "center" });
           dayOfWeek++;
           if (dayOfWeek > 6) {
             dayOfWeek = 0;
-            y += 40;
+            y += cellHeight;
           }
         }
 
