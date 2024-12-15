@@ -1,230 +1,187 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Календарь с картинками</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        #uploadForm, #calendarContainer {
-            display: none;
-        }
-
-        .image-input {
-            margin-bottom: 10px;
-        }
-
-        .calendar-page {
-            display: flex;
-            width: 1280px;
-            height: 720px;
-            margin-bottom: 20px;
-        }
-
-        .calendar-image {
-            width: 520px;
-            height: 720px;
-            object-fit: cover;
-        }
-
-        .calendar-days {
-            width: 760px;
-            padding: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        td {
-            width: 14.28%;
-            text-align: center;
-            padding: 10px;
-            font-size: 20px;
-            vertical-align: middle;
-        }
-
-        th {
-            text-align: center;
-            padding: 10px;
-            font-size: 24px;
-        }
-
-        #downloadBtn {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        #downloadBtn:hover {
-            background-color: #45a049;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Создание календаря</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="Roboto.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    #upload-container, #calendar-container {
+      display: none;
+    }
+    #upload-container.active, #calendar-container.active {
+      display: block;
+    }
+    .image-input {
+      margin: 10px 0;
+    }
+    canvas {
+      border: 1px solid #000;
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
-    <h1>Создайте свой календарь</h1>
+  <div id="upload-container" class="active">
+    <h1>Загрузите 12 изображений для календаря</h1>
+    <form id="image-form">
+      <!-- Поля для загрузки изображений -->
+    </form>
+    <button id="next-button" disabled>Дальше</button>
+  </div>
 
-    <!-- Страница загрузки изображений -->
-    <div id="uploadForm">
-        <h2>Загрузите 12 изображений</h2>
-        <form id="imageForm">
-            <div class="image-input">
-                <label for="image1">Январь:</label>
-                <input type="file" id="image1" accept="image/*">
-            </div>
-            <div class="image-input">
-                <label for="image2">Февраль:</label>
-                <input type="file" id="image2" accept="image/*">
-            </div>
-            <div class="image-input">
-                <label for="image3">Март:</label>
-                <input type="file" id="image3" accept="image/*">
-            </div>
-            <div class="image-input">
-                <label for="image4">Апрель:</label>
-                <input type="file" id="image4" accept="image/*">
-            </div>
-            <div class="image-input">
-                <label for="image5">Май:</label>
-                <input type="file" id="image5" accept="image/*">
-            </div>
-            <div class="image-input">
-                <label for="image6">Июнь:</label>
-                <input type="file" id="image6" accept="image/*">
-            </div>
-            <div class="image-input">
-                <label for="image7">Июль:</label>
-                <input type="file" id="image7" accept="image/*">
-            </div>
-            <div class="image-input">
-                <label for="image8">Август:</label>
-                <input type="file" id="image8" accept="image/*">
-            </div>
-            <div class="image-input">
-                <label for="image9">Сентябрь:</label>
-                <input type="file" id="image9" accept="image/*">
-            </div>
-            <div class="image-input">
-                <label for="image10">Октябрь:</label>
-                <input type="file" id="image10" accept="image/*">
-            </div>
-            <div class="image-input">
-                <label for="image11">Ноябрь:</label>
-                <input type="file" id="image11" accept="image/*">
-            </div>
-            <div class="image-input">
-                <label for="image12">Декабрь:</label>
-                <input type="file" id="image12" accept="image/*">
-            </div>
-            <button type="button" onclick="goToCalendar()">Дальше</button>
-        </form>
-    </div>
+  <div id="calendar-container">
+    <h1>Создание календаря</h1>
+    <canvas id="calendar-preview" width="1280" height="720"></canvas>
+    <button id="download-button">Скачать PDF</button>
+  </div>
 
-    <!-- Страница создания календаря -->
-    <div id="calendarContainer">
-        <div id="calendarPages"></div>
-        <button id="downloadBtn" onclick="downloadPDF()">Скачать PDF</button>
-    </div>
+  <script>
+    const monthNames = [
+      "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+      "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+    ];
+    const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    const startDays = [1, 4, 5, 1, 3, 6, 1, 4, 7, 2, 5, 7]; // Понедельник = 1
 
-    <!-- Подключение библиотеки jsPDF и шрифта -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="Roboto.js"></script>
+    const uploadContainer = document.getElementById("upload-container");
+    const calendarContainer = document.getElementById("calendar-container");
+    const imageForm = document.getElementById("image-form");
+    const nextButton = document.getElementById("next-button");
+    const downloadButton = document.getElementById("download-button");
+    const canvas = document.getElementById("calendar-preview");
+    const ctx = canvas.getContext("2d");
 
-    <script>
-        // Храним изображения
-        const images = [];
+    let images = [];
 
-        // Функция перехода к созданию календаря
-        function goToCalendar() {
-            // Собираем изображения
-            for (let i = 1; i <= 12; i++) {
-                const input = document.getElementById(`image${i}`);
-                if (input.files.length > 0) {
-                    images.push(input.files[0]);
-                } else {
-                    alert('Пожалуйста, загрузите все изображения');
-                    return;
-                }
+    // Создание полей для загрузки изображений
+    for (let i = 0; i < 12; i++) {
+      const div = document.createElement("div");
+      div.classList.add("image-input");
+      div.innerHTML = `
+        <label>Месяц ${monthNames[i]}: </label>
+        <input type="file" accept="image/*" data-index="${i}">
+        <span id="status-${i}">Не загружено</span>
+      `;
+      imageForm.appendChild(div);
+    }
+
+    imageForm.addEventListener("change", (e) => {
+      const input = e.target;
+      const index = parseInt(input.dataset.index);
+
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          images[index] = event.target.result;
+          document.getElementById(`status-${index}`).textContent = "Загружено";
+          if (images.length === 12 && !images.includes(undefined)) {
+            nextButton.disabled = false;
+          }
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    });
+
+    nextButton.addEventListener("click", () => {
+      uploadContainer.classList.remove("active");
+      calendarContainer.classList.add("active");
+      renderCalendarPreview(0);
+    });
+
+    function renderCalendarPreview(month) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const img = new Image();
+      img.src = images[month];
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0, 520, 720);
+
+        ctx.fillStyle = "#000";
+        ctx.font = "40px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText(monthNames[month], 880, 70);
+
+        ctx.font = "24px Arial";
+        const dayLabels = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+        let xStart = 620, yStart = 120, cellWidth = 80, cellHeight = 50;
+
+        // Заголовок дней недели
+        dayLabels.forEach((day, i) => {
+          ctx.fillText(day, xStart + i * cellWidth + cellWidth / 2, yStart);
+        });
+
+        // Отображение дат
+        let x = xStart, y = yStart + cellHeight;
+        let dayOfWeek = startDays[month] - 1;
+        for (let day = 1; day <= daysInMonth[month]; day++) {
+          ctx.fillText(day, x + dayOfWeek * cellWidth + cellWidth / 2, y);
+          dayOfWeek++;
+          if (dayOfWeek > 6) {
+            dayOfWeek = 0;
+            y += cellHeight;
+          }
+        }
+      };
+    }
+
+    downloadButton.addEventListener("click", () => {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "px",
+        format: [1280, 720]
+      });
+
+      // Подключаем шрифт Roboto с поддержкой кириллицы
+      pdf.addFileToVFS("Roboto-Regular.ttf", Roboto); // Используйте ваш шрифт
+      pdf.addFont("Roboto-Regular.ttf", "Roboto", "normal");
+      pdf.setFont("Roboto");
+
+      for (let month = 0; month < 12; month++) {
+        // Рендерим каждый месяц на странице
+        const img = new Image();
+        img.src = images[month];
+        img.onload = () => {
+          pdf.addPage();
+          pdf.setFontSize(40);
+          pdf.text(monthNames[month], 880, 70, { align: "center" });
+
+          // Добавляем изображение
+          pdf.addImage(img, "PNG", 10, 10, 520, 720);
+
+          // Добавляем дни недели
+          const dayLabels = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+          let xStart = 620, yStart = 120, cellWidth = 80, cellHeight = 50;
+          dayLabels.forEach((day, i) => {
+            pdf.text(day, xStart + i * cellWidth + cellWidth / 2, yStart, { align: "center" });
+          });
+
+          // Добавляем даты
+          let dayOfWeek = startDays[month] - 1;
+          let y = yStart + cellHeight;
+          for (let day = 1; day <= daysInMonth[month]; day++) {
+            const x = xStart + dayOfWeek * cellWidth + cellWidth / 2;
+            pdf.text(String(day), x, y, { align: "center" });
+            dayOfWeek++;
+            if (dayOfWeek > 6) {
+              dayOfWeek = 0;
+              y += cellHeight;
             }
-            document.getElementById('uploadForm').style.display = 'none';
-            document.getElementById('calendarContainer').style.display = 'block';
-            createCalendar();
-        }
+          }
 
-        // Функция для создания календаря
-        function createCalendar() {
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF({
-                orientation: 'landscape',
-                unit: 'px',
-                format: [1280, 720]
-            });
+          // Завершаем добавление страницы
+          if (month < 11) pdf.addPage();
+        };
+      }
 
-            // Подключаем шрифт
-            pdf.addFileToVFS("Roboto-Regular.ttf", Roboto); // Roboto — это ваш загруженный шрифт
-            pdf.addFont("Roboto-Regular.ttf", "Roboto", "normal");
-            pdf.setFont("Roboto");
-
-            const dayLabels = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
-            const months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
-
-            for (let month = 0; month < 12; month++) {
-                const image = images[month];
-
-                // Создаем страницу для каждого месяца
-                pdf.addPage([1280, 720], 'landscape');
-                pdf.setFontSize(40);
-                pdf.text(months[month], 880, 70, { align: 'center' });
-
-                const xStart = 620, yStart = 120, cellWidth = 80, cellHeight = 50;
-                let dayOfWeek = new Date(2024, month, 1).getDay(); // Получаем день недели для 1-го числа месяца
-                if (dayOfWeek === 0) dayOfWeek = 7; // Если воскресенье, то сдвигаем на 7, чтобы начиналось с Пн
-
-                // Отображаем дни недели
-                dayLabels.forEach((day, i) => {
-                    pdf.text(day, xStart + i * cellWidth + cellWidth / 2, yStart, { align: "center" });
-                });
-
-                // Отображаем даты
-                let yOffset = yStart + cellHeight;
-                for (let day = 1; day <= 31; day++) {
-                    if (new Date(2024, month, day).getMonth() !== month) break;
-
-                    const x = xStart + (dayOfWeek - 1) * cellWidth + cellWidth / 2;
-                    const y = yOffset;
-                    pdf.text(String(day), x, y, { align: "center" });
-
-                    dayOfWeek++;
-                    if (dayOfWeek > 7) {
-                        dayOfWeek = 1;
-                        yOffset += cellHeight;
-                    }
-                }
-
-                // Добавляем изображение
-                const img = new Image();
-                img.src = URL.createObjectURL(image);
-                img.onload = function() {
-                    pdf.addImage(img, 'JPEG', 0, 0, 520, 720);
-                    if (month === 11) {
-                        pdf.save("calendar.pdf");
-                    }
-                };
-            }
-        }
-
-        // Функция для скачивания PDF
-        function downloadPDF() {
-            createCalendar();
-        }
-    </script>
+      pdf.save("calendar.pdf");
+    });
+  </script>
 </body>
 </html>
