@@ -4,8 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Создание календаря</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="Roboto.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -80,7 +79,6 @@
         reader.onload = (event) => {
           images[index] = event.target.result;
           document.getElementById(`status-${index}`).textContent = "Загружено";
-          console.log(`Изображение для месяца ${monthNames[index]} загружено.`);
           if (images.length === 12 && !images.includes(undefined)) {
             nextButton.disabled = false;
           }
@@ -132,13 +130,6 @@
     }
 
     downloadButton.addEventListener("click", () => {
-      // Проверим, загрузились ли все изображения
-      if (images.length !== 12 || images.includes(undefined)) {
-        alert("Пожалуйста, загрузите все 12 изображений.");
-        return;
-      }
-
-      console.log("Генерация PDF началась...");
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF({
         orientation: "landscape",
@@ -146,48 +137,38 @@
         format: [1280, 720]
       });
 
-      // Подключаем шрифт Roboto с поддержкой кириллицы
-      pdf.addFileToVFS("Roboto-Regular.ttf", Roboto); // Используйте ваш шрифт
-      pdf.addFont("Roboto-Regular.ttf", "Roboto", "normal");
-      pdf.setFont("Roboto");
+      // Добавление шрифта с поддержкой кириллицы
+      pdf.addFont("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/webfonts/fa-solid-900.woff2", "Arial", "normal");
 
-      for (let month = 0; month < 12; month++) {
-        const img = new Image();
-        img.src = images[month];
-        img.onload = () => {
-          pdf.addPage();
-          pdf.setFontSize(40);
-          pdf.text(monthNames[month], 880, 70, { align: "center" });
+      images.forEach((imgSrc, index) => {
+        pdf.addImage(imgSrc, "JPEG", 0, 0, 520, 720);
 
-          // Добавляем изображение
-          pdf.addImage(img, "PNG", 10, 10, 520, 720);
+        pdf.setFont("Arial", "normal");
+        pdf.setFontSize(40);
+        pdf.text(monthNames[index], 880, 70, null, null, "center");
 
-          // Добавляем дни недели
-          const dayLabels = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
-          let xStart = 620, yStart = 120, cellWidth = 80, cellHeight = 50;
-          dayLabels.forEach((day, i) => {
-            pdf.text(day, xStart + i * cellWidth + cellWidth / 2, yStart, { align: "center" });
-          });
+        pdf.setFontSize(24);
+        const dayLabels = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+        let xStart = 620, yStart = 120, cellWidth = 80, cellHeight = 50;
 
-          // Добавляем даты
-          let dayOfWeek = startDays[month] - 1;
-          let y = yStart + cellHeight;
-          for (let day = 1; day <= daysInMonth[month]; day++) {
-            const x = xStart + dayOfWeek * cellWidth + cellWidth / 2;
-            pdf.text(String(day), x, y, { align: "center" });
-            dayOfWeek++;
-            if (dayOfWeek > 6) {
-              dayOfWeek = 0;
-              y += cellHeight;
-            }
+        dayLabels.forEach((day, i) => {
+          pdf.text(day, xStart + i * cellWidth + cellWidth / 2, yStart, { align: "center" });
+        });
+
+        let x = xStart, y = yStart + cellHeight;
+        let dayOfWeek = startDays[index] - 1;
+        for (let day = 1; day <= daysInMonth[index]; day++) {
+          pdf.text(`${day}`, x + dayOfWeek * cellWidth + cellWidth / 2, y, { align: "center" });
+          dayOfWeek++;
+          if (dayOfWeek > 6) {
+            dayOfWeek = 0;
+            y += cellHeight;
           }
+        }
 
-          // Завершаем добавление страницы
-          if (month < 11) pdf.addPage();
-        };
-      }
+        if (index < images.length - 1) pdf.addPage();
+      });
 
-      // После добавления всех страниц
       pdf.save("calendar.pdf");
     });
   </script>
