@@ -54,7 +54,7 @@
     ];
     // Количество дней в каждом месяце для 2025 года (не високосный)
     const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    let startDayOfMonth = getStartDayOfMonth(2025, 1); // Получаем день недели для 1 января 2025 года
+    let startDayOfMonth = 2; // 1 января 2025 года — это среда (3)
 
     const uploadContainer = document.getElementById("upload-container");
     const calendarContainer = document.getElementById("calendar-container");
@@ -99,12 +99,6 @@
       calendarContainer.classList.add("active");
       renderAllMonths();
     });
-
-    // Получаем день недели для 1-го числа месяца (0 - Воскресенье, 1 - Понед. и т.д.)
-    function getStartDayOfMonth(year, month) {
-      const date = new Date(year, month - 1, 1); // Получаем 1 число месяца
-      return date.getDay(); // Получаем день недели
-    }
 
     // Функция отрисовки всех 12 месяцев
     function renderAllMonths() {
