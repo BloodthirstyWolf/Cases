@@ -1,165 +1,125 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Создание календаря</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/addons/FontRoboto.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
-    #upload-container, #calendar-container {
-      display: none;
-    }
-    #upload-container.active, #calendar-container.active {
-      display: block;
-    }
-    .image-input {
-      margin: 10px 0;
-    }
-    .calendar-page {
-      display: inline-block;
-      margin: 20px;
-      width: 1280px;
-      height: 720px;
-      position: relative;
-    }
-    canvas {
-      border: 1px solid #000;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Календарь 2025</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .calendar-page {
+            display: inline-block;
+            margin: 10px;
+            width: 1280px;
+            height: 720px;
+        }
+        canvas {
+            border: 2px solid #000;
+        }
+        #calendar-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
-  <div id="upload-container" class="active">
-    <h1>Загрузите 12 изображений для календаря</h1>
-    <form id="image-form">
-      <!-- Поля для загрузки изображений -->
-    </form>
-    <button id="next-button" disabled>Дальше</button>
-  </div>
+    <h1>Создание Календаря 2025</h1>
+    <div>
+        <label for="month-images">Загрузите 12 изображений:</label><br>
+        <input type="file" id="month-images" accept="image/*" multiple><br><br>
+        <button id="generate-calendar-btn" disabled>Создать Календарь</button>
+    </div>
 
-  <div id="calendar-container">
-    <h1>Создание календаря</h1>
-    <div id="calendar-pages"></div> <!-- Здесь будут отображаться все 12 месяцев -->
-    <button id="download-button">Скачать PDF</button>
-  </div>
+    <div id="calendar-container"></div>
 
-  <script>
-    const monthNames = [
-      "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
-      "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
-    ];
-    // Количество дней в каждом месяце для 2025 года (не високосный)
-    const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    let startDayOfMonth = 2; // 1 января 2025 года — это среда (3)
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        const monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+        const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; // Для 2025 года
+        let images = [];
+        let startDayOfMonth = 3; // 1 января 2025 года - это среда (3)
 
-    const uploadContainer = document.getElementById("upload-container");
-    const calendarContainer = document.getElementById("calendar-container");
-    const imageForm = document.getElementById("image-form");
-    const nextButton = document.getElementById("next-button");
-    const downloadButton = document.getElementById("download-button");
-    const calendarPagesContainer = document.getElementById("calendar-pages");
+        document.getElementById("month-images").addEventListener("change", handleImageUpload);
+        document.getElementById("generate-calendar-btn").addEventListener("click", generateCalendar);
 
-    let images = [];
-
-    // Создание полей для загрузки изображений
-    for (let i = 0; i < 12; i++) {
-      const div = document.createElement("div");
-      div.classList.add("image-input");
-      div.innerHTML = `
-        <label>Месяц ${monthNames[i]}: </label>
-        <input type="file" accept="image/*" data-index="${i}">
-        <span id="status-${i}">Не загружено</span>
-      `;
-      imageForm.appendChild(div);
-    }
-
-    imageForm.addEventListener("change", (e) => {
-      const input = e.target;
-      const index = parseInt(input.dataset.index);
-
-      if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          images[index] = event.target.result;
-          document.getElementById(`status-${index}`).textContent = "Загружено";
-          if (images.length === 12 && !images.includes(undefined)) {
-            nextButton.disabled = false;
-          }
-        };
-        reader.readAsDataURL(input.files[0]);
-      }
-    });
-
-    nextButton.addEventListener("click", () => {
-      uploadContainer.classList.remove("active");
-      calendarContainer.classList.add("active");
-      renderAllMonths();
-    });
-
-    // Функция отрисовки всех 12 месяцев
-    function renderAllMonths() {
-      calendarPagesContainer.innerHTML = ''; // Очищаем контейнер
-
-      images.forEach((imgSrc, index) => {
-        const div = document.createElement('div');
-        div.classList.add('calendar-page');
-
-        const canvas = document.createElement('canvas');
-        canvas.width = 1280;
-        canvas.height = 720;
-        div.appendChild(canvas);
-
-        const ctx = canvas.getContext("2d");
-
-        // Отображаем картинку
-        const img = new Image();
-        img.src = imgSrc;
-        img.onload = () => {
-          ctx.drawImage(img, 0, 0, 520, 720);
-
-          // Заголовок месяца с годом
-          ctx.fillStyle = "#000";
-          ctx.font = "40px Arial";
-          ctx.textAlign = "center";
-          ctx.fillText(`${monthNames[index]} 2025`, 880, 70);
-
-          // Дни недели
-          const dayLabels = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
-          let xStart = 620, yStart = 120, cellWidth = 80, cellHeight = 50;
-
-          // Заголовок дней недели
-          dayLabels.forEach((day, i) => {
-            ctx.fillText(day, xStart + i * cellWidth + cellWidth / 2, yStart);
-          });
-
-          // Отображаем даты
-          let x = xStart, y = yStart + cellHeight;
-          let dayOfWeek = startDayOfMonth;
-          for (let day = 1; day <= daysInMonth[index]; day++) {
-            ctx.fillText(day, x + dayOfWeek * cellWidth + cellWidth / 2, y);
-            dayOfWeek++;
-            if (dayOfWeek > 6) {
-              dayOfWeek = 0;
-              y += cellHeight;
+        function handleImageUpload(event) {
+            const files = event.target.files;
+            if (files.length === 12) {
+                images = Array.from(files).map(file => URL.createObjectURL(file));
+                document.getElementById("generate-calendar-btn").disabled = false;
+            } else {
+                document.getElementById("generate-calendar-btn").disabled = true;
             }
-          }
+        }
 
-          // Обновляем стартовый день для следующего месяца
-          startDayOfMonth = (startDayOfMonth + daysInMonth[index]) % 7;
-        };
+        function renderAllMonths() {
+            const calendarPagesContainer = document.getElementById("calendar-container");
+            calendarPagesContainer.innerHTML = ''; // Очищаем контейнер
 
-        calendarPagesContainer.appendChild(div);
-      });
-    }
+            images.forEach((imgSrc, index) => {
+                const div = document.createElement('div');
+                div.classList.add('calendar-page');
 
-    // Для теста пока добавим обработчик для скачивания через правый клик
-    downloadButton.addEventListener("click", () => {
-      alert("Скачивание PDF будет реализовано позже.");
-    });
-  </script>
+                const canvas = document.createElement('canvas');
+                canvas.width = 1280;
+                canvas.height = 720;
+                div.appendChild(canvas);
+
+                const ctx = canvas.getContext("2d");
+
+                // Отображаем картинку
+                const img = new Image();
+                img.src = imgSrc;
+                img.onload = () => {
+                    ctx.drawImage(img, 0, 0, 520, 720);
+
+                    // Заголовок месяца с годом
+                    ctx.fillStyle = "#000";
+                    ctx.font = "40px Arial";
+                    ctx.textAlign = "center";
+                    ctx.fillText(`${monthNames[index]} 2025`, 880, 70);
+
+                    // Дни недели
+                    const dayLabels = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+                    let xStart = 620, yStart = 120, cellWidth = 80, cellHeight = 50;
+
+                    // Заголовок дней недели
+                    dayLabels.forEach((day, i) => {
+                        ctx.fillText(day, xStart + i * cellWidth + cellWidth / 2, yStart);
+                    });
+
+                    // Отображаем даты
+                    let x = xStart, y = yStart + cellHeight;
+                    let dayOfWeek = startDayOfMonth;
+                    for (let day = 1; day <= daysInMonth[index]; day++) {
+                        ctx.fillText(day, x + dayOfWeek * cellWidth + cellWidth / 2, y);
+                        dayOfWeek++;
+                        if (dayOfWeek > 6) {
+                            dayOfWeek = 0;
+                            y += cellHeight;
+                        }
+                    }
+
+                    // Обновляем стартовый день для следующего месяца
+                    startDayOfMonth = (startDayOfMonth + daysInMonth[index]) % 7;
+                };
+
+                calendarPagesContainer.appendChild(div);
+            });
+        }
+
+        function generateCalendar() {
+            renderAllMonths();
+        }
+    </script>
 </body>
 </html>
