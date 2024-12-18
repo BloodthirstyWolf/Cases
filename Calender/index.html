@@ -9,60 +9,98 @@
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        .upload-container, .calendar-container {
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .calendar-container {
+            opacity: 0;
+            visibility: hidden;
         }
         .calendar-page {
             display: inline-block;
             margin: 10px;
             width: 1280px;
             height: 720px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            background: white;
         }
         canvas {
             border: 2px solid #000;
-        }
-        #calendar-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            border-radius: 10px;
         }
         button {
             margin-top: 20px;
             padding: 10px 20px;
             font-size: 16px;
+            background-color: #ffffff;
+            color: #000;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background-color: #f0f0f0;
+        }
+        #calendar-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Создание Календаря 2025</h1>
-    <div>
-        <label for="month-images">Загрузите 12 изображений:</label><br>
-        <input type="file" id="month-images" accept="image/*" multiple><br><br>
-        <button id="generate-calendar-btn" disabled>Создать Календарь</button>
+    <div class="upload-container">
+        <h1>Создание Календаря 2025</h1>
+        <div>
+            <label for="month-images">Загрузите 12 изображений:</label><br>
+            <input type="file" id="month-images" accept="image/*" multiple><br><br>
+            <button id="generate-calendar-btn" disabled>Создать Календарь</button>
+        </div>
     </div>
 
-    <div id="calendar-container"></div>
+    <div id="calendar-container" class="calendar-container">
+        <h1>Ваш Календарь 2025</h1>
+        <div id="calendar-pages"></div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
         const monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
-        const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; // Для 2025 года
-        const startDays = [2, 5, 5, 1, 3, 6, 1, 4, 0, 2, 5, 0]; // Дни недели для первого числа каждого месяца (Пн = 0, Вт = 1, Ср = 2, Чт = 3, Пт = 4, Сб = 5, Вс = 6)
+        const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        const startDays = [2, 5, 5, 1, 3, 6, 1, 4, 0, 2, 5, 0];
         let images = [];
 
+        const uploadContainer = document.querySelector('.upload-container');
+        const calendarContainer = document.querySelector('.calendar-container');
+        const generateButton = document.getElementById("generate-calendar-btn");
+
         document.getElementById("month-images").addEventListener("change", handleImageUpload);
-        document.getElementById("generate-calendar-btn").addEventListener("click", generateCalendar);
+        generateButton.addEventListener("click", generateCalendar);
 
         function handleImageUpload(event) {
             const files = event.target.files;
             if (files.length === 12) {
                 images = Array.from(files).map(file => URL.createObjectURL(file));
-                document.getElementById("generate-calendar-btn").disabled = false;
+                generateButton.disabled = false;
             } else {
-                document.getElementById("generate-calendar-btn").disabled = true;
+                generateButton.disabled = true;
             }
         }
 
         function renderAllMonths() {
-            const calendarPagesContainer = document.getElementById("calendar-container");
+            const calendarPagesContainer = document.getElementById("calendar-pages");
             calendarPagesContainer.innerHTML = ''; // Очищаем контейнер
 
             images.forEach((imgSrc, index) => {
@@ -99,7 +137,7 @@
 
                     // Отображаем даты
                     let x = xStart, y = yStart + cellHeight;
-                    let dayOfWeek = startDays[index]; // Используем фиксированный день недели для первого числа месяца
+                    let dayOfWeek = startDays[index];
                     for (let day = 1; day <= daysInMonth[index]; day++) {
                         ctx.fillText(day, x + dayOfWeek * cellWidth + cellWidth / 2, y);
                         dayOfWeek++;
@@ -115,6 +153,9 @@
         }
 
         function generateCalendar() {
+            uploadContainer.classList.add('hidden');
+            calendarContainer.style.opacity = 1;
+            calendarContainer.style.visibility = "visible";
             renderAllMonths();
         }
     </script>
