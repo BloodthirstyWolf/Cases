@@ -9,101 +9,60 @@
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
-            background-color: #f4f4f4;
-            margin: 0;
-        }
-        .upload-container, .calendar-container {
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-        .hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-        .calendar-container {
-            opacity: 0;
-            visibility: hidden;
         }
         .calendar-page {
             display: inline-block;
             margin: 10px;
             width: 1280px;
             height: 720px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            background: white;
         }
         canvas {
             border: 2px solid #000;
-            border-radius: 10px;
-        }
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #ffffff;
-            color: #000;
-            border: 1px solid #ccc;
-            border-radius: 20px;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-        button:hover {
-            background-color: #f0f0f0;
         }
         #calendar-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            padding: 20px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
-    <div class="upload-container">
-        <h1>Создание Календаря 2025</h1>
-        <div>
-            <label for="month-images">Загрузите 12 изображений:</label><br>
-            <input type="file" id="month-images" accept="image/*" multiple><br><br>
-            <button id="generate-calendar-btn" disabled>Создать Календарь</button>
-        </div>
+    <h1>Создание Календаря 2025</h1>
+    <div>
+        <label for="month-images">Загрузите 12 изображений:</label><br>
+        <input type="file" id="month-images" accept="image/*" multiple><br><br>
+        <button id="generate-calendar-btn" disabled>Создать Календарь</button>
     </div>
 
-    <div id="calendar-container" class="calendar-container">
-        <h1>Ваш Календарь 2025</h1>
-        <div id="calendar-pages"></div>
-        <button id="download-calendar-btn">Скачать Календарь</button>
-    </div>
+    <div id="calendar-container"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
         const monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
-        const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-        const startDays = [2, 5, 5, 1, 3, 6, 1, 4, 0, 2, 5, 0];
+        const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; // Для 2025 года
+        const startDays = [2, 5, 5, 1, 3, 6, 1, 4, 0, 2, 5, 0]; // Дни недели для первого числа каждого месяца (Пн = 0, Вт = 1, Ср = 2, Чт = 3, Пт = 4, Сб = 5, Вс = 6)
         let images = [];
 
-        const uploadContainer = document.querySelector('.upload-container');
-        const calendarContainer = document.querySelector('.calendar-container');
-        const generateButton = document.getElementById("generate-calendar-btn");
-        const downloadButton = document.getElementById("download-calendar-btn");
-
         document.getElementById("month-images").addEventListener("change", handleImageUpload);
-        generateButton.addEventListener("click", generateCalendar);
-        downloadButton.addEventListener("click", downloadCalendar);
+        document.getElementById("generate-calendar-btn").addEventListener("click", generateCalendar);
 
         function handleImageUpload(event) {
             const files = event.target.files;
             if (files.length === 12) {
                 images = Array.from(files).map(file => URL.createObjectURL(file));
-                generateButton.disabled = false;
+                document.getElementById("generate-calendar-btn").disabled = false;
             } else {
-                generateButton.disabled = true;
+                document.getElementById("generate-calendar-btn").disabled = true;
             }
         }
 
         function renderAllMonths() {
-            const calendarPagesContainer = document.getElementById("calendar-pages");
+            const calendarPagesContainer = document.getElementById("calendar-container");
             calendarPagesContainer.innerHTML = ''; // Очищаем контейнер
 
             images.forEach((imgSrc, index) => {
@@ -140,7 +99,7 @@
 
                     // Отображаем даты
                     let x = xStart, y = yStart + cellHeight;
-                    let dayOfWeek = startDays[index];
+                    let dayOfWeek = startDays[index]; // Используем фиксированный день недели для первого числа месяца
                     for (let day = 1; day <= daysInMonth[index]; day++) {
                         ctx.fillText(day, x + dayOfWeek * cellWidth + cellWidth / 2, y);
                         dayOfWeek++;
@@ -156,26 +115,34 @@
         }
 
         function generateCalendar() {
-            uploadContainer.classList.add('hidden');
-            calendarContainer.style.opacity = 1;
-            calendarContainer.style.visibility = "visible";
             renderAllMonths();
-        }
 
-        async function downloadCalendar() {
+            // Создаем PDF
             const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF('landscape'); // Устанавливаем альбомную ориентацию
+            const pdf = new jsPDF('landscape', 'px', [2560, 1440]);
 
-            const canvases = document.querySelectorAll("canvas");
-            for (let i = 0; i < canvases.length; i++) {
-                const canvas = canvases[i];
-                const imgData = canvas.toDataURL("image/png");
-                if (i > 0) pdf.addPage();
-                pdf.addImage(imgData, "PNG", 10, 10, 297, 210); // Размеры для альбомной ориентации
-            }
+            images.forEach((imgSrc, index) => {
+                const img = new Image();
+                img.src = imgSrc;
+                img.onload = () => {
+                    const imgData = canvas.toDataURL('image/png');
 
-            pdf.save("Календарь_2025.pdf");
+                    // Добавляем изображение в PDF
+                    pdf.addImage(imgData, 'PNG', 0, 0, 2560, 1440);
+
+                    // Добавляем страницу, если не последний месяц
+                    if (index < images.length - 1) {
+                        pdf.addPage();
+                    }
+
+                    // Скачиваем PDF, если последний месяц
+                    if (index === images.length - 1) {
+                        pdf.save('calendar_2025.pdf');
+                    }
+                };
+            });
         }
     </script>
 </body>
 </html>
+
