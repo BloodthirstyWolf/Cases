@@ -45,9 +45,8 @@
     <script>
         const monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
         const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; // Для 2025 года
-        const dayLabels = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
         let images = [];
-        let startDayOfMonth = 2; // 1 января 2025 года - это среда (индекс 2)
+        let startDayOfMonth = 2; // 1 января 2025 года - это среда (2)
 
         document.getElementById("month-images").addEventListener("change", handleImageUpload);
         document.getElementById("generate-calendar-btn").addEventListener("click", generateCalendar);
@@ -90,6 +89,7 @@
                     ctx.fillText(`${monthNames[index]} 2025`, 880, 70);
 
                     // Дни недели
+                    const dayLabels = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
                     let xStart = 620, yStart = 120, cellWidth = 80, cellHeight = 50;
 
                     // Заголовок дней недели
@@ -104,14 +104,13 @@
                         ctx.fillText(day, x + dayOfWeek * cellWidth + cellWidth / 2, y);
                         dayOfWeek++;
                         if (dayOfWeek > 6) {
-                            dayOfWeek = 0; // Обнуляем, если день недели вышел за пределы
+                            dayOfWeek = 0;
                             y += cellHeight;
                         }
                     }
 
                     // Обновляем стартовый день для следующего месяца
-                    dayOfWeek = (startDayOfMonth + daysInMonth[index]) % 7;
-                    startDayOfMonth = dayOfWeek;
+                    startDayOfMonth = (startDayOfMonth + daysInMonth[index]) % 7;
                 };
 
                 calendarPagesContainer.appendChild(div);
