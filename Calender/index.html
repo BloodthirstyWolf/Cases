@@ -73,6 +73,7 @@
     <div id="calendar-container" class="calendar-container">
         <h1>Ваш Календарь 2025</h1>
         <div id="calendar-pages"></div>
+        <button id="download-calendar-btn">Скачать Календарь</button>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -85,9 +86,11 @@
         const uploadContainer = document.querySelector('.upload-container');
         const calendarContainer = document.querySelector('.calendar-container');
         const generateButton = document.getElementById("generate-calendar-btn");
+        const downloadButton = document.getElementById("download-calendar-btn");
 
         document.getElementById("month-images").addEventListener("change", handleImageUpload);
         generateButton.addEventListener("click", generateCalendar);
+        downloadButton.addEventListener("click", downloadCalendar);
 
         function handleImageUpload(event) {
             const files = event.target.files;
@@ -157,6 +160,21 @@
             calendarContainer.style.opacity = 1;
             calendarContainer.style.visibility = "visible";
             renderAllMonths();
+        }
+
+        async function downloadCalendar() {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+
+            const canvases = document.querySelectorAll("canvas");
+            for (let i = 0; i < canvases.length; i++) {
+                const canvas = canvases[i];
+                const imgData = canvas.toDataURL("image/png");
+                if (i > 0) pdf.addPage();
+                pdf.addImage(imgData, "PNG", 10, 10, 190, 100);
+            }
+
+            pdf.save("Календарь_2025.pdf");
         }
     </script>
 </body>
