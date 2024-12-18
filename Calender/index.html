@@ -45,8 +45,8 @@
     <script>
         const monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
         const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; // Для 2025 года
+        const startDays = [2, 6, 6, 3, 4, 0, 3, 5, 1, 2, 6, 1]; // Дни недели для первого числа каждого месяца (Пн = 0, Вт = 1, Ср = 2, Чт = 3, Пт = 4, Сб = 5, Вс = 6)
         let images = [];
-        let startDayOfMonth = 2; // 1 января 2025 года - это среда (2)
 
         document.getElementById("month-images").addEventListener("change", handleImageUpload);
         document.getElementById("generate-calendar-btn").addEventListener("click", generateCalendar);
@@ -61,62 +61,58 @@
             }
         }
 
-      function renderAllMonths() {
-    const calendarPagesContainer = document.getElementById("calendar-container");
-    calendarPagesContainer.innerHTML = ''; // Очищаем контейнер
+        function renderAllMonths() {
+            const calendarPagesContainer = document.getElementById("calendar-container");
+            calendarPagesContainer.innerHTML = ''; // Очищаем контейнер
 
-    images.forEach((imgSrc, index) => {
-        const div = document.createElement('div');
-        div.classList.add('calendar-page');
+            images.forEach((imgSrc, index) => {
+                const div = document.createElement('div');
+                div.classList.add('calendar-page');
 
-        const canvas = document.createElement('canvas');
-        canvas.width = 1280;
-        canvas.height = 720;
-        div.appendChild(canvas);
+                const canvas = document.createElement('canvas');
+                canvas.width = 1280;
+                canvas.height = 720;
+                div.appendChild(canvas);
 
-        const ctx = canvas.getContext("2d");
+                const ctx = canvas.getContext("2d");
 
-        // Отображаем картинку
-        const img = new Image();
-        img.src = imgSrc;
-        img.onload = () => {
-            ctx.drawImage(img, 0, 0, 520, 720);
+                // Отображаем картинку
+                const img = new Image();
+                img.src = imgSrc;
+                img.onload = () => {
+                    ctx.drawImage(img, 0, 0, 520, 720);
 
-            // Заголовок месяца с годом
-            ctx.fillStyle = "#000";
-            ctx.font = "40px Arial";
-            ctx.textAlign = "center";
-            ctx.fillText(`${monthNames[index]} 2025`, 880, 70);
+                    // Заголовок месяца с годом
+                    ctx.fillStyle = "#000";
+                    ctx.font = "40px Arial";
+                    ctx.textAlign = "center";
+                    ctx.fillText(`${monthNames[index]} 2025`, 880, 70);
 
-            // Дни недели
-            const dayLabels = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
-            let xStart = 620, yStart = 120, cellWidth = 80, cellHeight = 50;
+                    // Дни недели
+                    const dayLabels = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+                    let xStart = 620, yStart = 120, cellWidth = 80, cellHeight = 50;
 
-            // Заголовок дней недели
-            dayLabels.forEach((day, i) => {
-                ctx.fillText(day, xStart + i * cellWidth + cellWidth / 2, yStart);
+                    // Заголовок дней недели
+                    dayLabels.forEach((day, i) => {
+                        ctx.fillText(day, xStart + i * cellWidth + cellWidth / 2, yStart);
+                    });
+
+                    // Отображаем даты
+                    let x = xStart, y = yStart + cellHeight;
+                    let dayOfWeek = startDays[index]; // Используем фиксированный день недели для первого числа месяца
+                    for (let day = 1; day <= daysInMonth[index]; day++) {
+                        ctx.fillText(day, x + dayOfWeek * cellWidth + cellWidth / 2, y);
+                        dayOfWeek++;
+                        if (dayOfWeek > 6) {
+                            dayOfWeek = 0;
+                            y += cellHeight;
+                        }
+                    }
+                };
+
+                calendarPagesContainer.appendChild(div);
             });
-
-            // Отображаем даты
-            let x = xStart, y = yStart + cellHeight;
-            let dayOfWeek = startDayOfMonth;
-            for (let day = 1; day <= daysInMonth[index]; day++) {
-                ctx.fillText(day, x + dayOfWeek * cellWidth + cellWidth / 2, y);
-                dayOfWeek++;
-                if (dayOfWeek > 6) {
-                    dayOfWeek = 0;
-                    y += cellHeight;
-                }
-            }
-
-            // Обновляем стартовый день для следующего месяца
-            startDayOfMonth = (startDayOfMonth + daysInMonth[index]) % 7;
-        };
-
-        calendarPagesContainer.appendChild(div);
-    });
-}
-
+        }
 
         function generateCalendar() {
             renderAllMonths();
@@ -124,4 +120,3 @@
     </script>
 </body>
 </html>
-
