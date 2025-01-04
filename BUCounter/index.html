@@ -3,96 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Расчёт хлебных единиц</title>
+    <title>Хлебные Единицы</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            margin: 2rem;
+            background-color: #ffffff;
+            color: #000000;
         }
-
         .container {
-            background-color: #fff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            padding: 20px;
             max-width: 400px;
-            width: 100%;
-            text-align: center;
+            margin: 0 auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            border-radius: 8px;
         }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
         input[type="number"] {
             width: 100%;
-            padding: 10px;
-            font-size: 16px;
+            padding: 0.5rem;
+            font-size: 1rem;
+            margin-bottom: 1rem;
             border: 1px solid #ccc;
             border-radius: 4px;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-
         .output {
-            font-size: 18px;
-            margin-top: 10px;
+            margin-top: 1rem;
         }
-
-        .output span {
-            display: block;
-            margin-top: 5px;
+        .output p {
+            margin: 0.5rem 0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Хлебные единицы</h1>
-        <div class="input-group">
-            <label for="carbs">Введите количество углеводов на 100 г продукта (г):</label>
-            <input type="number" id="carbs" placeholder="Например, 70" min="0" step="0.1">
-        </div>
-        <div class="input-group">
-            <label for="grams">Введите желаемое количество граммов продукта:</label>
-            <input type="number" id="grams" placeholder="Например, 150" min="0" step="0.1">
-        </div>
+        <h1>Рассчет Хлебных Единиц</h1>
+        <label for="carbsInput">Введите количество углеводов в продукте (г на 100 г):</label>
+        <input type="number" id="carbsInput" placeholder="Введите число" min="0">
         <div class="output" id="output">
-            <span>ХЕ (12 г углеводов в 1 ХЕ): <b>0</b></span>
-            <span>ХЕ (15 г углеводов в 1 ХЕ): <b>0</b></span>
-            <span>Граммов продукта в 1 ХЕ: <b>0</b></span>
+            <p>Количество ХЕ (10 г углеводов в 1 ХЕ): <span id="xe10">-</span></p>
+            <p>Количество ХЕ (12 г углеводов в 1 ХЕ): <span id="xe12">-</span></p>
+            <p>Граммов продукта на 1 ХЕ (10 г углеводов в 1 ХЕ): <span id="g10">-</span></p>
+            <p>Граммов продукта на 1 ХЕ (12 г углеводов в 1 ХЕ): <span id="g12">-</span></p>
         </div>
     </div>
 
     <script>
-        const carbsInput = document.getElementById('carbs');
-        const gramsInput = document.getElementById('grams');
-        const output = document.getElementById('output');
+        const carbsInput = document.getElementById('carbsInput');
+        const xe10 = document.getElementById('xe10');
+        const xe12 = document.getElementById('xe12');
+        const g10 = document.getElementById('g10');
+        const g12 = document.getElementById('g12');
 
-        function calculate() {
-            const carbsPer100g = parseFloat(carbsInput.value) || 0;
-            const grams = parseFloat(gramsInput.value) || 0;
+        carbsInput.addEventListener('input', () => {
+            const carbsPer100g = parseFloat(carbsInput.value);
 
-            // Рассчёты
-            const xe12 = ((grams * carbsPer100g) / 100 / 12).toFixed(2);
-            const xe15 = ((grams * carbsPer100g) / 100 / 15).toFixed(2);
-            const gramsPerXE12 = carbsPer100g > 0 ? (1200 / carbsPer100g).toFixed(2) : 0;
-
-            // Вывод
-            output.innerHTML = `
-                <span>ХЕ (12 г углеводов в 1 ХЕ): <b>${xe12}</b></span>
-                <span>ХЕ (15 г углеводов в 1 ХЕ): <b>${xe15}</b></span>
-                <span>Граммов продукта в 1 ХЕ (12 г углеводов): <b>${gramsPerXE12}</b></span>
-            `;
-        }
-
-        carbsInput.addEventListener('input', calculate);
-        gramsInput.addEventListener('input', calculate);
+            if (!isNaN(carbsPer100g) && carbsPer100g > 0) {
+                xe10.textContent = (carbsPer100g / 10).toFixed(2);
+                xe12.textContent = (carbsPer100g / 12).toFixed(2);
+                g10.textContent = (100 / (carbsPer100g / 10)).toFixed(2);
+                g12.textContent = (100 / (carbsPer100g / 12)).toFixed(2);
+            } else {
+                xe10.textContent = '-';
+                xe12.textContent = '-';
+                g10.textContent = '-';
+                g12.textContent = '-';
+            }
+        });
     </script>
 </body>
 </html>
