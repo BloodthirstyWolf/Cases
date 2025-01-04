@@ -75,21 +75,24 @@
             const carbsPer100g = parseFloat(carbsInput.value);
             if (!isNaN(carbsPer100g) && carbsPer100g > 0) {
                 // ХЕ
-                const xeValue10 = (carbsPer100g / 10).toFixed(2);
-                const xeValue12 = (carbsPer100g / 12).toFixed(2);
-                xe10.textContent = xeValue10;
-                xe12.textContent = xeValue12;
+                const xeValue10 = carbsPer100g / 10;
+                const xeValue12 = carbsPer100g / 12;
+                xe10.textContent = xeValue10.toFixed(2);
+                xe12.textContent = xeValue12.toFixed(2);
 
                 // Граммов на 1 ХЕ
                 const gramsForXe10 = (100 / (carbsPer100g / 10)).toFixed(2);
                 const gramsForXe12 = (100 / (carbsPer100g / 12)).toFixed(2);
+
+                g10.textContent = gramsForXe10;
+                g12.textContent = gramsForXe12;
+
+                // Граммов на выбранное количество ХЕ
+                const gramsForSelectedXe10 = ((currentXe * 10) * (100 / carbsPer100g)).toFixed(2);
+                const gramsForSelectedXe12 = ((currentXe * 12) * (100 / carbsPer100g)).toFixed(2);
                 
-                // Граммов на текущую выбранную ХЕ
-                const gramsForCurrentXe10 = (currentXe * gramsForXe10).toFixed(2);
-                const gramsForCurrentXe12 = (currentXe * gramsForXe12).toFixed(2);
-                
-                g10.textContent = gramsForCurrentXe10;
-                g12.textContent = gramsForCurrentXe12;
+                g10.textContent = gramsForSelectedXe10;
+                g12.textContent = gramsForSelectedXe12;
             } else {
                 xe10.textContent = '-';
                 xe12.textContent = '-';
