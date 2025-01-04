@@ -28,7 +28,7 @@
         input[type="number"] {
             padding: 10px;
             font-size: 18px;
-            width: 100px;
+            width: 150px;
             border: 1px solid #ccc;
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -54,55 +54,41 @@
 </head>
 <body>
     <div class="container">
-        <h1>Введите количество углеводов</h1>
-        <input type="number" id="carbsInput" placeholder="Углеводы" oninput="calculate()">
+        <input type="number" id="carbsInput" placeholder="Углеводов в 100 гр." oninput="calculate()">
         <div class="result" id="xeResult">
             <p><span>ХЕ: </span>0</p>
             <p><span>Граммов на 1 ХЕ: </span>0</p>
         </div>
-        <p>Граммов продукта на 
-            <span class="control-btn" id="decreaseXe2">◀</span>
-            <span id="selectedXe2">1</span>
-            <span> ХЕ</span>
-            <span class="control-btn" id="increaseXe2">▶</span> 
-            (12 г углеводов в 1 ХЕ): 
-            <span id="g12">12</span>
+
+        <p>Выберите количество ХЕ:
+            <input type="number" id="xeAmountInput" value="10" oninput="calculate()">
         </p>
+        
+        <p>Граммов продукта для <span id="selectedXeAmount">10</span> ХЕ: <span id="gramsForSelectedXe">-</span></p>
     </div>
 
     <script>
-        // Изначальные данные
-        const carbsPerXE = 12;
-        let selectedXE = 1;
+        const carbsPerXE = 12; // 1 ХЕ = 12 г углеводов
+        let carbsPer100g = 0; // Углеводы на 100 г продукта
+        let selectedXE = 10; // По умолчанию 10 ХЕ
 
-        // Функция для пересчёта
+        // Функция пересчёта всех значений
         function calculate() {
-            const carbs = parseFloat(document.getElementById("carbsInput").value) || 0;
-            const xe = (carbs / carbsPerXE).toFixed(2);
-            const gramsPerXE = (carbsPerXE * selectedXE).toFixed(2);
+            carbsPer100g = parseFloat(document.getElementById("carbsInput").value) || 0;
+            selectedXE = parseFloat(document.getElementById("xeAmountInput").value) || 10;
 
+            // Расчёт ХЕ для введённого количества углеводов
+            const xe = (carbsPer100g / carbsPerXE).toFixed(2);
             document.getElementById("xeResult").innerHTML = `
                 <p><span>ХЕ: </span>${xe}</p>
-                <p><span>Граммов на 1 ХЕ: </span>${carbsPerXE}</p>
+                <p><span>Граммов на 1 ХЕ: </span>${(100 / (carbsPer100g / carbsPerXE)).toFixed(2)}</p>
             `;
 
-            document.getElementById("g12").textContent = gramsPerXE;
+            // Расчёт количества граммов продукта для выбранного числа ХЕ
+            const gramsForSelectedXE = ((selectedXE * carbsPerXE) / carbsPer100g * 100).toFixed(2);
+            document.getElementById("gramsForSelectedXe").textContent = gramsForSelectedXE;
+            document.getElementById("selectedXeAmount").textContent = selectedXE;
         }
-
-        // Функция для изменения ХЕ
-        function changeXE(increase) {
-            if (increase) {
-                selectedXE++;
-            } else {
-                if (selectedXE > 1) selectedXE--;
-            }
-            document.getElementById("selectedXe2").textContent = selectedXE;
-            calculate();
-        }
-
-        // Слушатели для кнопок изменения ХЕ
-        document.getElementById("increaseXe2").addEventListener("click", () => changeXE(true));
-        document.getElementById("decreaseXe2").addEventListener("click", () => changeXE(false));
 
         // Изначальный расчёт
         calculate();
