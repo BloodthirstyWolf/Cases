@@ -3,95 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Углеводы и ХЕ</title>
+    <title>Калькулятор хлебных единиц</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #fff;
-            color: #000;
+            background-color: white;
+            color: black;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            flex-direction: column;
         }
-
         .container {
             text-align: center;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
             border-radius: 10px;
-            background-color: #fff;
+            background-color: white;
         }
-
-        input[type="number"] {
+        input {
             padding: 10px;
             font-size: 18px;
-            width: 150px;
-            border: 1px solid #ccc;
+            width: 80%;
+            border: 2px solid #ccc;
             border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
-            text-align: center;
+            box-sizing: border-box;
         }
-
-        .control-btn {
-            font-size: 20px;
-            cursor: pointer;
-            margin: 0 10px;
-        }
-
         .result {
-            margin-top: 15px;
+            margin: 10px 0;
             font-size: 18px;
         }
-
-        .result span {
-            font-weight: bold;
+        .hxe-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .hxe-buttons button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #fff;
+            border: 1px solid black;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .hxe-buttons button:disabled {
+            background-color: #e0e0e0;
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <input type="number" id="carbsInput" placeholder="Углеводов в 100 гр." oninput="calculate()">
-        <div class="result" id="xeResult">
-            <p><span>ХЕ: </span>0</p>
-            <p><span>Граммов на 1 ХЕ: </span>0</p>
-        </div>
 
-        <p>Выберите количество ХЕ:
-            <input type="number" id="xeAmountInput" value="10" oninput="calculate()">
-        </p>
+    <div class="container">
+        <h1>Калькулятор хлебных единиц</h1>
+        <input type="number" id="carbsInput" placeholder="Введите количество углеводов" oninput="updateResults()">
         
-        <p>Граммов продукта для <span id="selectedXeAmount">10</span> ХЕ: <span id="gramsForSelectedXe">-</span></p>
+        <div class="result">
+            <p>Количество хлебных единиц: <span id="hxeCount">0</span></p>
+            <p>Граммов на <span id="hxeAmount">1</span> ХЕ: <span id="gramsForHxe">0</span> г</p>
+        </div>
+        
+        <div class="hxe-buttons">
+            <button id="decreaseButton" onclick="changeHxe(-1)">◀</button>
+            <button id="increaseButton" onclick="changeHxe(1)">▶</button>
+        </div>
     </div>
 
     <script>
-        const carbsPerXE = 12; // 1 ХЕ = 12 г углеводов
-        let carbsPer100g = 0; // Углеводы на 100 г продукта
-        let selectedXE = 10; // По умолчанию 10 ХЕ
+        let currentHxe = 1;
 
-        // Функция пересчёта всех значений
-        function calculate() {
-            carbsPer100g = parseFloat(document.getElementById("carbsInput").value) || 0;
-            selectedXE = parseFloat(document.getElementById("xeAmountInput").value) || 10;
+        function updateResults() {
+            const carbsInput = document.getElementById('carbsInput').value;
+            const carbs = parseFloat(carbsInput);
 
-            // Расчёт ХЕ для введённого количества углеводов
-            const xe = (carbsPer100g / carbsPerXE).toFixed(2);
-            document.getElementById("xeResult").innerHTML = `
-                <p><span>ХЕ: </span>${xe}</p>
-                <p><span>Граммов на 1 ХЕ: </span>${(100 / (carbsPer100g / carbsPerXE)).toFixed(2)}</p>
-            `;
+            if (isNaN(carbs) || carbs <= 0) {
+                document.getElementById('hxeCount').innerText = '0';
+                document.getElementById('gramsForHxe').innerText = '0';
+                return;
+            }
 
-            // Расчёт количества граммов продукта для выбранного числа ХЕ
-            const gramsForSelectedXE = ((selectedXE * carbsPerXE) / carbsPer100g * 100).toFixed(2);
-            document.getElementById("gramsForSelectedXe").textContent = gramsForSelectedXE;
-            document.getElementById("selectedXeAmount").textContent = selectedXE;
+            // Количество хлебных единиц
+            const hxeCount = carbs / 12;
+            document.getElementById('hxeCount').innerText = hxeCount.toFixed(2);
+
+            // Граммов на 1 ХЕ
+            const gramsForHxe = 1200 / carbs;
+            document.getElementById('gramsForHxe').innerText = gramsForHxe.toFixed(2);
+
+            // Количество граммов для текущего значения ХЕ
+            const gramsForCurrentHxe = gramsForHxe * currentHxe;
+            document.getElementById('gramsForHxe').innerText = gramsForCurrentHxe.toFixed(2);
         }
 
-        // Изначальный расчёт
-        calculate();
+        function changeHxe(direction) {
+            currentHxe += direction;
+
+            // Ограничение на минимальное количество ХЕ
+            if (currentHxe < 1) {
+                currentHxe = 1;
+            }
+
+            document.getElementById('hxeAmount').innerText = currentHxe;
+            updateResults();
+        }
     </script>
+
 </body>
 </html>
