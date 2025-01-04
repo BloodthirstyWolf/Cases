@@ -53,9 +53,7 @@
 
             <p>Граммов продукта на <span class="controls" id="decreaseXe">◀</span><span id="selectedXe">1</span><span> ХЕ</span><span class="controls" id="increaseXe">▶</span> (10 г углеводов в 1 ХЕ): <span id="g10">-</span></p>
             <p>Граммов продукта на <span class="controls" id="decreaseXe2">◀</span><span id="selectedXe2">1</span><span> ХЕ</span><span class="controls" id="increaseXe2">▶</span> (12 г углеводов в 1 ХЕ): <span id="g12">-</span></p>
-            
-            <p>Сколько граммов продукта для <span id="selectedXeForGrams">1</span> ХЕ (если углеводов в 1 ХЕ: 10 г): <span id="gramsForXe10">-</span></p>
-            <p>Сколько граммов продукта для <span id="selectedXeForGrams2">1</span> ХЕ (если углеводов в 1 ХЕ: 12 г): <span id="gramsForXe12">-</span></p>
+            <p>Сколько граммов продукта на <span class="controls" id="decreaseXe3">◀</span><span id="selectedXe3">1</span><span> ХЕ</span><span class="controls" id="increaseXe3">▶</span>: <span id="gForXe">-</span></p>
         </div>
     </div>
 
@@ -71,10 +69,10 @@
         const selectedXe2 = document.getElementById('selectedXe2');
         const decreaseXe2 = document.getElementById('decreaseXe2');
         const increaseXe2 = document.getElementById('increaseXe2');
-        const selectedXeForGrams = document.getElementById('selectedXeForGrams');
-        const gramsForXe10 = document.getElementById('gramsForXe10');
-        const gramsForXe12 = document.getElementById('gramsForXe12');
-        const selectedXeForGrams2 = document.getElementById('selectedXeForGrams2');
+        const selectedXe3 = document.getElementById('selectedXe3');
+        const decreaseXe3 = document.getElementById('decreaseXe3');
+        const increaseXe3 = document.getElementById('increaseXe3');
+        const gForXe = document.getElementById('gForXe');
 
         let currentXe = 1; // Изначально 1 ХЕ
 
@@ -82,37 +80,29 @@
             const carbsPer100g = parseFloat(carbsInput.value);
             if (!isNaN(carbsPer100g) && carbsPer100g > 0) {
                 // ХЕ
-                const xe10Value = (carbsPer100g / 10).toFixed(2);
-                const xe12Value = (carbsPer100g / 12).toFixed(2);
-                xe10.textContent = xe10Value;
-                xe12.textContent = xe12Value;
+                xe10.textContent = (carbsPer100g / 10).toFixed(2);
+                xe12.textContent = (carbsPer100g / 12).toFixed(2);
 
                 // Граммов на 1 ХЕ
-                const g10Value = (100 / (carbsPer100g / 10)).toFixed(2);
-                const g12Value = (100 / (carbsPer100g / 12)).toFixed(2);
-                g10.textContent = g10Value;
-                g12.textContent = g12Value;
+                g10.textContent = (100 / (carbsPer100g / 10)).toFixed(2);
+                g12.textContent = (100 / (carbsPer100g / 12)).toFixed(2);
 
-                // Граммов на текущую выбранную ХЕ
-                const gramsForCurrentXe10 = ((currentXe * 10) * 100 / carbsPer100g).toFixed(2);
-                const gramsForCurrentXe12 = ((currentXe * 12) * 100 / carbsPer100g).toFixed(2);
+                // Сколько граммов на выбранные ХЕ
+                const gramsForXe10 = (currentXe * 10).toFixed(2);
+                const gramsForXe12 = (currentXe * 12).toFixed(2);
 
-                gramsForXe10.textContent = gramsForCurrentXe10;
-                gramsForXe12.textContent = gramsForCurrentXe12;
+                g10.textContent = gramsForXe10;
+                g12.textContent = gramsForXe12;
 
-                // Граммов для выбранного количества ХЕ
-                const gramsForXe = (currentXe * 10 * 100 / carbsPer100g).toFixed(2);
-                const gramsForXe2 = (currentXe * 12 * 100 / carbsPer100g).toFixed(2);
-
-                gramsForXe10.textContent = gramsForXe;
-                gramsForXe12.textContent = gramsForXe2;
+                // Для расчета количества грамм на нужное количество ХЕ
+                const gramsForSelectedXe = (100 * currentXe / (carbsPer100g / 10)).toFixed(2);
+                gForXe.textContent = gramsForSelectedXe;
             } else {
                 xe10.textContent = '-';
                 xe12.textContent = '-';
                 g10.textContent = '-';
                 g12.textContent = '-';
-                gramsForXe10.textContent = '-';
-                gramsForXe12.textContent = '-';
+                gForXe.textContent = '-';
             }
         }
 
@@ -122,7 +112,8 @@
             if (currentXe > 1) {
                 currentXe--;
                 selectedXe.textContent = currentXe;
-                selectedXeForGrams.textContent = currentXe;
+                selectedXe2.textContent = currentXe;
+                selectedXe3.textContent = currentXe;
                 updateCalculations();
             }
         });
@@ -130,21 +121,44 @@
         increaseXe.addEventListener('click', () => {
             currentXe++;
             selectedXe.textContent = currentXe;
-            selectedXeForGrams.textContent = currentXe;
+            selectedXe2.textContent = currentXe;
+            selectedXe3.textContent = currentXe;
             updateCalculations();
         });
 
         decreaseXe2.addEventListener('click', () => {
             if (currentXe > 1) {
                 currentXe--;
+                selectedXe.textContent = currentXe;
                 selectedXe2.textContent = currentXe;
+                selectedXe3.textContent = currentXe;
                 updateCalculations();
             }
         });
 
         increaseXe2.addEventListener('click', () => {
             currentXe++;
+            selectedXe.textContent = currentXe;
             selectedXe2.textContent = currentXe;
+            selectedXe3.textContent = currentXe;
+            updateCalculations();
+        });
+
+        decreaseXe3.addEventListener('click', () => {
+            if (currentXe > 1) {
+                currentXe--;
+                selectedXe.textContent = currentXe;
+                selectedXe2.textContent = currentXe;
+                selectedXe3.textContent = currentXe;
+                updateCalculations();
+            }
+        });
+
+        increaseXe3.addEventListener('click', () => {
+            currentXe++;
+            selectedXe.textContent = currentXe;
+            selectedXe2.textContent = currentXe;
+            selectedXe3.textContent = currentXe;
             updateCalculations();
         });
     </script>
