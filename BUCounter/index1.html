@@ -18,21 +18,13 @@
             padding: 2rem;
             border-radius: 8px;
         }
-        input[type="number"], .control-btn {
+        input[type="number"] {
             width: 100%;
             padding: 0.5rem;
             font-size: 1rem;
             margin-bottom: 1rem;
             border: 1px solid #ccc;
             border-radius: 4px;
-        }
-        .control-btn {
-            width: auto;
-            margin: 0 10px;
-            display: inline-block;
-            text-align: center;
-            cursor: pointer;
-            font-size: 1.5rem;
         }
         .output {
             margin-top: 1rem;
@@ -41,11 +33,11 @@
             margin: 0.5rem 0;
         }
         .controls {
-            text-align: center;
-            margin-bottom: 1rem;
+            display: inline-block;
+            font-size: 1.5rem;
         }
         .controls span {
-            font-size: 1.5rem;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -59,8 +51,8 @@
             <p>Количество ХЕ (10 г углеводов в 1 ХЕ): <span id="xe10">-</span></p>
             <p>Количество ХЕ (12 г углеводов в 1 ХЕ): <span id="xe12">-</span></p>
 
-            <p>Граммов продукта на <span class="control-btn" id="decreaseXe">◀</span><span id="selectedXe">1</span><span> ХЕ</span><span class="control-btn" id="increaseXe">▶</span> (10 г углеводов в 1 ХЕ): <span id="g10">-</span></p>
-            <p>Граммов продукта на <span class="control-btn" id="decreaseXe2">◀</span><span id="selectedXe2">1</span><span> ХЕ</span><span class="control-btn" id="increaseXe2">▶</span> (12 г углеводов в 1 ХЕ): <span id="g12">-</span></p>
+            <p>Граммов продукта на <span class="controls" id="decreaseXe">◀</span><span id="selectedXe">1</span><span> ХЕ</span><span class="controls" id="increaseXe">▶</span> (10 г углеводов в 1 ХЕ): <span id="g10">-</span></p>
+            <p>Граммов продукта на <span class="controls" id="decreaseXe2">◀</span><span id="selectedXe2">1</span><span> ХЕ</span><span class="controls" id="increaseXe2">▶</span> (12 г углеводов в 1 ХЕ): <span id="g12">-</span></p>
         </div>
     </div>
 
