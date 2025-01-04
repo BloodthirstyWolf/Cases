@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -59,14 +59,8 @@
             <p>Количество ХЕ (10 г углеводов в 1 ХЕ): <span id="xe10">-</span></p>
             <p>Количество ХЕ (12 г углеводов в 1 ХЕ): <span id="xe12">-</span></p>
 
-            <div class="controls">
-                <span class="control-btn" id="decreaseXe">◀</span>
-                <span id="selectedXe">1</span><span> ХЕ</span>
-                <span class="control-btn" id="increaseXe">▶</span>
-            </div>
-
-            <p>Граммов продукта на 1 ХЕ (10 г углеводов в 1 ХЕ): <span id="g10">-</span></p>
-            <p>Граммов продукта на 1 ХЕ (12 г углеводов в 1 ХЕ): <span id="g12">-</span></p>
+            <p>Граммов продукта на <span class="control-btn" id="decreaseXe">◀</span><span id="selectedXe">1</span><span> ХЕ</span><span class="control-btn" id="increaseXe">▶</span> (10 г углеводов в 1 ХЕ): <span id="g10">-</span></p>
+            <p>Граммов продукта на <span class="control-btn" id="decreaseXe2">◀</span><span id="selectedXe2">1</span><span> ХЕ</span><span class="control-btn" id="increaseXe2">▶</span> (12 г углеводов в 1 ХЕ): <span id="g12">-</span></p>
         </div>
     </div>
 
@@ -79,6 +73,9 @@
         const selectedXe = document.getElementById('selectedXe');
         const decreaseXe = document.getElementById('decreaseXe');
         const increaseXe = document.getElementById('increaseXe');
+        const selectedXe2 = document.getElementById('selectedXe2');
+        const decreaseXe2 = document.getElementById('decreaseXe2');
+        const increaseXe2 = document.getElementById('increaseXe2');
 
         let currentXe = 1; // Изначально 1 ХЕ
 
@@ -113,6 +110,7 @@
             if (currentXe > 1) {
                 currentXe--;
                 selectedXe.textContent = currentXe;
+                selectedXe2.textContent = currentXe;
                 updateCalculations();
             }
         });
@@ -120,9 +118,25 @@
         increaseXe.addEventListener('click', () => {
             currentXe++;
             selectedXe.textContent = currentXe;
+            selectedXe2.textContent = currentXe;
             updateCalculations();
         });
 
+        decreaseXe2.addEventListener('click', () => {
+            if (currentXe > 1) {
+                currentXe--;
+                selectedXe.textContent = currentXe;
+                selectedXe2.textContent = currentXe;
+                updateCalculations();
+            }
+        });
+
+        increaseXe2.addEventListener('click', () => {
+            currentXe++;
+            selectedXe.textContent = currentXe;
+            selectedXe2.textContent = currentXe;
+            updateCalculations();
+        });
     </script>
 </body>
 </html>
