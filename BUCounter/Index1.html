@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tab Bar с эффектом</title>
+  <style>
+    :root {
+      --bgColorMenu: #333;
+      --activeColor: #f5a623; /* Цвет активного пункта */
+      --timeOut: 0.3s; /* Время анимации */
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    .menu {
+      margin: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--bgColorMenu);
+      border-radius: 30px;
+      height: 60px; /* Высота меню */
+      padding: 0 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Легкая тень для меню */
+    }
+
+    .menu_item {
+      all: unset;
+      flex-grow: 1;
+      z-index: 100;
+      display: flex;
+      cursor: pointer;
+      position: relative;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      padding: 0.55em 0 0.85em;
+      transition: transform var(--timeOut), background-color var(--timeOut);
+      background-color: transparent;
+      font-size: 16px;
+      color: white;
+    }
+
+    .menu_item:hover {
+      transform: scale(1.2); /* Увеличивает размер элемента при наведении */
+      background-color: var(--activeColor); /* Цвет фона при наведении */
+    }
+
+    .menu_item.active {
+      transform: scale(1.4); /* Активный элемент будет еще больше */
+      background-color: var(--activeColor); /* Цвет активного пункта */
+      border-radius: 25% 25% 50% 50%; /* Круглый элемент превращается в более вытянутую форму */
+    }
+
+    .menu_item::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--activeColor);
+      border-radius: 25% 25% 50% 50%; /* Создает эффект растяжения */
+      z-index: -1; /* Устанавливаем фон позади текста */
+      transition: transform var(--timeOut); /* Плавный переход для фона */
+    }
+
+    .menu_item.active::before {
+      transform: scale(1.4); /* Растягивает фон, создавая "горочку" */
+    }
+  </style>
+</head>
+<body>
+  <div class="menu">
+    <div class="menu_item active">Главная</div>
+    <div class="menu_item">Поиск</div>
+    <div class="menu_item">Сообщения</div>
+    <div class="menu_item">Профиль</div>
+  </div>
+</body>
+</html>
