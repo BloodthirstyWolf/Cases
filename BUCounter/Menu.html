@@ -1,115 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Navigation Tab Bar</title>
+  <title>Навигационный таб-бар</title>
   <style>
-    * {
+    body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
       font-family: Arial, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      background: #f4f4f4;
+      height: 100vh;
+      background-color: #f5f5f5;
     }
 
     .tab-bar {
       position: fixed;
-      bottom: 20px;
-      width: 90%;
-      max-width: 400px;
-      height: 70px;
-      background: #ffffff;
-      border-radius: 35px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      bottom: 0;
+      left: 0;
+      right: 0;
       display: flex;
       justify-content: space-around;
       align-items: center;
-      overflow: hidden;
+      height: 70px;
+      background-color: #333;
+      border-radius: 30px 30px 0 0;
+      padding: 10px;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s;
+      z-index: 10;
     }
 
-    .tab {
+    .tab-item {
       position: relative;
-      flex: 1;
-      text-align: center;
-    }
-
-    .tab button {
-      all: unset;
-      position: relative;
-      z-index: 2;
-      font-size: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #bbb;
       cursor: pointer;
-      color: #888;
+      transition: color 0.3s;
     }
 
-    .tab.active button {
-      color: #ffffff;
+    .tab-item .icon {
+      font-size: 24px;
+      transition: transform 0.3s;
     }
 
-    .active-indicator {
+    .tab-item.active .icon {
+      transform: scale(1.2);
+    }
+
+    .tab-item.active {
+      color: #fff;
+    }
+
+    .tab-bar .active::before {
+      content: "";
       position: absolute;
-      width: 100px;
-      height: 60px;
-      bottom: 0;
-      left: calc(50% - 50px);
-      background: #4caf50;
-      border-radius: 35px;
-      transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-      z-index: 1;
-    }
-
-    .active-circle {
-      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
       width: 60px;
-      height: 60px;
-      bottom: 5px;
-      left: calc(50% - 30px);
-      background: #4caf50;
+      height: 12px;
       border-radius: 50%;
-      transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-      z-index: 2;
+      background-color: #fff;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      transition: width 0.3s, left 0.3s;
+    }
+
+    .tab-item.active::before {
+      width: 80px;
+      left: 50%;
+    }
+    
+    .tab-item:hover {
+      color: #fff;
     }
   </style>
 </head>
 <body>
 
   <div class="tab-bar">
-    <div class="tab active" data-index="0">
-      <button>Home</button>
+    <div class="tab-item" id="home">
+      <div class="icon">🏠</div>
     </div>
-    <div class="tab" data-index="1">
-      <button>Search</button>
+    <div class="tab-item" id="search">
+      <div class="icon">🔍</div>
     </div>
-    <div class="tab" data-index="2">
-      <button>Profile</button>
+    <div class="tab-item" id="notifications">
+      <div class="icon">🔔</div>
     </div>
-    <div class="active-indicator"></div>
-    <div class="active-circle"></div>
+    <div class="tab-item" id="profile">
+      <div class="icon">👤</div>
+    </div>
   </div>
 
   <script>
-    const tabs = document.querySelectorAll('.tab');
-    const activeIndicator = document.querySelector('.active-indicator');
-    const activeCircle = document.querySelector('.active-circle');
-
-    tabs.forEach((tab, index) => {
+    const tabs = document.querySelectorAll('.tab-item');
+    tabs.forEach(tab => {
       tab.addEventListener('click', () => {
-        document.querySelector('.tab.active').classList.remove('active');
+        tabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-
-        const tabWidth = tab.offsetWidth;
-        const tabLeft = tab.offsetLeft;
-
-        activeIndicator.style.transform = `translateX(${tabLeft}px)`;
-        activeCircle.style.transform = `translateX(${tabLeft + tabWidth / 2 - 30}px)`;
       });
     });
   </script>
