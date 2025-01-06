@@ -1,83 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smooth Tab Bar</title>
+  <title>Magic Tab Effect</title>
   <style>
     :root {
       --menu-bg: #209cff;
-      --indicator-bg: #ffffff;
-      --transition: 0.5s;
+      --active-bg: white;
+      --transition-time: 0.4s;
     }
 
     body {
+      margin: 0;
+      padding: 0;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      background: #f4f4f4;
-      margin: 0;
+      height: 100vh;
+      background-color: #f4f4f4;
     }
 
     .navigation {
       position: relative;
-      width: 400px;
+      width: 420px;
       height: 70px;
       background: var(--menu-bg);
-      border-radius: 35px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 20px;
-      overflow: hidden;
-    }
-
-    .navigation a {
-      position: relative;
-      width: 60px;
-      height: 60px;
+      border-radius: 35px; /* Делаем края меню полностью округлыми */
       display: flex;
       justify-content: center;
       align-items: center;
-      text-decoration: none;
-      z-index: 1;
-      color: white;
-      font-size: 24px;
-      transition: color var(--transition);
     }
 
-    /* Индикатор */
-    .navigation a.active::before {
-      content: '';
+    .navigation ul {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .navigation ul li {
+      position: relative;
+      width: 70px;
+      height: 70px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Активный индикатор */
+    .indicator {
       position: absolute;
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 100px;
-      height: 50px;
-      background: var(--indicator-bg);
+      width: 90px;
+      height: 90px;
+      background: var(--active-bg);
       border-radius: 50%;
-      z-index: -1;
-      transition: transform var(--transition), left var(--transition);
+      z-index: 1;
+      transition: var(--transition-time);
+      box-shadow: 0 10px 0 var(--menu-bg); /* Тень, создающая "ямку" */
     }
 
-    .navigation a.active {
-      color: var(--menu-bg);
+    .navigation ul li a {
+      position: relative;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+      font-size: 24px;
+      z-index: 2;
     }
 
-    /* Анимация движения */
-    .navigation a:hover::before {
-      transform: translateX(-50%) scale(1.2);
+    /* Плавное перемещение индикатора */
+    .navigation ul li.active ~ .indicator {
+      left: calc(50% + 100px); /* Смещение индикатора в зависимости от выбранного пункта */
     }
+
+    .navigation ul li:nth-child(1).active ~ .indicator { left: calc(50% - 150px); }
+    .navigation ul li:nth-child(2).active ~ .indicator { left: calc(50% - 50px); }
+    .navigation ul li:nth-child(3).active ~ .indicator { left: calc(50% + 50px); }
+    .navigation ul li:nth-child(4).active ~ .indicator { left: calc(50% + 150px); }
   </style>
 </head>
 <body>
   <div class="navigation">
-    <a href="#" class="active">🏠</a>
-    <a href="#">👤</a>
-    <a href="#">🔔</a>
-    <a href="#">⚙️</a>
+    <ul>
+      <li class="active"><a href="#"><ion-icon name="home-outline"></ion-icon></a></li>
+      <li><a href="#"><ion-icon name="person-outline"></ion-icon></a></li>
+      <li><a href="#"><ion-icon name="camera-outline"></ion-icon></a></li>
+      <li><a href="#"><ion-icon name="settings-outline"></ion-icon></a></li>
+    </ul>
+    <div class="indicator"></div>
   </div>
+
+  <script>
+    const items = document.querySelectorAll('.navigation ul li');
+    items.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        document.querySelector('.navigation ul li.active').classList.remove('active');
+        item.classList.add('active');
+      });
+    });
+  </script>
 </body>
 </html>
