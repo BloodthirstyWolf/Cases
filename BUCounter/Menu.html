@@ -3,82 +3,103 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Magic Tab Bar</title>
+  <title>Navigation Bar</title>
   <style>
     :root {
-      --menu-bg: #209cff;
-      --circle-bg: #fff;
-      --menu-height: 80px;
-      --circle-size: 50px;
-      --transition: 0.4s ease;
+      --menu-bg: #209cff; /* Цвет меню */
+      --circle-bg: #ffffff; /* Цвет круга */
+      --active-bg: #ff5a5f; /* Активный цвет */
     }
 
     body {
-      margin: 0;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      margin: 0;
       background: #f0f0f0;
     }
 
     .navigation {
-      position: relative;
-      width: 400px;
-      height: var(--menu-height);
+      width: 420px;
+      height: 70px;
       background: var(--menu-bg);
-      border-radius: 40px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 35px; /* Закругленные края */
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .navigation ul {
       display: flex;
       justify-content: space-around;
       align-items: center;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      list-style: none;
     }
 
-    .navigation::before {
+    .navigation ul li {
+      position: relative;
+      width: 70px;
+      height: 70px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
+      cursor: pointer;
+    }
+
+    /* Активная ямка */
+    .navigation ul li.active::before {
       content: '';
       position: absolute;
-      width: 80px;
-      height: 40px;
-      background: var(--menu-bg);
-      bottom: 0;
+      top: -20px;
       left: 50%;
       transform: translateX(-50%);
-      border-top-left-radius: 50%;
-      border-top-right-radius: 50%;
-      z-index: 1;
-    }
-
-    .circle {
-      position: absolute;
-      bottom: calc((var(--menu-height) - var(--circle-size)) / 2);
-      left: 50%;
-      transform: translateX(-50%);
-      width: var(--circle-size);
-      height: var(--circle-size);
+      width: 90px;
+      height: 90px;
       background: var(--circle-bg);
-      border-radius: 50%;
-      z-index: 2;
-      transition: left var(--transition), transform var(--transition);
+      border-radius: 50%; /* Круг */
+      z-index: -1; /* За меню */
     }
 
-    .nav-item {
-      position: relative;
-      z-index: 3;
+    /* Значок */
+    .navigation ul li .icon {
+      font-size: 24px;
       color: white;
-      font-size: 18px;
-      text-decoration: none;
+      transition: 0.3s;
     }
 
-    .navigation:hover .circle {
-      left: calc(50% + 50px); /* Смещение вправо на 50px */
+    .navigation ul li.active .icon {
+      color: var(--active-bg); /* Активный цвет */
+    }
+
+    /* Кнопка при наведении */
+    .navigation ul li:hover .icon {
+      transform: scale(1.2);
     }
   </style>
 </head>
 <body>
   <div class="navigation">
-    <div class="circle"></div>
-    <a href="#" class="nav-item">🏠</a>
-    <a href="#" class="nav-item">👤</a>
-    <a href="#" class="nav-item">⚙️</a>
+    <ul>
+      <li class="active">
+        <span class="icon">🏠</span>
+      </li>
+      <li>
+        <span class="icon">👤</span>
+      </li>
+      <li>
+        <span class="icon">🔔</span>
+      </li>
+      <li>
+        <span class="icon">⚙️</span>
+      </li>
+    </ul>
   </div>
 </body>
 </html>
