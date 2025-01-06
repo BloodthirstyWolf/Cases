@@ -3,89 +3,94 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Navigation Bar</title>
+  <title>Горочка Меню</title>
   <style>
     :root {
-      --menu-bg: #209cff; /* Цвет меню */
-      --circle-bg: #ffffff; /* Цвет круга */
-      --active-bg: #ff5a5f; /* Активный цвет */
+      --menu-bg: #209cff;
+      --active-bg: #ffffff;
+      --icon-color: white;
+      --active-icon-color: #209cff;
+      --transition-time: 0.4s;
     }
 
     body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f0f0f0;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      margin: 0;
-      background: #f0f0f0;
     }
 
     .navigation {
-      width: 420px;
+      position: relative;
+      width: 400px;
       height: 70px;
       background: var(--menu-bg);
-      position: relative;
+      border-radius: 35px;
       display: flex;
-      justify-content: center;
       align-items: center;
-      border-radius: 35px; /* Закругленные края */
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      justify-content: center;
     }
 
     .navigation ul {
       display: flex;
-      justify-content: space-around;
-      align-items: center;
       width: 100%;
       padding: 0;
       margin: 0;
       list-style: none;
+      justify-content: space-around;
     }
 
     .navigation ul li {
       position: relative;
-      width: 70px;
-      height: 70px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1;
-      cursor: pointer;
+      z-index: 2;
+      flex: 1;
+      text-align: center;
     }
 
-    /* Активная ямка */
-    .navigation ul li.active::before {
-      content: '';
-      position: absolute;
-      top: -20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90px;
-      height: 90px;
-      background: var(--circle-bg);
-      border-radius: 50%; /* Круг */
-      z-index: -1; /* За меню */
-    }
-
-    /* Значок */
     .navigation ul li .icon {
       font-size: 24px;
-      color: white;
-      transition: 0.3s;
+      color: var(--icon-color);
+      transition: color var(--transition-time);
+    }
+
+    .active-indicator {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 70px;
+      height: 70px;
+      background: var(--active-bg);
+      border-radius: 50%;
+      z-index: 1;
+      transition: all var(--transition-time);
+    }
+
+    .active-indicator::after {
+      content: '';
+      position: absolute;
+      bottom: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 70px;
+      background: var(--menu-bg);
+      border-top-left-radius: 50px;
+      border-top-right-radius: 50px;
+      z-index: -1;
     }
 
     .navigation ul li.active .icon {
-      color: var(--active-bg); /* Активный цвет */
-    }
-
-    /* Кнопка при наведении */
-    .navigation ul li:hover .icon {
-      transform: scale(1.2);
+      color: var(--active-icon-color);
     }
   </style>
 </head>
 <body>
   <div class="navigation">
+    <div class="active-indicator"></div>
     <ul>
       <li class="active">
         <span class="icon">🏠</span>
@@ -101,5 +106,25 @@
       </li>
     </ul>
   </div>
+
+  <script>
+    const items = document.querySelectorAll(".navigation ul li");
+    const indicator = document.querySelector(".active-indicator");
+
+    items.forEach((item, index) => {
+      item.addEventListener("click", () => {
+        // Удаляем активный класс у всех
+        items.forEach(el => el.classList.remove("active"));
+        item.classList.add("active");
+
+        // Перемещаем индикатор
+        const itemRect = item.getBoundingClientRect();
+        const parentRect = item.parentNode.getBoundingClientRect();
+        const offsetLeft = itemRect.left - parentRect.left;
+
+        indicator.style.left = `${offsetLeft + itemRect.width / 2 - indicator.offsetWidth / 2}px`;
+      });
+    });
+  </script>
 </body>
 </html>
