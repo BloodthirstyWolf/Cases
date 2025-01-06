@@ -1,130 +1,118 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Горочка Меню</title>
+  <title>Navigation Tab Bar</title>
   <style>
-    :root {
-      --menu-bg: #209cff;
-      --circle-color: white;
-      --icon-color: white;
-      --active-icon-color: #209cff;
-      --transition-time: 0.5s;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f0f0f0;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
+      background: #f4f4f4;
     }
 
-    .navigation {
-      position: relative;
-      width: 420px;
+    .tab-bar {
+      position: fixed;
+      bottom: 20px;
+      width: 90%;
+      max-width: 400px;
       height: 70px;
-      background: var(--menu-bg);
+      background: #ffffff;
       border-radius: 35px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       display: flex;
-      align-items: center;
       justify-content: space-around;
+      align-items: center;
       overflow: hidden;
     }
 
-    .navigation ul {
-      display: flex;
-      width: 100%;
-      padding: 0;
-      margin: 0;
-      list-style: none;
-    }
-
-    .navigation ul li {
+    .tab {
       position: relative;
       flex: 1;
       text-align: center;
+    }
+
+    .tab button {
+      all: unset;
+      position: relative;
+      z-index: 2;
+      font-size: 18px;
+      cursor: pointer;
+      color: #888;
+    }
+
+    .tab.active button {
+      color: #ffffff;
+    }
+
+    .active-indicator {
+      position: absolute;
+      width: 100px;
+      height: 60px;
+      bottom: 0;
+      left: calc(50% - 50px);
+      background: #4caf50;
+      border-radius: 35px;
+      transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
       z-index: 1;
     }
 
-    .navigation ul li .icon {
-      font-size: 24px;
-      color: var(--icon-color);
-      transition: color var(--transition-time);
-    }
-
-    .navigation ul li.active .icon {
-      color: var(--active-icon-color);
-    }
-
-    /* Горочка */
-    .active-indicator {
+    .active-circle {
       position: absolute;
-      top: -35px;
-      left: 0;
-      width: 120px;
-      height: 120px;
-      background: var(--circle-color);
+      width: 60px;
+      height: 60px;
+      bottom: 5px;
+      left: calc(50% - 30px);
+      background: #4caf50;
       border-radius: 50%;
-      z-index: 0;
-      transition: all var(--transition-time);
-    }
-
-    .active-indicator::before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      height: 35px;
-      background: var(--menu-bg);
-      border-bottom-left-radius: 50%;
-      border-bottom-right-radius: 50%;
+      transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+      z-index: 2;
     }
   </style>
 </head>
 <body>
-  <div class="navigation">
+
+  <div class="tab-bar">
+    <div class="tab active" data-index="0">
+      <button>Home</button>
+    </div>
+    <div class="tab" data-index="1">
+      <button>Search</button>
+    </div>
+    <div class="tab" data-index="2">
+      <button>Profile</button>
+    </div>
     <div class="active-indicator"></div>
-    <ul>
-      <li class="active">
-        <span class="icon">🏠</span>
-      </li>
-      <li>
-        <span class="icon">👤</span>
-      </li>
-      <li>
-        <span class="icon">🔔</span>
-      </li>
-      <li>
-        <span class="icon">⚙️</span>
-      </li>
-    </ul>
+    <div class="active-circle"></div>
   </div>
 
   <script>
-    const items = document.querySelectorAll(".navigation ul li");
-    const indicator = document.querySelector(".active-indicator");
+    const tabs = document.querySelectorAll('.tab');
+    const activeIndicator = document.querySelector('.active-indicator');
+    const activeCircle = document.querySelector('.active-circle');
 
-    items.forEach((item, index) => {
-      item.addEventListener("click", () => {
-        // Удаляем активный класс у всех
-        items.forEach(el => el.classList.remove("active"));
-        item.classList.add("active");
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => {
+        document.querySelector('.tab.active').classList.remove('active');
+        tab.classList.add('active');
 
-        // Перемещаем "горочку"
-        const itemRect = item.getBoundingClientRect();
-        const parentRect = item.parentNode.getBoundingClientRect();
-        const offsetLeft = itemRect.left - parentRect.left;
+        const tabWidth = tab.offsetWidth;
+        const tabLeft = tab.offsetLeft;
 
-        indicator.style.left = `${offsetLeft + itemRect.width / 2 - indicator.offsetWidth / 2}px`;
+        activeIndicator.style.transform = `translateX(${tabLeft}px)`;
+        activeCircle.style.transform = `translateX(${tabLeft + tabWidth / 2 - 30}px)`;
       });
     });
   </script>
+
 </body>
 </html>
