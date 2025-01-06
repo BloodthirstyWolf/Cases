@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Простой навигационный таб-бар</title>
+  <title>Навигационный таб-бар с большим кружком</title>
   <style>
     body {
       margin: 0;
@@ -52,17 +52,19 @@
 
     .tab-item .indicator {
       position: absolute;
-      bottom: -10px;
-      width: 10px;
-      height: 10px;
-      background-color: #fff;
-      border-radius: 50%;
+      bottom: -20px;  /* Расстояние от иконки до круга */
+      width: 60px;    /* Размер круга */
+      height: 60px;   /* Размер круга */
+      background-color: #333;  /* Цвет круга такой же как и у меню */
+      border-radius: 50%;  /* Делает круг */
       opacity: 0;
-      transition: opacity 0.3s;
+      transition: opacity 0.3s, transform 0.3s;
+      transform: scale(0.8);  /* Начальный размер круга */
     }
 
     .tab-item.active .indicator {
       opacity: 1;
+      transform: scale(1);  /* Увеличиваем круг при активации */
     }
 
   </style>
