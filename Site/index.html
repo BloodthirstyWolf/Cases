@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ремонт Сантехники</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            background-color: #000;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2vw;
+            background-color: #111;
+        }
+
+        header a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 1vw;
+            font-size: 1em;
+        }
+
+        header a:hover {
+            text-decoration: underline;
+        }
+
+        .hero {
+            background: url('background2.png') no-repeat center center / cover;
+            text-align: center;
+            padding: 10vh 5vw;
+        }
+
+        .hero h1 {
+            font-size: 2.5em;
+            margin-bottom: 1em;
+            color: #00aaff;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            margin-bottom: 2em;
+        }
+
+        .button {
+            padding: 1em 2em;
+            background-color: #00aaff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            border-radius: 5px;
+        }
+
+        .button:hover {
+            background-color: #0088cc;
+        }
+
+        .services {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 5vh 5vw;
+            background: url('background2.png') no-repeat center center / cover;
+        }
+
+        .service {
+            width: 30%;
+            margin: 1vw 0;
+            text-align: center;
+            font-size: 1em;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 2vh 1vw;
+            border-radius: 10px;
+        }
+
+        .about {
+            text-align: center;
+            padding: 5vh 5vw;
+            background: #222;
+        }
+
+        .about img {
+            max-width: 200px;
+            border-radius: 50%;
+            margin-bottom: 1em;
+        }
+
+        .about h2 {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+        }
+
+        .about ul {
+            list-style: none;
+            padding: 0;
+            font-size: 1.2em;
+        }
+
+        .about ul li {
+            margin: 0.5em 0;
+        }
+
+        .why-choose {
+            padding: 5vh 5vw;
+            text-align: center;
+            background: url('background2.png') no-repeat center center / cover;
+        }
+
+        .why-choose h2 {
+            font-size: 2em;
+            margin-bottom: 1em;
+        }
+
+        .why-choose .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .feature {
+            width: 30%;
+            margin: 1vw 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 2vh 1vw;
+            border-radius: 10px;
+            font-size: 1em;
+        }
+
+        .contact {
+            text-align: center;
+            padding: 5vh 5vw;
+            background: #111;
+        }
+
+        .contact a {
+            display: inline-block;
+            padding: 1em 2em;
+            background-color: #00aaff;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1em;
+            border-radius: 5px;
+        }
+
+        .contact a:hover {
+            background-color: #0088cc;
+        }
+
+        @media (max-width: 768px) {
+            .service, .feature {
+                width: 80%;
+            }
+
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <a href="#about">Обо мне</a>
+            <a href="#services">Услуги</a>
+            <a href="#pricing">Цены</a>
+        </div>
+        <div>+7 (707) 9975789</div>
+    </header>
+
+    <div class="hero">
+        <h1>Полный комплекс услуг по ремонту сантехники</h1>
+        <p>Услуги сантехника в Астане могут понадобиться каждому жителю квартиры, дома или сотруднику компании.</p>
+        <button class="button">Оставить заявку</button>
+    </div>
+
+    <section id="services" class="services">
+        <div class="service">Замена труб</div>
+        <div class="service">Установка сифона</div>
+        <div class="service">Установка унитаза</div>
+        <div class="service">Установка ванны</div>
+        <div class="service">Устранение засоров труб</div>
+    </section>
+
+    <section id="about" class="about">
+        <img src="Photo1.png" alt="Кирилл Юрченко">
+        <h2>Кирилл Юрченко</h2>
+        <ul>
+            <li>10 лет опыта</li>
+            <li>1 год гарантии</li>
+            <li>Бесплатный выезд</li>
+        </ul>
+    </section>
+
+    <section id="why-choose" class="why-choose">
+        <h2>Почему выбирают меня</h2>
+        <div class="features">
+            <div class="feature">
+                <h3>Настоящий мастер</h3>
+                <p>Я прошел обучение, знаю стандарты и умею работать в сложных условиях.</p>
+            </div>
+            <div class="feature">
+                <h3>Ответственный</h3>
+                <p>Соблюдаю сроки и выполняю работу качественно, чтобы не приходилось переделывать.</p>
+            </div>
+            <div class="feature">
+                <h3>Без неожиданностей</h3>
+                <p>Честный подход и разумные цены.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="contact">
+        <a href="#contact">Связаться</a>
+    </footer>
+</body>
+</html>
