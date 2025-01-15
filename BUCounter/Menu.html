@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Адаптивный таб-бар с анимацией</title>
+    <title>Таб-бар с анимацией</title>
     <style>
         * {
             margin: 0;
@@ -18,23 +18,22 @@
             align-items: center;
             height: 100vh;
             font-family: Arial, sans-serif;
-            flex-direction: column;
+            overflow-x: hidden;
         }
 
         .tab-bar {
-            width: 90vw;
-            max-width: 600px;
+            width: 100%;
             background-color: #3498db;
             border-radius: 30px;
             position: fixed;
-            bottom: 5%;
-            left: 50%;
-            transform: translateX(-50%);
+            bottom: 0;
+            left: 0;
+            padding: 10px;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            height: 10vh;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            height: 12vh;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
             position: relative;
         }
 
