@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Таб-бар с горочкой</title>
+    <title>Таб-бар с анимацией</title>
     <style>
         * {
             margin: 0;
@@ -24,7 +24,7 @@
 
         .tab-bar {
             width: 100%;
-            background-color: #3498db; /* Однотонный синий цвет */
+            background-color: #3498db;
             border-radius: 30px;
             position: fixed;
             bottom: 0;
@@ -36,7 +36,7 @@
             height: 8vh;
             box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
             position: relative;
-            overflow: hidden;
+            overflow: hidden; /* Это важно, чтобы горочка не выходила за пределы */
         }
 
         .tab {
@@ -67,19 +67,20 @@
             background-color: #fff;
             border-radius: 50%;
             transition: all 0.3s ease;
-            z-index: 1;
         }
 
+        /* Создаем эффект горочки, соединяющей круг с панелью */
         .tab-bar::before {
             content: '';
             position: absolute;
-            bottom: -20%;
+            bottom: -15%;
             left: 0;
             width: 100%;
-            height: 100%;
-            background-color: #3498db; /* Синий цвет для горочки */
-            border-radius: 50% 50% 0 0; /* Округлая горочка */
-            z-index: 0;
+            height: 50%;
+            background-color: #3498db;
+            border-radius: 100% 100% 0 0; /* Округляем верхнюю часть */
+            z-index: -1; /* Чтобы горочка была под иконками */
+            transition: all 0.3s ease;
         }
 
     </style>
@@ -97,6 +98,7 @@
 <script>
     const tabs = document.querySelectorAll('.tab');
     const indicator = document.querySelector('.indicator');
+    const tabBar = document.querySelector('.tab-bar');
     
     tabs.forEach((tab, index) => {
         tab.addEventListener('click', () => {
@@ -112,6 +114,11 @@
             indicator.style.width = `${tabWidth * 2.5}px`;  // Увеличиваем размер индикатора
             indicator.style.height = `${tabWidth * 2.5}px`; // Увеличиваем размер индикатора
             indicator.style.left = `${tabLeft + (tabWidth / 2) - (indicator.offsetWidth / 2)}px`;
+            
+            // Перемещаем горочку в нужное место
+            const tabBarWidth = tabBar.offsetWidth;
+            tabBar.style.transition = 'all 0.3s ease'; // Плавное движение
+            tabBar.style.transform = `translateX(${tabLeft + (tabWidth / 2) - (tabBarWidth / 2)}px)`;
         });
     });
 
