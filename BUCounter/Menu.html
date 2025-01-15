@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Таб-бар с выпуклой горочкой</title>
+    <title>Таб-бар с анимацией</title>
     <style>
         * {
             margin: 0;
@@ -12,7 +12,7 @@
         }
 
         body {
-            background-color: #f8f8f8;
+            background-color: #f0f0f0;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -35,9 +35,10 @@
             align-items: center;
             height: 70px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
-        .tab-bar .tab {
+        .tab {
             position: relative;
             display: flex;
             justify-content: center;
@@ -47,67 +48,64 @@
             background-color: transparent;
             border-radius: 50%;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .tab-bar .tab.active {
-            background-color: #fff;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .tab-bar .tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 70px;
-            height: 20px;
-            background-color: #fff;
-            border-radius: 50px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .tab-bar .tab i {
             font-size: 24px;
+            transition: all 0.3s ease;
             color: #fff;
         }
 
-        .tab-bar .tab.active i {
+        .tab.active {
             color: #3498db;
         }
 
+        .indicator {
+            position: absolute;
+            bottom: -15px;
+            left: 10px;
+            width: 30px;
+            height: 30px;
+            background-color: #fff;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
 <body>
 
 <div class="tab-bar">
-    <div class="tab" id="home">
-        <i class="fas fa-home"></i>
-    </div>
-    <div class="tab active" id="search">
-        <i class="fas fa-search"></i>
-    </div>
-    <div class="tab" id="notifications">
-        <i class="fas fa-bell"></i>
-    </div>
-    <div class="tab" id="profile">
-        <i class="fas fa-user"></i>
-    </div>
+    <div class="indicator"></div>
+    <div class="tab" id="home">🏠</div>
+    <div class="tab" id="search">🔍</div>
+    <div class="tab" id="notifications">🔔</div>
+    <div class="tab" id="profile">👤</div>
 </div>
 
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <script>
     const tabs = document.querySelectorAll('.tab');
+    const indicator = document.querySelector('.indicator');
     
-    tabs.forEach(tab => {
+    tabs.forEach((tab, index) => {
         tab.addEventListener('click', () => {
-            // Удаляем активный класс с всех табов
+            // Убираем активный класс со всех табов
             tabs.forEach(item => item.classList.remove('active'));
+            
             // Добавляем активный класс на кликнутый таб
             tab.classList.add('active');
+            
+            // Перемещаем индикатор в нужное место
+            const tabWidth = tab.offsetWidth;
+            const tabLeft = tab.offsetLeft;
+            indicator.style.width = `${tabWidth}px`;
+            indicator.style.left = `${tabLeft + (tabWidth / 2) - (indicator.offsetWidth / 2)}px`;
         });
     });
+
+    // Устанавливаем индикатор на первый элемент по умолчанию
+    const firstTab = tabs[1];
+    firstTab.classList.add('active');
+    const tabWidth = firstTab.offsetWidth;
+    const tabLeft = firstTab.offsetLeft;
+    indicator.style.width = `${tabWidth}px`;
+    indicator.style.left = `${tabLeft + (tabWidth / 2) - (indicator.offsetWidth / 2)}px`;
 </script>
 
 </body>
