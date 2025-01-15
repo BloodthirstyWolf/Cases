@@ -1,107 +1,114 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Простой навигационный таб-бар</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f5f5f5;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таб-бар с выпуклой горочкой</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .tab-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      height: 8vh; /* Устанавливаем высоту таб-бара в процентах */
-      background-color: #333;
-      border-radius: 30px 30px 0 0;
-      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
-      padding: 10px;
-      z-index: 10;
-    }
+        body {
+            background-color: #f8f8f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
 
-    .tab-item {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #bbb;
-      cursor: pointer;
-      z-index: 1;
-    }
+        .tab-bar {
+            width: 100%;
+            max-width: 500px;
+            background-color: #3498db;
+            border-radius: 30px;
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 70px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
 
-    .tab-item .icon {
-      font-size: 2rem; /* Используем rem для адаптивных иконок */
-      transition: transform 0.3s;
-    }
+        .tab-bar .tab {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            background-color: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-    .tab-item.active {
-      color: #fff;
-    }
+        .tab-bar .tab.active {
+            background-color: #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
 
-    /* Круглый индикатор */
-    .tab-item .indicator {
-      position: absolute;
-      bottom: -15%; /* Кружок выходит за пределы меню */
-      width: 150%;    /* Увеличиваем размер круга */
-      height: 150%;   /* Увеличиваем размер круга */
-      background-color: #333;  /* Тот же цвет, что и фон меню */
-      border-radius: 50%;
-      opacity: 0;
-      transition: opacity 0.3s, bottom 0.3s;
-      z-index: -1;
-    }
+        .tab-bar .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 20px;
+            background-color: #fff;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
 
-    .tab-item.active .indicator {
-      opacity: 1;
-      bottom: -30%; /* Размещение круга в центре выбранного пункта */
-    }
+        .tab-bar .tab i {
+            font-size: 24px;
+            color: #fff;
+        }
 
-  </style>
+        .tab-bar .tab.active i {
+            color: #3498db;
+        }
+
+    </style>
 </head>
 <body>
 
-  <div class="tab-bar">
-    <div class="tab-item" id="home">
-      <div class="icon">🏠</div>
-      <div class="indicator"></div>
+<div class="tab-bar">
+    <div class="tab" id="home">
+        <i class="fas fa-home"></i>
     </div>
-    <div class="tab-item" id="search">
-      <div class="icon">🔍</div>
-      <div class="indicator"></div>
+    <div class="tab active" id="search">
+        <i class="fas fa-search"></i>
     </div>
-    <div class="tab-item" id="notifications">
-      <div class="icon">🔔</div>
-      <div class="indicator"></div>
+    <div class="tab" id="notifications">
+        <i class="fas fa-bell"></i>
     </div>
-    <div class="tab-item" id="profile">
-      <div class="icon">👤</div>
-      <div class="indicator"></div>
+    <div class="tab" id="profile">
+        <i class="fas fa-user"></i>
     </div>
-  </div>
+</div>
 
-  <script>
-    const tabs = document.querySelectorAll('.tab-item');
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script>
+    const tabs = document.querySelectorAll('.tab');
+    
     tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-      });
+        tab.addEventListener('click', () => {
+            // Удаляем активный класс с всех табов
+            tabs.forEach(item => item.classList.remove('active'));
+            // Добавляем активный класс на кликнутый таб
+            tab.classList.add('active');
+        });
     });
-  </script>
+</script>
 
 </body>
 </html>
