@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Таб-бар с анимацией</title>
+    <title>Таб-бар с горочкой</title>
     <style>
         * {
             margin: 0;
@@ -33,9 +33,10 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            height: 8vh; /* Сделал таб-бар более узким */
+            height: 8vh;
             box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
             position: relative;
+            overflow: hidden;
         }
 
         .tab {
@@ -66,7 +67,20 @@
             background-color: #fff;
             border-radius: 50%;
             transition: all 0.3s ease;
+            z-index: 1;
         }
+
+        .tab-bar::before {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, #3498db 50%, transparent 100%);
+            z-index: 0;
+        }
+
     </style>
 </head>
 <body>
