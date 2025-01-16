@@ -13,105 +13,99 @@
 
         body {
             background-color: #ffc0cb;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-end;
             height: 100vh;
-            font-family: Arial, sans-serif;
-            overflow-x: hidden;
         }
 
         .tab-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
+            position: relative;
             width: 100%;
-            height: 60px;
+            height: 80px;
             background-color: #000;
-            border-radius: 20px 20px 0 0;
             display: flex;
             justify-content: space-around;
             align-items: center;
+            border-radius: 20px 20px 0 0;
+            overflow: visible;
+        }
+
+        /* SVG для плавного соединения */
+        .active-background {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 150px;
             z-index: 1;
         }
 
-        .tab-bar .tab {
+        .active-background svg {
+            width: 100%;
+            height: 100%;
+            fill: #e91e63;
+        }
+
+        .tab {
             width: 40px;
             height: 40px;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: white;
             font-size: 24px;
+            color: white;
             cursor: pointer;
-            position: relative;
-        }
-
-        .tab-bar .tab.active {
-            color: #fff;
-        }
-
-        .active-circle {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            background-color: #e91e63;
-            bottom: 20px;
-            border-radius: 50%;
             z-index: 2;
-            transition: all 0.3s ease-in-out;
         }
 
-        .active-circle::before {
-            content: '';
-            position: absolute;
-            bottom: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 40px;
-            background-color: #000;
-            border-top-left-radius: 50%;
-            border-top-right-radius: 50%;
-            z-index: -1;
+        .tab.active {
+            color: #e91e63;
         }
     </style>
 </head>
 <body>
     <div class="tab-bar">
+        <div class="active-background">
+            <!-- SVG "горка" -->
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0,50 Q50,-50 100,50 L100,100 L0,100 Z"></path>
+            </svg>
+        </div>
         <div class="tab" id="tab1">☰</div>
         <div class="tab" id="tab2">📁</div>
         <div class="tab" id="tab3">📦</div>
         <div class="tab" id="tab4">🖼️</div>
-        <div class="active-circle"></div>
     </div>
 
     <script>
         const tabs = document.querySelectorAll('.tab');
-        const activeCircle = document.querySelector('.active-circle');
+        const activeBackground = document.querySelector('.active-background');
 
         tabs.forEach((tab, index) => {
             tab.addEventListener('click', () => {
-                // Расположение активного круга
+                // Убираем активный класс со всех табов
+                tabs.forEach(tab => tab.classList.remove('active'));
+                tab.classList.add('active');
+
+                // Перемещаем SVG "горку"
                 const tabRect = tab.getBoundingClientRect();
                 const tabBarRect = tab.parentElement.getBoundingClientRect();
                 const offsetLeft = tabRect.left - tabBarRect.left + tabRect.width / 2;
 
-                // Анимация перемещения
-                activeCircle.style.left = `${offsetLeft - activeCircle.offsetWidth / 2}px`;
-
-                // Убираем активный класс у всех табов
-                tabs.forEach(tab => tab.classList.remove('active'));
-                tab.classList.add('active');
+                activeBackground.style.left = `${offsetLeft}px`;
             });
         });
 
-        // Установка начального положения круга
+        // Установка начального положения
         const initialTab = tabs[0];
-        const initialTabRect = initialTab.getBoundingClientRect();
+        const tabRect = initialTab.getBoundingClientRect();
         const tabBarRect = initialTab.parentElement.getBoundingClientRect();
-        const initialOffsetLeft = initialTabRect.left - tabBarRect.left + initialTabRect.width / 2;
-        activeCircle.style.left = `${initialOffsetLeft - activeCircle.offsetWidth / 2}px`;
+        const initialOffsetLeft = tabRect.left - tabBarRect.left + tabRect.width / 2;
+        activeBackground.style.left = `${initialOffsetLeft}px`;
     </script>
 </body>
 </html>
