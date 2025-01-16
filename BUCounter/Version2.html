@@ -6,8 +6,8 @@
     <title>Калькулятор ХЕ</title>
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #fff;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             color: #333;
             margin: 0;
             padding: 20px;
@@ -19,86 +19,74 @@
         }
 
         .container {
-            text-align: center;
             width: 100%;
             max-width: 400px;
             background-color: #fff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .container:hover {
-            transform: scale(1.03);
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #faf1d9;
+            padding: 10px 20px;
+            margin: 10px 0;
+            border-radius: 10px;
         }
 
-        h1 {
-            font-size: 28px;
-            color: #111;
-            margin-bottom: 20px;
+        .row span {
+            font-size: 18px;
+            font-weight: bold;
         }
 
         input {
-            width: 100%;
-            padding: 15px;
-            margin: 15px 0;
-            border: 1px solid #ddd;
-            border-radius: 25px;
-            font-size: 16px;
-            background-color: #fafafa;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-        }
-
-        input:focus {
-            border-color: #000;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            border: none;
             background-color: #fff;
+            padding: 8px 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 50%;
+            text-align: right;
         }
 
-        .result {
-            margin-top: 20px;
-            font-size: 18px;
+        .controls {
+            font-size: 24px;
+            cursor: pointer;
+            margin: 0 5px;
         }
 
-        .result p {
-            margin: 10px 0;
-            color: #333;
-            transition: color 0.3s ease;
-        }
-
-        .result span {
-            font-weight: bold;
-            font-size: 22px;
+        .controls:hover {
+            color: #007bff;
         }
 
         .error {
             color: red;
             font-size: 14px;
-        }
-
-        .icon {
-            width: 20px;
-            margin-right: 10px;
-            vertical-align: middle;
+            text-align: center;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Калькулятор ХЕ</h1>
-        <div>
-            <label for="carbs">
-                <img src="https://img.icons8.com/ios/50/000000/food.png" class="icon" alt="углеводы"/>
-                Введите количество углеводов на 100 грамм:
-            </label>
-            <input type="number" id="carbs" placeholder="Углеводы (г)" />
+        <div class="row">
+            <span>Количество углеводов:</span>
+            <input type="number" id="carbs" placeholder="Введите (г)" />
         </div>
-        
-        <div class="result">
-            <p>Количество хлебных единиц: <span id="breadUnits">0</span></p>
-            <p>Граммов продукта в 1 ХЕ: <span id="gramsPerXE">0</span></p>
+        <div class="row">
+            <span>Хлебных единиц:</span>
+            <span id="breadUnits">0</span>
+        </div>
+        <div class="row">
+            <span>Граммов продукта в 
+                <span class="controls" id="decreaseBtn">&lt;</span>
+                <span id="xeCount">1</span> ХЕ
+                <span class="controls" id="increaseBtn">&gt;</span>:
+            </span>
+            <span id="gramsPerXE">0</span>
         </div>
         <div class="error" id="errorMessage"></div>
     </div>
@@ -108,10 +96,34 @@
         const breadUnitsElem = document.getElementById('breadUnits');
         const gramsPerXEElem = document.getElementById('gramsPerXE');
         const errorMessageElem = document.getElementById('errorMessage');
+        const increaseBtn = document.getElementById('increaseBtn');
+        const decreaseBtn = document.getElementById('decreaseBtn');
+        const xeCountElem = document.getElementById('xeCount');
 
-        carbsInput.addEventListener('input', function () {
+        let xeCount = 1; // Начальное количество ХЕ
+
+        // Обработчик увеличения количества ХЕ
+        increaseBtn.addEventListener('click', function () {
+            xeCount++;
+            xeCountElem.textContent = xeCount;
+            updateCalculations();
+        });
+
+        // Обработчик уменьшения количества ХЕ
+        decreaseBtn.addEventListener('click', function () {
+            if (xeCount > 1) {
+                xeCount--;
+                xeCountElem.textContent = xeCount;
+                updateCalculations();
+            }
+        });
+
+        // Обработчик ввода углеводов
+        carbsInput.addEventListener('input', updateCalculations);
+
+        function updateCalculations() {
             const carbs = parseFloat(carbsInput.value);
-            
+
             if (isNaN(carbs) || carbs <= 0) {
                 breadUnitsElem.textContent = '0';
                 gramsPerXEElem.textContent = '0';
@@ -127,7 +139,11 @@
 
             breadUnitsElem.textContent = breadUnits;
             gramsPerXEElem.textContent = gramsPerXE;
-        });
+
+            // Обновляем количество граммов для выбранного количества ХЕ
+            const gramsForXE = (gramsPerXE * xeCount).toFixed(2);
+            gramsPerXEElem.textContent = gramsForXE;
+        }
     </script>
 </body>
 </html>
