@@ -12,133 +12,106 @@
         }
 
         body {
-            background-color: #f0f0f0;
+            background-color: #ffc0cb;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             font-family: Arial, sans-serif;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         .tab-bar {
-            width: 100%;
-            background-color: #000;
-            border-radius: 20px 20px 0 0;
             position: fixed;
             bottom: 0;
             left: 0;
-            padding: 0 20px;
+            width: 100%;
+            height: 60px;
+            background-color: #000;
+            border-radius: 20px 20px 0 0;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            height: 70px;
-            position: relative;
+            z-index: 1;
         }
 
-        .tab {
-            position: relative;
+        .tab-bar .tab {
+            width: 40px;
+            height: 40px;
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 50px;
-            height: 50px;
-            background-color: transparent;
-            color: #fff;
+            color: white;
             font-size: 24px;
-            z-index: 1;
             cursor: pointer;
+            position: relative;
         }
 
-        .tab.active {
-            color: #000;
+        .tab-bar .tab.active {
+            color: #fff;
         }
 
-        /* SVG-горочка */
-        .indicator {
+        .active-circle {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 70px;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .indicator svg {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-        }
-
-        .indicator path {
-            fill: #000;
-            transition: d 0.3s ease;
-        }
-
-        .tab-bar .active-circle {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            background-color: #ff0077;
+            width: 80px;
+            height: 80px;
+            background-color: #e91e63;
+            bottom: 20px;
             border-radius: 50%;
-            bottom: 15px;
-            left: calc(50% - 30px);
-            transition: left 0.3s ease;
             z-index: 2;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .active-circle::before {
+            content: '';
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 40px;
+            background-color: #000;
+            border-top-left-radius: 50%;
+            border-top-right-radius: 50%;
+            z-index: -1;
         }
     </style>
 </head>
 <body>
-
-<div class="tab-bar">
-    <div class="indicator">
-        <svg viewBox="0 0 100 50" preserveAspectRatio="none">
-            <path d="M0,0 H100 V50 Q50,0 0,50 Z"></path>
-        </svg>
+    <div class="tab-bar">
+        <div class="tab" id="tab1">☰</div>
+        <div class="tab" id="tab2">📁</div>
+        <div class="tab" id="tab3">📦</div>
+        <div class="tab" id="tab4">🖼️</div>
+        <div class="active-circle"></div>
     </div>
-    <div class="active-circle"></div>
-    <div class="tab" id="home">🏠</div>
-    <div class="tab" id="search">🔍</div>
-    <div class="tab" id="notifications">🔔</div>
-    <div class="tab" id="profile">👤</div>
-</div>
 
-<script>
-    const tabs = document.querySelectorAll('.tab');
-    const activeCircle = document.querySelector('.active-circle');
-    const svgPath = document.querySelector('.indicator path');
-    
-    tabs.forEach((tab, index) => {
-        tab.addEventListener('click', () => {
-            // Убираем активный класс со всех табов
-            tabs.forEach(item => item.classList.remove('active'));
-            
-            // Добавляем активный класс на кликнутый таб
-            tab.classList.add('active');
-            
-            // Перемещаем круг в нужное место
-            const tabLeft = tab.offsetLeft;
-            activeCircle.style.left = `${tabLeft + tab.offsetWidth / 2 - activeCircle.offsetWidth / 2}px`;
+    <script>
+        const tabs = document.querySelectorAll('.tab');
+        const activeCircle = document.querySelector('.active-circle');
 
-            // Обновляем кривую SVG
-            const tabCenter = tabLeft + tab.offsetWidth / 2;
-            const svgWidth = document.querySelector('.tab-bar').offsetWidth;
-            const newPath = `
-                M0,0 
-                H${tabCenter - 50} 
-                Q${tabCenter},-30 ${tabCenter + 50},0 
-                H${svgWidth} 
-                V50 
-                Q${tabCenter + 50},0 ${tabCenter - 50},0 
-                Z`;
-            svgPath.setAttribute('d', newPath);
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => {
+                // Расположение активного круга
+                const tabRect = tab.getBoundingClientRect();
+                const tabBarRect = tab.parentElement.getBoundingClientRect();
+                const offsetLeft = tabRect.left - tabBarRect.left + tabRect.width / 2;
+
+                // Анимация перемещения
+                activeCircle.style.left = `${offsetLeft - activeCircle.offsetWidth / 2}px`;
+
+                // Убираем активный класс у всех табов
+                tabs.forEach(tab => tab.classList.remove('active'));
+                tab.classList.add('active');
+            });
         });
-    });
 
-    // Устанавливаем начальный активный элемент
-    tabs[0].click();
-</script>
-
+        // Установка начального положения круга
+        const initialTab = tabs[0];
+        const initialTabRect = initialTab.getBoundingClientRect();
+        const tabBarRect = initialTab.parentElement.getBoundingClientRect();
+        const initialOffsetLeft = initialTabRect.left - tabBarRect.left + initialTabRect.width / 2;
+        activeCircle.style.left = `${initialOffsetLeft - activeCircle.offsetWidth / 2}px`;
+    </script>
 </body>
 </html>
