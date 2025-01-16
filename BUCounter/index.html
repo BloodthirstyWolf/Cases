@@ -57,21 +57,13 @@
         }
 
         .controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .controls button {
-            padding: 5px 10px;
             font-size: 18px;
+            margin: 0 10px;
             cursor: pointer;
         }
 
-        .controls span {
-            font-size: 18px;
-            margin: 0 10px;
+        .controls:hover {
+            color: #007bff;
         }
     </style>
 </head>
@@ -83,13 +75,15 @@
         
         <div class="result">
             <p>Количество хлебных единиц: <span id="breadUnits">0</span></p>
-            <p>Граммов продукта в 1 ХЕ: <span id="gramsPerXE">0</span></p>
+            <p>Граммов продукта в 
+                <span id="xeCount">1</span> ХЕ: 
+                <span id="gramsPerXE">0</span>
+            </p>
         </div>
 
         <div class="controls">
-            <button id="decreaseBtn"> &lt; </button>
-            <span id="xeCount">1</span>
-            <button id="increaseBtn"> &gt; </button>
+            <span id="decreaseBtn">&lt;</span>
+            <span id="increaseBtn">&gt;</span>
         </div>
         
         <div class="error" id="errorMessage"></div>
