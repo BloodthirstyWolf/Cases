@@ -55,6 +55,24 @@
             color: red;
             font-size: 14px;
         }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .controls button {
+            padding: 5px 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .controls span {
+            font-size: 18px;
+            margin: 0 10px;
+        }
     </style>
 </head>
 <body>
@@ -67,6 +85,13 @@
             <p>Количество хлебных единиц: <span id="breadUnits">0</span></p>
             <p>Граммов продукта в 1 ХЕ: <span id="gramsPerXE">0</span></p>
         </div>
+
+        <div class="controls">
+            <button id="decreaseBtn"> &lt; </button>
+            <span id="xeCount">1</span>
+            <button id="increaseBtn"> &gt; </button>
+        </div>
+        
         <div class="error" id="errorMessage"></div>
     </div>
 
@@ -75,10 +100,34 @@
         const breadUnitsElem = document.getElementById('breadUnits');
         const gramsPerXEElem = document.getElementById('gramsPerXE');
         const errorMessageElem = document.getElementById('errorMessage');
+        const increaseBtn = document.getElementById('increaseBtn');
+        const decreaseBtn = document.getElementById('decreaseBtn');
+        const xeCountElem = document.getElementById('xeCount');
 
-        carbsInput.addEventListener('input', function () {
+        let xeCount = 1; // Начальное количество ХЕ
+
+        // Обработчик увеличения количества ХЕ
+        increaseBtn.addEventListener('click', function () {
+            xeCount++;
+            xeCountElem.textContent = xeCount;
+            updateCalculations();
+        });
+
+        // Обработчик уменьшения количества ХЕ
+        decreaseBtn.addEventListener('click', function () {
+            if (xeCount > 1) {
+                xeCount--;
+                xeCountElem.textContent = xeCount;
+                updateCalculations();
+            }
+        });
+
+        // Обработчик ввода углеводов
+        carbsInput.addEventListener('input', updateCalculations);
+
+        function updateCalculations() {
             const carbs = parseFloat(carbsInput.value);
-            
+
             if (isNaN(carbs) || carbs <= 0) {
                 breadUnitsElem.textContent = '0';
                 gramsPerXEElem.textContent = '0';
@@ -94,7 +143,11 @@
 
             breadUnitsElem.textContent = breadUnits;
             gramsPerXEElem.textContent = gramsPerXE;
-        });
+
+            // Обновляем количество граммов для выбранного количества ХЕ
+            const gramsForXE = (gramsPerXE * xeCount).toFixed(2);
+            gramsPerXEElem.textContent = gramsForXE;
+        }
     </script>
 </body>
 </html>
