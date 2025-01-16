@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Таб-бар с выпуклой горочкой</title>
+    <title>Таб-бар с SVG-горкой</title>
     <style>
         * {
             margin: 0;
@@ -12,103 +12,110 @@
         }
 
         body {
-            background-color: #f8f8f8;
+            background-color: #ffc0cb;
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-end;
             height: 100vh;
-            font-family: Arial, sans-serif;
+            overflow: hidden;
         }
 
         .tab-bar {
+            position: relative;
             width: 100%;
-            max-width: 500px;
-            background-color: #3498db;
-            border-radius: 30px;
-            position: fixed;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 10px;
+            height: 80px;
+            background-color: #000;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            height: 70px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 20px 20px 0 0;
+            overflow: visible;
         }
 
-        .tab-bar .tab {
+        .active-svg {
+            position: absolute;
+            top: -30px; /* Регулирует положение SVG */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: auto;
+            z-index: 1;
+        }
+
+        .active-circle {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background-color: #e91e63;
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .tab {
             position: relative;
+            width: 40px;
+            height: 40px;
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 50px;
-            height: 50px;
-            background-color: transparent;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .tab-bar .tab.active {
-            background-color: #fff;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .tab-bar .tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 70px;
-            height: 20px;
-            background-color: #fff;
-            border-radius: 50px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .tab-bar .tab i {
             font-size: 24px;
-            color: #fff;
+            color: white;
+            cursor: pointer;
+            z-index: 3;
         }
 
-        .tab-bar .tab.active i {
-            color: #3498db;
+        .tab.active {
+            color: #e91e63;
         }
-
     </style>
 </head>
 <body>
+    <div class="tab-bar">
+        <!-- SVG горка -->
+        <img class="active-svg" src="curve.svg" alt="Активная горка">
 
-<div class="tab-bar">
-    <div class="tab" id="home">
-        <i class="fas fa-home"></i>
-    </div>
-    <div class="tab active" id="search">
-        <i class="fas fa-search"></i>
-    </div>
-    <div class="tab" id="notifications">
-        <i class="fas fa-bell"></i>
-    </div>
-    <div class="tab" id="profile">
-        <i class="fas fa-user"></i>
-    </div>
-</div>
+        <!-- Круг -->
+        <div class="active-circle"></div>
 
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
-<script>
-    const tabs = document.querySelectorAll('.tab');
-    
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            // Удаляем активный класс с всех табов
-            tabs.forEach(item => item.classList.remove('active'));
-            // Добавляем активный класс на кликнутый таб
-            tab.classList.add('active');
+        <!-- Элементы меню -->
+        <div class="tab" id="tab1">☰</div>
+        <div class="tab" id="tab2">📁</div>
+        <div class="tab" id="tab3">📦</div>
+        <div class="tab" id="tab4">🖼️</div>
+    </div>
+
+    <script>
+        const tabs = document.querySelectorAll('.tab');
+        const activeCircle = document.querySelector('.active-circle');
+        const activeSvg = document.querySelector('.active-svg');
+
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => {
+                // Убираем активный класс со всех табов
+                tabs.forEach(tab => tab.classList.remove('active'));
+                tab.classList.add('active');
+
+                // Перемещаем активный круг
+                const tabRect = tab.getBoundingClientRect();
+                const tabBarRect = tab.parentElement.getBoundingClientRect();
+                const offsetLeft = tabRect.left - tabBarRect.left + tabRect.width / 2;
+
+                activeCircle.style.left = `${offsetLeft}px`;
+                activeSvg.style.left = `${offsetLeft}px`;
+            });
         });
-    });
-</script>
 
+        // Установка начального положения
+        const initialTab = tabs[0];
+        const tabRect = initialTab.getBoundingClientRect();
+        const tabBarRect = initialTab.parentElement.getBoundingClientRect();
+        const initialOffsetLeft = tabRect.left - tabBarRect.left + tabRect.width / 2;
+        activeCircle.style.left = `${initialOffsetLeft}px`;
+        activeSvg.style.left = `${initialOffsetLeft}px`;
+    </script>
 </body>
 </html>
