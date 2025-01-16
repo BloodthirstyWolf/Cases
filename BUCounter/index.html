@@ -58,8 +58,12 @@
 
         .controls {
             font-size: 18px;
-            margin: 0 10px;
+            margin: 10px 0;
             cursor: pointer;
+        }
+
+        .controls span {
+            margin: 0 10px;
         }
 
         .controls:hover {
@@ -76,16 +80,13 @@
         <div class="result">
             <p>Количество хлебных единиц: <span id="breadUnits">0</span></p>
             <p>Граммов продукта в 
-                <span id="xeCount">1</span> ХЕ: 
+                <span id="decreaseBtn">&lt;</span>
+                <span id="xeCount">1</span> ХЕ
+                <span id="increaseBtn">&gt;</span>: 
                 <span id="gramsPerXE">0</span>
             </p>
         </div>
 
-        <div class="controls">
-            <span id="decreaseBtn">&lt;</span>
-            <span id="increaseBtn">&gt;</span>
-        </div>
-        
         <div class="error" id="errorMessage"></div>
     </div>
 
