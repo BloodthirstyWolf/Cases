@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Таб-бар с SVG-горкой</title>
+    <!-- Ссылка на шрифт Nefelibata sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Nefelibata+Sans&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,7 +15,8 @@
 
         body {
             background-color: #f3E7C7;
-            font-family: Arial, sans-serif;
+            font-family: 'Nefelibata Sans', sans-serif;
+            color: #293b35; /* Цвет текста */
             display: flex;
             justify-content: center;
             align-items: flex-end;
@@ -32,27 +35,27 @@
             overflow: visible;
         }
         
-.active-svg {
-  position: absolute;
-  top: -60%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 15vw;
-  height: auto;
-  z-index: 1;
-}
+        .active-svg {
+            position: absolute;
+            top: -60%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 15vw;
+            height: auto;
+            z-index: 1;
+        }
 
-      .active-circle {
-  position: absolute;
-  top: 0%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 6vw;
-  height: 120%;
-  background-color: #e91e63;
-  border-radius: 50%;
-  z-index: 2;
-}
+        .active-circle {
+            position: absolute;
+            top: 0%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6vw;
+            height: 120%;
+            background-color: #e91e63;
+            border-radius: 50%;
+            z-index: 2;
+        }
 
         .tab {
             position: relative;
@@ -72,29 +75,27 @@
         }
 
         @media only screen and (max-width: 450px) {
-.active-svg {
-    position: absolute;
-    top: -60%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40vw;
-    height: auto;
-    z-index: 1;
-  }
-            
+            .active-svg {
+                position: absolute;
+                top: -60%;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 40vw;
+                height: auto;
+                z-index: 1;
+            }
 
-  .active-circle {
-    position: absolute;
-    top: -5%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 17vw;
-    height: 90%;
-    background-color: #e91e63;
-    border-radius: 50%;
-    z-index: 2;
-  }
-
+            .active-circle {
+                position: absolute;
+                top: -5%;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 17vw;
+                height: 90%;
+                background-color: #e91e63;
+                border-radius: 50%;
+                z-index: 2;
+            }
         }
     </style>
 </head>
