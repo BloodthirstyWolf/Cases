@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Таб-бар с горкой</title>
+    <title>Таб-бар с выпуклой горочкой</title>
     <style>
         * {
             margin: 0;
@@ -12,100 +12,103 @@
         }
 
         body {
-            background-color: #ffc0cb;
-            font-family: Arial, sans-serif;
-            overflow: hidden;
+            background-color: #f8f8f8;
             display: flex;
             justify-content: center;
-            align-items: flex-end;
+            align-items: center;
             height: 100vh;
+            font-family: Arial, sans-serif;
         }
 
         .tab-bar {
-            position: relative;
             width: 100%;
-            height: 80px;
-            background-color: #000;
+            max-width: 500px;
+            background-color: #3498db;
+            border-radius: 30px;
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            border-radius: 20px 20px 0 0;
-            overflow: visible;
+            height: 70px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
-        /* SVG для плавного соединения */
-        .active-background {
-            position: absolute;
-            top: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 150px;
-            height: 150px;
-            z-index: 1;
-        }
-
-        .active-background svg {
-            width: 100%;
-            height: 100%;
-            fill: #e91e63;
-        }
-
-        .tab {
-            width: 40px;
-            height: 40px;
+        .tab-bar .tab {
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 24px;
-            color: white;
+            width: 50px;
+            height: 50px;
+            background-color: transparent;
+            border-radius: 50%;
             cursor: pointer;
-            z-index: 2;
+            transition: all 0.3s ease;
         }
 
-        .tab.active {
-            color: #e91e63;
+        .tab-bar .tab.active {
+            background-color: #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
+
+        .tab-bar .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 20px;
+            background-color: #fff;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-bar .tab i {
+            font-size: 24px;
+            color: #fff;
+        }
+
+        .tab-bar .tab.active i {
+            color: #3498db;
+        }
+
     </style>
 </head>
 <body>
-    <div class="tab-bar">
-        <div class="active-background">
-            <!-- SVG "горка" -->
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0,50 Q50,-50 100,50 L100,100 L0,100 Z"></path>
-            </svg>
-        </div>
-        <div class="tab" id="tab1">☰</div>
-        <div class="tab" id="tab2">📁</div>
-        <div class="tab" id="tab3">📦</div>
-        <div class="tab" id="tab4">🖼️</div>
+
+<div class="tab-bar">
+    <div class="tab" id="home">
+        <i class="fas fa-home"></i>
     </div>
+    <div class="tab active" id="search">
+        <i class="fas fa-search"></i>
+    </div>
+    <div class="tab" id="notifications">
+        <i class="fas fa-bell"></i>
+    </div>
+    <div class="tab" id="profile">
+        <i class="fas fa-user"></i>
+    </div>
+</div>
 
-    <script>
-        const tabs = document.querySelectorAll('.tab');
-        const activeBackground = document.querySelector('.active-background');
-
-        tabs.forEach((tab, index) => {
-            tab.addEventListener('click', () => {
-                // Убираем активный класс со всех табов
-                tabs.forEach(tab => tab.classList.remove('active'));
-                tab.classList.add('active');
-
-                // Перемещаем SVG "горку"
-                const tabRect = tab.getBoundingClientRect();
-                const tabBarRect = tab.parentElement.getBoundingClientRect();
-                const offsetLeft = tabRect.left - tabBarRect.left + tabRect.width / 2;
-
-                activeBackground.style.left = `${offsetLeft}px`;
-            });
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script>
+    const tabs = document.querySelectorAll('.tab');
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Удаляем активный класс с всех табов
+            tabs.forEach(item => item.classList.remove('active'));
+            // Добавляем активный класс на кликнутый таб
+            tab.classList.add('active');
         });
+    });
+</script>
 
-        // Установка начального положения
-        const initialTab = tabs[0];
-        const tabRect = initialTab.getBoundingClientRect();
-        const tabBarRect = initialTab.parentElement.getBoundingClientRect();
-        const initialOffsetLeft = tabRect.left - tabBarRect.left + tabRect.width / 2;
-        activeBackground.style.left = `${initialOffsetLeft}px`;
-    </script>
 </body>
 </html>
