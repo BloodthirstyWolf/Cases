@@ -60,20 +60,13 @@
             background: url('background1.png') no-repeat center center / cover;
             text-align: center;
             padding-top: 1%;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .hero-content {
-            margin-left: 5%;
-            text-align: left;
         }
 
         .hero h1 {
             font-size: 6em;
             color: #fff;
+            text-align: left;
+            margin-left: 5%;
             font-family: 'Bebas Neue', sans-serif; /* Применить Bebas Neue к заголовку */
         }
 
@@ -84,11 +77,26 @@
         .hero p {
             font-size: 1.5vw;
             margin-bottom: 2em;
+            text-align: left;
+            margin-left: 5%;
             font-family: 'Intro', sans-serif;
             width: 50%;
         }
 
-        .hero .button {
+        .hero .cta-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-left: 5%;
+        }
+
+        .cta-container h2 {
+            margin-right: 2vw;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5em;
+        }
+
+        .button {
             padding: 1em 2em;
             background-color: #00aaff;
             color: #fff;
@@ -99,7 +107,7 @@
             font-family: 'Intro', sans-serif; /* Применить Intro к кнопке */
         }
 
-        .hero .button:hover {
+        .button:hover {
             background-color: #0088cc;
         }
 
@@ -212,17 +220,15 @@
                 font-size: 1em;
             }
 
+            .cta-container h2 {
+                font-size: 1.5em;
+            }
+
             .services {
                 flex-direction: column;
                 align-items: center;
             }
-
-            .hero-content {
-                margin-left: 0;
-                text-align: center;
-            }
         }
-
     </style>
 </head>
 <body>
@@ -240,23 +246,23 @@
     </header>
 
     <div class="hero">
-        <div class="hero-content">
-            <h1><span>Полный комплекс услуг</span><br>по ремонту сантехники</h1>
-            <p>Услуги сантехника в астане могут понадобиться каждому жильцу квартиры, дома, каждому работнику предприятия, сотруднику офиса или компании.</p>
+        <h1><span>Полный комплекс услуг</span><br>по ремонту сантехники</h1>
+        <div class="cta-container">
+            <h2>С чем я могу помочь</h2>
             <button class="button">Оставить заявку</button>
         </div>
-        <div class="hero-left">
-            <h2>С чем я могу помочь</h2>
-        </div>
-    </div>
 
-    <section class="services">
-        <div class="service">Замена труб</div>
-        <div class="service">Установка сифона</div>
-        <div class="service">Установка унитаза</div>
-        <div class="service">Установка ванны</div>
-        <div class="service">Устранение засоров труб</div>
-    </section>
+        <p>Услуги сантехника в астане могут понадобиться каждому жильцу квартиры, дома, каждому работнику предприятия, сотруднику офиса или компании.</p>
+
+        <!-- Секция услуг внутри hero -->
+        <section class="services">
+            <div class="service">Замена труб</div>
+            <div class="service">Установка сифона</div>
+            <div class="service">Установка унитаза</div>
+            <div class="service">Установка ванны</div>
+            <div class="service">Устранение засоров труб</div>
+        </section>
+    </div>
 
     <section id="about" class="about">
         <img src="Photo1.png" alt="Кирилл Юрченко">
