@@ -31,6 +31,20 @@
             text-decoration: underline;
         }
 
+        header .contact-info {
+            display: flex;
+            align-items: center;
+        }
+
+        header .contact-info div {
+            margin-right: 1vw;
+        }
+
+        header .contact-info img {
+            width: 5%;
+            margin-left: 0.5vw;
+        }
+
         .hero {
             background: url('background1.png') no-repeat center center / cover;
             text-align: center;
@@ -40,6 +54,10 @@
         .hero h1 {
             font-size: 2.5em;
             margin-bottom: 1em;
+            color: #fff;
+        }
+
+        .hero h1 span {
             color: #00aaff;
         }
 
@@ -55,7 +73,7 @@
             border: none;
             cursor: pointer;
             font-size: 1em;
-            border-radius: 5px;
+            border-radius: 25px; /* Скругление углов */
         }
 
         .button:hover {
@@ -67,7 +85,8 @@
             flex-wrap: wrap;
             justify-content: space-around;
             padding: 5vh 5vw;
-            background: url('background2.png') no-repeat center center / cover;
+            background: rgba(0, 0, 0, 0.7); /* Полупрозрачная подложка */
+            border-radius: 15px; /* Скругленные углы для всей секции */
         }
 
         .service {
@@ -75,9 +94,8 @@
             margin: 1vw 0;
             text-align: center;
             font-size: 1em;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: transparent;
             padding: 2vh 1vw;
-            border-radius: 10px;
         }
 
         .about {
@@ -162,6 +180,14 @@
                 flex-direction: column;
                 text-align: center;
             }
+
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .hero p {
+                font-size: 1em;
+            }
         }
     </style>
 </head>
@@ -172,11 +198,15 @@
             <a href="#services">Услуги</a>
             <a href="#pricing">Цены</a>
         </div>
-        <div>+7 (707) 9975789</div>
+        <div class="contact-info">
+            <div>+7 (707) 9975789</div>
+            <img src="Telegram.svg" alt="Telegram">
+            <img src="WhatsApp.svg" alt="WhatsApp">
+        </div>
     </header>
 
     <div class="hero">
-        <h1>Полный комплекс услуг по ремонту сантехники</h1>
+        <h1><span>Полный комплекс услуг</span><br>по ремонту сантехники</h1>
         <p>Услуги сантехника в Астане могут понадобиться каждому жителю квартиры, дома или сотруднику компании.</p>
         <button class="button">Оставить заявку</button>
     </div>
