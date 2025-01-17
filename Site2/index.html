@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Сантехнические услуги</title>
+  <style>
+    /* Reset */
+    body, h1, h2, p, ul, li, button {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: url('background.jpg') no-repeat center top / cover;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+    }
+
+    .work-hours {
+      font-size: 16px;
+      color: #fff;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .call-button {
+      background-color: #0074d9;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .call-button:hover {
+      background-color: #0056a8;
+    }
+
+    .intro {
+      text-align: center;
+      margin: 30px 0;
+      color: #fff;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .intro h1 {
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+
+    .intro p {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin: 30px 0;
+      text-align: center;
+      color: #fff;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .stat-item strong {
+      font-size: 24px;
+      display: block;
+    }
+
+    .services {
+      text-align: center;
+      margin: 40px 0;
+    }
+
+    .services h2 {
+      font-size: 28px;
+      color: #fff;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      margin-bottom: 20px;
+    }
+
+    .service-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+    }
+
+    .service-item {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    .service-item img {
+      max-width: 60px;
+      margin-bottom: 10px;
+    }
+
+    .service-item p {
+      font-size: 16px;
+    }
+
+    .service-item strong {
+      color: #0074d9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="work-hours">Работаем без выходных<br>С 7:00 до 24:00</div>
+      <button class="call-button">Заказать звонок</button>
+    </header>
+
+    <main class="content">
+      <section class="intro">
+        <h1>Профессиональные услуги сантехника для вашего комфорта</h1>
+        <p>Устранение засора. Установка и ремонт сантехники. Водяной теплый пол, радиаторное отопление. Справимся с любой задачей быстро и просто.</p>
+        <button class="call-button">Заказать звонок</button>
+      </section>
+
+      <section class="stats">
+        <div class="stat-item">
+          <strong>10 лет</strong>
+          <p>опыта у мастеров</p>
+        </div>
+        <div class="stat-item">
+          <strong>1248</strong>
+          <p>клиентов</p>
+        </div>
+        <div class="stat-item">
+          <strong>3 года</strong>
+          <p>гарантия работы</p>
+        </div>
+      </section>
+
+      <section class="services">
+        <h2>Услуги</h2>
+        <div class="service-list">
+          <div class="service-item">
+            <img src="icon1.svg" alt="Устранение засора">
+            <p>Устранение засора<br><strong>от 2500 тг.</strong></p>
+          </div>
+          <div class="service-item">
+            <img src="icon2.svg" alt="Установка смесителя">
+            <p>Установка смесителя<br><strong>от 1500 тг.</strong></p>
+          </div>
+          <div class="service-item">
+            <img src="icon3.svg" alt="Замена труб">
+            <p>Замена труб<br><strong>от 3000 тг.</strong></p>
+          </div>
+          <div class="service-item">
+            <img src="icon4.svg" alt="Установка ванны">
+            <p>Установка ванны<br><strong>от 5500 тг.</strong></p>
+          </div>
+          <div class="service-item">
+            <img src="icon5.svg" alt="Устранение протечки">
+            <p>Устранение протечки<br><strong>от 6500 тг.</strong></p>
+          </div>
+          <div class="service-item">
+            <img src="icon6.svg" alt="Установка теплого пола">
+            <p>Установка теплого пола<br><strong>от 8000 тг.</strong></p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
