@@ -83,14 +83,15 @@
         .services {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-around;
-            padding: 5vh 5vw;
+            justify-content: space-between;
+            padding: 3vh 5vw;
             background: rgba(0, 0, 0, 0.7); /* Полупрозрачная подложка */
             border-radius: 15px; /* Скругленные углы для всей секции */
+            margin-top: 3vh;
         }
 
         .service {
-            width: 30%;
+            width: 20%; /* Для горизонтального расположения */
             margin: 1vw 0;
             text-align: center;
             font-size: 1em;
@@ -172,8 +173,9 @@
         }
 
         @media (max-width: 768px) {
-            .service, .feature {
-                width: 80%;
+            .service {
+                width: 80%; /* Вертикальное расположение для мобильных */
+                margin-bottom: 2vw;
             }
 
             header {
@@ -187,6 +189,11 @@
 
             .hero p {
                 font-size: 1em;
+            }
+
+            .services {
+                flex-direction: column;
+                align-items: center;
             }
         }
     </style>
@@ -209,15 +216,16 @@
         <h1><span>Полный комплекс услуг</span><br>по ремонту сантехники</h1>
         <p>Услуги сантехника в Астане могут понадобиться каждому жителю квартиры, дома или сотруднику компании.</p>
         <button class="button">Оставить заявку</button>
-    </div>
 
-    <section id="services" class="services">
-        <div class="service">Замена труб</div>
-        <div class="service">Установка сифона</div>
-        <div class="service">Установка унитаза</div>
-        <div class="service">Установка ванны</div>
-        <div class="service">Устранение засоров труб</div>
-    </section>
+        <!-- Секция услуг внутри hero -->
+        <section class="services">
+            <div class="service">Замена труб</div>
+            <div class="service">Установка сифона</div>
+            <div class="service">Установка унитаза</div>
+            <div class="service">Установка ванны</div>
+            <div class="service">Устранение засоров труб</div>
+        </section>
+    </div>
 
     <section id="about" class="about">
         <img src="Photo1.png" alt="Кирилл Юрченко">
