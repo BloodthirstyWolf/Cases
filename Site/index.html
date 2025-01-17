@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ремонт Сантехники</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Intro:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Bebas Neue', sans-serif; /* Шрифт для всего текста */
             color: #fff;
             background-color: #000;
         }
@@ -52,23 +53,25 @@
         }
 
         .hero h1 {
-  font-size: 4em;
-  margin-bottom: 1em;
-  color: #fff;
-  text-align: left;
-  margin-left: 5%;
-}
+            font-size: 4em;
+            margin-bottom: 1em;
+            color: #fff;
+            text-align: left;
+            margin-left: 5%;
+            font-family: 'Bebas Neue', sans-serif; /* Применить Bebas Neue к заголовку */
+        }
 
         .hero h1 span {
             color: #00aaff;
         }
 
         .hero p {
-  font-size: 1.2em;
-  margin-bottom: 2em;
-  text-align: left;
-  margin-left: 5%;
-}
+            font-size: 1.2em;
+            margin-bottom: 2em;
+            text-align: left;
+            margin-left: 5%;
+            font-family: 'Intro', sans-serif; /* Применить Intro к тексту в .hero p */
+        }
 
         .button {
             padding: 1em 2em;
@@ -77,7 +80,8 @@
             border: none;
             cursor: pointer;
             font-size: 1em;
-            border-radius: 25px; /* Скругление углов */
+            border-radius: 25px;
+            font-family: 'Intro', sans-serif; /* Применить Intro к кнопке */
         }
 
         .button:hover {
@@ -89,13 +93,13 @@
             flex-wrap: wrap;
             justify-content: space-between;
             padding: 3vh 5vw;
-            background: rgba(0, 0, 0, 0.7); /* Полупрозрачная подложка */
-            border-radius: 15px; /* Скругленные углы для всей секции */
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
             margin-top: 3vh;
         }
 
         .service {
-            width: 15%; /* Для горизонтального расположения */
+            width: 15%;
             margin: 1vw 0;
             text-align: center;
             font-size: 1em;
@@ -178,7 +182,7 @@
 
         @media (max-width: 768px) {
             .service {
-                width: 80%; /* Вертикальное расположение для мобильных */
+                width: 80%;
                 margin-bottom: 2vw;
             }
 
