@@ -172,6 +172,44 @@
             background-color: #0088cc;
         }
 
+
+    header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2vw;
+    background-color: #111;
+}
+
+header a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 1vw;
+    font-size: 1em;
+    font-family: 'Intro', sans-serif; /* Применяем шрифт Intro */
+}
+
+header a:hover {
+    text-decoration: underline;
+}
+
+header .contact-info {
+    display: flex;
+    align-items: center;
+    font-family: 'Intro', sans-serif; /* Применяем шрифт Intro */
+}
+
+header .contact-info div {
+    margin-right: 1vw;
+    font-size: 1em;
+}
+
+header .contact-info img {
+    width: 5%;
+    margin-left: 0.5vw;
+}
+        
+
         @media (max-width: 768px) {
             .service {
                 width: 80%;
@@ -214,7 +252,7 @@
         <img src="Telegram.svg" alt="Telegram">
         <img src="WhatsApp.svg" alt="WhatsApp">
     </div>
-    </header>
+</header>
 
     <div class="hero">
         <h1><span>Полный комплекс услуг</span><br>по ремонту сантехники</h1>
