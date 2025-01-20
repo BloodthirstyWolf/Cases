@@ -24,22 +24,26 @@
     }
 
     .container {
-        width: 100%;
-        max-width: 60vw;
-        padding: 20px;
-        border-radius: 10px;
-        background-color: transparent;
-        height: 100hw;
-        padding-bottom: 5vw;
-        opacity: 0; /* Начальная прозрачность */
-        transform: translateY(30px); /* Начальное положение снизу */
-        transition: opacity 0.5s ease, transform 0.5s ease; /* Анимация */
-    }
+    width: 100%;
+    max-width: 60vw;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: transparent;
+    height: 100hw;
+    padding-bottom: 5vw;
+    visibility: hidden; /* Сделать невидимым */
+    position: absolute; /* Абсолютное позиционирование */
+    opacity: 0; /* Начальная прозрачность */
+    transform: translateY(30px); /* Начальное положение снизу */
+    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0s 0.5s; /* Анимация */
+}
 
-    .container.active {
-        opacity: 1; /* Появление контейнера */
-        transform: translateY(0); /* Переход к нормальной позиции */
-    }
+.container.active {
+    visibility: visible; /* Сделать видимым */
+    opacity: 1; /* Появление контейнера */
+    transform: translateY(0); /* Переход к нормальной позиции */
+    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0s; /* Анимация */
+}
 
     .row {
         display: flex;
