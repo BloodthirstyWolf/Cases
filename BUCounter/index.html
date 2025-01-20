@@ -133,83 +133,87 @@
         .tab.active {
             color: #e91e63;
         }
-
+]
         /* Адаптивность для экранов меньше 450px */
-        @media only screen and (max-width: 450px) {
-            .active-svg {
-                position: absolute;
-                top: -44%;
-                left: 25%;
-                transform: translateX(-50%);
-                width: 35vw;
-                height: auto;
-                z-index: 1;
-            }
-
-input {
-            width: 20%;
-        }
-.row span {
-  font-size: 3.5vw;
-}
-
-.tab img {
-  width: 10vw;
-}
-            .container {
-  max-width: 80vw;
-            }
-
-.tab {
-top: 10%;
-}
-    
-.active-circle {
-  width: 20vw;
-
-.row span {
-  font-size: 3.5vw;
-}
-
-            /* Адаптивность для экранов меньше 370px */
-        @media only screen and (max-width: 370px) 
-
- #container1 {
-        height: 50vh; /* Установим высоту первого контейнера в 50% от высоты экрана */
-}
-            
-              .active-svg {
-      top: -44%;
-              }
-
-            
-
-    
-       .row span {
-  font-size: 4vw;
-       }
-            
-            
-            .active-circle {
-                position: absolute;
-                top: -5%;
-                left: 25%;
-                transform: translateX(-50%);
-                width: 18vw;
-                height: 90%;
-                border-radius: 50%;
-                z-index: 2;
-            }
-
-            .row {
-                height: 10vw;
-            }
-
-                .container {
-      max-width: 80vw;
-      height: 140vw;
+@media only screen and (max-width: 450px) {
+    .active-svg {
+        position: absolute;
+        top: -44%;
+        left: 25%;
+        transform: translateX(-50%);
+        width: 35vw;
+        height: auto;
+        z-index: 1;
     }
-        }
+
+    input {
+        width: 20%;
+    }
+
+    .row span {
+        font-size: 3.5vw;
+    }
+
+    .tab img {
+        width: 10vw;
+    }
+
+    .container {
+        max-width: 80vw;
+    }
+
+    .tab {
+        top: 10%;
+    }
+
+    .active-circle {
+        width: 20vw;
+    }
+
+    .row {
+        height: 10vw;
+    }
+
+    .container {
+        max-width: 80vw;
+        height: 140vw;
+    }
+}
+
+/* Адаптивность для экранов меньше 370px */
+@media only screen and (max-width: 370px) {
+    #container1 {
+        height: 50vh; /* Установим высоту первого контейнера в 50% от высоты экрана */
+    }
+
+    .active-svg {
+        top: -44%;
+    }
+
+    .row span {
+        font-size: 4vw;
+    }
+
+    .active-circle {
+        position: absolute;
+        top: -5%;
+        left: 25%;
+        transform: translateX(-50%);
+        width: 18vw;
+        height: 90%;
+        border-radius: 50%;
+        z-index: 2;
+    }
+
+    .row {
+        height: 10vw;
+    }
+
+    .container {
+        max-width: 80vw;
+        height: 140vw;
+    }
+}
 
     </style>
 </head>
