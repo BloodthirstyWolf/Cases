@@ -16,7 +16,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            min-height: 100vh;
         }
 
         .decorative-image {
@@ -30,7 +29,7 @@
             padding: 20px;
             border-radius: 10px;
             background-color: transparent;
-            height: 100vh;
+            height: 100hw;
             padding-bottom: 5vw;
         }
 
@@ -137,17 +136,9 @@
 
         /* Адаптивность для экранов меньше 450px */
         @media only screen and (max-width: 450px) {
-
-.container {
-  max-width: 80vw;
-}
-
-    .row span {
-  font-size: 3vw;
-}
             .active-svg {
                 position: absolute;
-                top: -40%;
+                top: -44%;
                 left: 25%;
                 transform: translateX(-50%);
                 width: 35vw;
@@ -155,21 +146,6 @@
                 z-index: 1;
             }
 
-input {
-  width: 15%;
-}
-            
-             .tab img {
-    width: 10vw; /* Устанавливаем ширину иконки как 5% от ширины экрана */
-    height: auto; /* Высота будет автоматически подстраиваться */
-}
-
-            
-            .active-circle {
-  width: 15vw;
-  height: 15vh;
-            }
-            
             /* Адаптивность для экранов меньше 370px */
         @media only screen and (max-width: 370px) {
               .active-svg {
@@ -184,11 +160,11 @@ input {
 
     
        .row span {
-  font-size: 3.5vw;
+  font-size: 4vw;
        }
             
   input {
-            width: 20%;
+            width: 50%;
         }
             
             .active-circle {
@@ -206,9 +182,9 @@ input {
                 height: 10vw;
             }
 
-                 .container {
+                .container {
       max-width: 80vw;
-      height: 110vh;
+      height: 140vw;
     }
         }
     </style>
@@ -289,8 +265,8 @@ input {
             const tabBarRect = tab.parentElement.getBoundingClientRect();
             const offsetLeft = tabRect.left - tabBarRect.left + tabRect.width / 2;
 
-            activeCircle.style.left = ${offsetLeft}px;
-            activeSvg.style.left = ${offsetLeft}px;
+            activeCircle.style.left = `${offsetLeft}px`;
+            activeSvg.style.left = `${offsetLeft}px`;
 
             // Переключаем видимость контейнеров
             if (tab.id === 'tab1') {
