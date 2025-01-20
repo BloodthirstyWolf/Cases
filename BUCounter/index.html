@@ -251,7 +251,7 @@
     </div>
 
     <!-- Второй контейнер (калькулятор ХЕ для печенья) -->
-    <div class="container" id="container2" style="display: none;">
+    <div class="container" id="container2" >
         <div class="row">
             <span>Вес упаковки (г):</span>
             <input type="number" id="packageWeight" placeholder="Введите вес упаковки" />
@@ -288,38 +288,39 @@
     </div>
 <script>
     // Переключение между контейнерами
-    const tabs = document.querySelectorAll('.tab');
-    const container1 = document.getElementById('container1');
-    const container2 = document.getElementById('container2');
-    const activeCircle = document.querySelector('.active-circle');
-    const activeSvg = document.querySelector('.active-svg');
+    // Переключение между контейнерами
+const tabs = document.querySelectorAll('.tab');
+const container1 = document.getElementById('container1');
+const container2 = document.getElementById('container2');
+const activeCircle = document.querySelector('.active-circle');
+const activeSvg = document.querySelector('.active-svg');
 
-    tabs.forEach((tab) => {
-        tab.addEventListener('click', () => {
-            tabs.forEach(tab => tab.classList.remove('active'));
-            tab.classList.add('active');
+tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+        tabs.forEach(tab => tab.classList.remove('active'));
+        tab.classList.add('active');
 
-            const tabRect = tab.getBoundingClientRect();
-            const tabBarRect = tab.parentElement.getBoundingClientRect();
-            const offsetLeft = tabRect.left - tabBarRect.left + tabRect.width / 2;
+        const tabRect = tab.getBoundingClientRect();
+        const tabBarRect = tab.parentElement.getBoundingClientRect();
+        const offsetLeft = tabRect.left - tabBarRect.left + tabRect.width / 2;
 
-            activeCircle.style.left = `${offsetLeft}px`;
-            activeSvg.style.left = `${offsetLeft}px`;
+        activeCircle.style.left = `${offsetLeft}px`;
+        activeSvg.style.left = `${offsetLeft}px`;
 
-            // Переключаем видимость контейнеров с плавным эффектом
-            if (tab.id === 'tab1') {
-                container1.classList.add('active');
-                container2.classList.remove('active');
-            } else if (tab.id === 'tab2') {
-                container2.classList.add('active');
-                container1.classList.remove('active');
-            }
-        });
+        // Переключаем видимость контейнеров с плавным эффектом
+        if (tab.id === 'tab1') {
+            container1.classList.add('active');
+            container2.classList.remove('active');
+        } else if (tab.id === 'tab2') {
+            container2.classList.add('active');
+            container1.classList.remove('active');
+        }
     });
+});
 
-    // Начальная настройка: показываем первый контейнер
-    container1.classList.add('active');
-    container2.classList.remove('active');
+// Начальная настройка: показываем первый контейнер
+container1.classList.add('active');
+container2.classList.remove('active');
 
     // Калькулятор ХЕ для первого контейнера (с углеводами)
     const carbsInput = document.getElementById('carbs');
