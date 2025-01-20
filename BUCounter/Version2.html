@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор ХЕ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nefelibata+Sans&display=swap" rel="stylesheet"> <!-- Подключение шрифта -->
+    <style>
+        /* Оставляем базовые стили, как у вас было */
+        body {
+            font-family: 'Nefelibata Sans', sans-serif;
+            background-color: #F3E7C7;
+            color: #293b35;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 60vw;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: transparent;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #faf1d9;
+            padding: 10px 20px;
+            margin: 5% 0;
+            border-radius: 55px;
+            border-left: 10px solid #D9A141;
+            border-bottom: 10px solid #D9A141;
+            height: 5vw;
+            font-size: 1vw;
+        }
+
+        .row span {
+            font-size: 1.5vw;
+        }
+
+        input {
+            border: none;
+            background-color: #fff;
+            padding: 8px 10px;
+            border-radius: 15px;
+            font-size: 16px;
+            width: 10%;
+            text-align: right;
+        }
+
+        .controls {
+            font-size: 24px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+
+        .controls:hover {
+            color: #007bff;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        /* Навигационное меню */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 80px;
+            background-color: #739A90;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .tab img {
+            width: 5vw;
+            height: auto;
+        }
+
+        .tab {
+            cursor: pointer;
+            z-index: 3;
+        }
+
+        .tab.active img {
+            filter: brightness(1.5);
+        }
+
+        /* Скрытие контейнеров по умолчанию */
+        .container, .container-2 {
+            display: none;
+        }
+
+        .active-container {
+            display: block;
+        }
+
+        /* Адаптивность */
+        @media only screen and (max-width: 450px) {
+            .tab img {
+                width: 10vw;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <img src="decorative-image.jpg" alt="Декоративное изображение" class="decorative-image">
+    
+    <!-- Первый контейнер -->
+    <div class="container active-container" id="container1">
+        <div class="row">
+            <span>Количество углеводов:</span>
+            <input type="number" id="carbs" placeholder="Введите (г)" />
+        </div>
+        <div class="row">
+            <span>Хлебных единиц:</span>
+            <span id="breadUnits">0</span>
+        </div>
+        <div class="row">
+            <span>Граммов продукта в 
+                <span class="controls" id="decreaseBtn">&lt;</span>
+                <span id="xeCount">1</span> ХЕ
+                <span class="controls" id="increaseBtn">&gt;</span>:
+            </span>
+            <span id="gramsPerXE">0</span>
+        </div>
+        <div class="error" id="errorMessage"></div>
+    </div>
+
+    <!-- Второй контейнер -->
+    <div class="container-2" id="container2">
+        <h2>Это второй контейнер!</h2>
+        <p>Здесь могут быть другие данные или элементы.</p>
+    </div>
+
+    <!-- Навигационное меню -->
+    <div class="tab-bar">
+        <div class="tab" id="tab1">
+            <img src="icon1.svg" alt="Иконка 1">
+        </div>
+        <div class="tab" id="tab2">
+            <img src="icon2.svg" alt="Иконка 2">
+        </div>
+    </div>
+
+    <script>
+        const tabs = document.querySelectorAll('.tab');
+        const container1 = document.getElementById('container1');
+        const container2 = document.getElementById('container2');
+
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => {
+                // Убираем активное состояние для всех вкладок
+                tabs.forEach(tab => tab.classList.remove('active'));
+
+                // Активируем текущую вкладку
+                tab.classList.add('active');
+
+                // Показываем или скрываем контейнеры в зависимости от выбранной вкладки
+                if (index === 0) {
+                    container1.classList.add('active-container');
+                    container2.classList.remove('active-container');
+                } else if (index === 1) {
+                    container2.classList.add('active-container');
+                    container1.classList.remove('active-container');
+                }
+            });
+        });
+
+        // Устанавливаем начальное состояние
+        document.getElementById('tab1').classList.add('active');
+        container1.classList.add('active-container');
+    </script>
+</body>
+</html>
