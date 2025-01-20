@@ -24,28 +24,15 @@
             height: auto;
         }
 
-            /* Для первого контейнера */
-    #container1 {
-        #container1 {
-        width: 100%;
-        max-width: 60vw;
-        padding: 20px;
-        border-radius: 10px;
-        background-color: transparent;
-        height: 110vh; /* Установим высоту первого контейнера в 50% от высоты экрана */
-        padding-bottom: 5vw;
-    }
-
-    /* Для второго контейнера */
-    #container2 {
-        width: 100%;
-        max-width: 60vw;
-        padding: 20px;
-        border-radius: 10px;
-        background-color: transparent;
-        height: 170vh; /* Установим высоту второго контейнера в 100% от высоты экрана */
-        padding-bottom: 5vw;
-    }
+        .container {
+            width: 100%;
+            max-width: 60vw;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: transparent;
+            height: 100vh;
+            padding-bottom: 5vw;
+        }
 
         .row {
             display: flex;
@@ -150,22 +137,14 @@
 
         /* Адаптивность для экранов меньше 450px */
         @media only screen and (max-width: 450px) {
-.container {
-    height: 40vh; /* Уменьшаем высоту первого контейнера до 50% высоты экрана */
-}
 
-#container2 {
-    height: 60vh; /* Высота второго контейнера остаётся 100% высоты экрана */
+.container {
+  max-width: 80vw;
 }
 
     .row span {
   font-size: 3vw;
 }
-.tab {
- 
-  top: -10%;
-}
-            
             .active-svg {
                 position: absolute;
                 top: -40%;
@@ -227,19 +206,10 @@ input {
                 height: 10vw;
             }
 
-                     .container {
-    width: 100vw;
-    max-width: 60vw;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: transparent;
-    height: 70vh; /* Уменьшаем высоту первого контейнера до 50% высоты экрана */
-    padding-bottom: 5vw;
-}
-
-#container2 {
-    height: 100vh; /* Высота второго контейнера остаётся 100% высоты экрана */
-}
+                 .container {
+      max-width: 80vw;
+      height: 110vh;
+    }
         }
     </style>
 </head>
@@ -319,8 +289,8 @@ input {
             const tabBarRect = tab.parentElement.getBoundingClientRect();
             const offsetLeft = tabRect.left - tabBarRect.left + tabRect.width / 2;
 
-            activeCircle.style.left = `${offsetLeft}px`;
-            activeSvg.style.left = `${offsetLeft}px`;
+            activeCircle.style.left = ${offsetLeft}px;
+            activeSvg.style.left = ${offsetLeft}px;
 
             // Переключаем видимость контейнеров
             if (tab.id === 'tab1') {
