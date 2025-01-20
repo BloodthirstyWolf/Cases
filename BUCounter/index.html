@@ -146,13 +146,30 @@
                 z-index: 1;
             }
 
+input {
+            width: 20%;
+        }
+.row span {
+  font-size: 3.5vw;
+}
+
+.tab img {
+  width: 10vw;
+}
             .container {
   max-width: 80vw;
             }
 
+.tab {
+top: 10%;
+}
+    
 .active-circle {
   width: 20vw;
-            
+
+.row span {
+  font-size: 3.5vw;
+}
 
             /* Адаптивность для экранов меньше 370px */
         @media only screen and (max-width: 370px) 
@@ -166,19 +183,12 @@
               }
 
             
-            .tab img {
-    width: 10vw; /* Устанавливаем ширину иконки как 5% от ширины экрана */
-    height: auto; /* Высота будет автоматически подстраиваться */
-}
 
     
        .row span {
   font-size: 4vw;
        }
             
-  input {
-            width: 20%;
-        }
             
             .active-circle {
                 position: absolute;
@@ -201,27 +211,6 @@
     }
         }
 
-   /* Адаптивность для экранов меньше 370px */
-        @media only screen and (max-width: 370px) 
-.tab {
-  top: -5%;
-}
-            
-.tab img {
-  width: 10vw;
-  height: auto;
-}
-        .active-circle {
-    width: 20vw;
-    height: 10vh;
-  }
-        }
-input {
-  width: 20%;
-}
-        .row span {
-  font-size: 3vw;
-}    
     </style>
 </head>
 <body>
