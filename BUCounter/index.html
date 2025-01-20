@@ -24,19 +24,27 @@
             height: auto;
         }
 
-        .container {
-    width: 100vw;
-    max-width: 60vw;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: transparent;
-    height: 70vh; /* Уменьшаем высоту первого контейнера до 50% высоты экрана */
-    padding-bottom: 5vw;
-}
+            /* Для первого контейнера */
+    #container1 {
+        width: 100%;
+        max-width: 60vw;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: transparent;
+        height: 50vh; /* Установим высоту первого контейнера в 50% от высоты экрана */
+        padding-bottom: 5vw;
+    }
 
-#container2 {
-    height: 100vh; /* Высота второго контейнера остаётся 100% высоты экрана */
-}
+    /* Для второго контейнера */
+    #container2 {
+        width: 100%;
+        max-width: 60vw;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: transparent;
+        height: 100vh; /* Установим высоту второго контейнера в 100% от высоты экрана */
+        padding-bottom: 5vw;
+    }
 
         .row {
             display: flex;
