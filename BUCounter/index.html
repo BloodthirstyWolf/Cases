@@ -137,6 +137,14 @@
 
         /* Адаптивность для экранов меньше 450px */
         @media only screen and (max-width: 450px) {
+
+.container {
+  max-width: 80vw;
+}
+
+    .row span {
+  font-size: 3vw;
+}
             .active-svg {
                 position: absolute;
                 top: -40%;
@@ -147,11 +155,16 @@
                 z-index: 1;
             }
 
+input {
+  width: 15%;
+}
+            
              .tab img {
     width: 10vw; /* Устанавливаем ширину иконки как 5% от ширины экрана */
     height: auto; /* Высота будет автоматически подстраиваться */
 }
 
+            
             .active-circle {
   width: 15vw;
   height: 15vh;
