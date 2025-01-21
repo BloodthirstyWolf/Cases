@@ -242,29 +242,51 @@ body {
 
     <!-- Обертка для контейнеров -->
     <div class="container-wrapper">
-        <div class="container" id="container1">
-            <!-- Контент первого контейнера -->
-            <div class="row">
-                <span>Количество углеводов:</span>
-                <input type="number" id="carbs" placeholder="Введите (г)" />
-            </div>
-            <div class="row">
-                <span>Хлебных единиц:</span>
-                <span id="breadUnits">0</span>
-            </div>
+            <!-- Первый контейнер -->
+<div class="container" id="container1">
+        <div class="row">
+            <span>Количество углеводов:</span>
+            <input type="number" id="carbs" placeholder="Введите (г)" />
         </div>
+        <div class="row">
+            <span>Хлебных единиц:</span>
+            <span id="breadUnits">0</span>
+        </div>
+        <div class="row">
+            <span>Граммов продукта в 
+                <span class="controls" id="decreaseBtn">&lt;</span>
+                <span id="xeCount">1</span> ХЕ
+                <span class="controls" id="increaseBtn">&gt;</span>:
+            </span>
+            <span id="gramsPerXE">0</span>
+        </div>
+        <div class="error" id="errorMessage"></div>
+</div>
 
-        <div class="container" id="container2">
-            <!-- Контент второго контейнера -->
-            <div class="row">
-                <span>Вес упаковки (г):</span>
-                <input type="number" id="packageWeight" placeholder="Введите вес упаковки" />
-            </div>
-            <div class="row">
-                <span>Количество углеводов в упаковке (г):</span>
-                <input type="number" id="carbsInPackage" placeholder="Введите углеводы в упаковке" />
-            </div>
-        </div>
+        !-- Второй контейнер (калькулятор ХЕ для печенья) -->
+<div class="container" id="container2" style="display: none;">
+    <div class="row">
+        <span>Вес упаковки (г):</span>
+        <input type="number" id="packageWeight" placeholder="Введите вес упаковки" />
+    </div>
+    <div class="row">
+        <span>Количество углеводов в упаковке (г):</span>
+        <input type="number" id="carbsInPackage" placeholder="Введите углеводы в упаковке" />
+    </div>
+    <div class="row">
+        <span>Количество печенюшек в упаковке:</span>
+        <input type="number" id="cookiesCount" placeholder="Введите количество печенюшек" />
+    </div>
+    <div class="row">
+        <span>Углеводов в 1 печенье:</span>
+        <span id="carbsPerCookie">0</span>
+    </div>
+    <div class="row">
+        <span>ХЕ в 1 печенье:</span>
+        <span id="xePerCookie">0</span>
+    </div>
+    <div class="error" id="cookieErrorMessage"></div>
+</div>
     </div>
 
     <!-- Навигационное меню -->
