@@ -40,13 +40,13 @@
             opacity: 0; /* Начальная прозрачность */
             transform: translateY(30px); /* Начальное положение снизу */
             transition: opacity 0.5s ease, transform 0.5s ease; /* Анимация */
-            visibility: hidden; /* Контейнеры скрыты по умолчанию */
+            display: none; /* Контейнер скрыт по умолчанию */
         }
 
         .container.active {
+            display: block; /* Сделать контейнер видимым */
             opacity: 1; /* Появление контейнера */
             transform: translateY(0); /* Переход к нормальной позиции */
-            visibility: visible; /* Сделать видимым */
         }
 
         .row {
