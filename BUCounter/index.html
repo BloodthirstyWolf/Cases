@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Калькулятор ХЕ</title>
     <link href="https://fonts.googleapis.com/css2?family=Nefelibata+Sans&display=swap" rel="stylesheet"> <!-- Подключение шрифта -->
-    <style>
+      <style>
         body {
             font-family: 'Nefelibata Sans', sans-serif; /* Применение шрифта Nefelibata Sans */
             background-color: #F3E7C7;
@@ -23,30 +23,22 @@
             height: auto;
         }
 
-        .wrapper {
-            position: relative; /* Обертка, которая позволяет контейнерам быть внутри неё */
-            width: 100%;
-            max-width: 60vw;
-            margin-top: 20px; /* Отступ от декоративного изображения */
-        }
-
         .container {
-            position: absolute; /* Контейнеры, которые будут заменять друг друга */
             width: 100%;
             max-width: 60vw;
             padding: 20px;
             border-radius: 10px;
             background-color: transparent;
-            height: 100vh;
+            height: 100hw;
             padding-bottom: 5vw;
-            opacity: 0; /* Начальная прозрачность */
-            transform: translateY(30px); /* Начальное положение снизу */
-            transition: opacity 0.5s ease, transform 0.5s ease; /* Анимация */
+            opacity: 0;
+            transform: translateY(20vh);
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
         .container.active {
-            opacity: 1; /* Появление контейнера */
-            transform: translateY(0); /* Переход к нормальной позиции */
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .row {
@@ -106,7 +98,6 @@
             align-items: center;
             overflow: visible;
             margin-top: 30px;
-            transition: transform 0.5s ease; /* Анимация для плавного движения */
         }
 
         .tab img {
@@ -122,7 +113,7 @@
             width: 15vw;
             height: auto;
             z-index: 1;
-            transition: left 0.5s ease; /* Анимация для плавного движения */
+            transition: left 0.3s ease;
         }
 
         .active-circle {
@@ -135,7 +126,7 @@
             background-color: #F3E7C7;
             border-radius: 50%;
             z-index: 2;
-            transition: left 0.5s ease; /* Анимация для плавного движения */
+            transition: left 0.3s ease;
         }
 
         .tab {
@@ -163,6 +154,7 @@
                 width: 35vw;
                 height: auto;
                 z-index: 1;
+                transition: left 0.3s ease;
             }
 
             input {
@@ -177,7 +169,7 @@
                 width: 10vw;
             }
 
-            .wrapper {
+            .container {
                 max-width: 80vw;
             }
 
@@ -188,6 +180,7 @@
             .active-circle {
                 width: 18vw;
                 height: 90%;
+                transition: left 0.3s ease;
             }
 
             .row {
@@ -223,6 +216,7 @@
                 height: 80%;
                 border-radius: 50%;
                 z-index: 2;
+                transition: left 0.3s ease;
             }
 
             .row {
@@ -234,6 +228,7 @@
                 height: 140vw;
             }
         }
+
     </style>
 </head>
 <body>
