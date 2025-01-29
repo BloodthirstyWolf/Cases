@@ -22,27 +22,29 @@
             width: 100vw;
             height: auto;
         }
-/* Анимация для плавного появления контейнера */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+.container {
+    width: 100%;
+    max-width: 60vw;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: transparent;
+    height: 100hw;
+    padding-bottom: 5vw;
+    opacity: 0; /* Изначально контейнер невидим */
+    transform: translateY(10vh); /* Изначально контейнер находится ниже своей обычной позиции */
+    animation: fadeInUp 1s forwards; /* Анимация появления */
 }
 
-        .container {
-            width: 100%;
-            max-width: 60vw;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: transparent;
-            height: 100hw;
-            padding-bottom: 5vw;
-            opacity: 0; /* Начальная непрозрачность */
-    animation: fadeIn 1s forwards; /* Применяем анимацию fadeIn */
-        }
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(10vh); /* Начальная позиция контейнера ниже */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0); /* Контейнер поднимется в свою обычную позицию */
+    }
+}
 
         .row {
             display: flex;
