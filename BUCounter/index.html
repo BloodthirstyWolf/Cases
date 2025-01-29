@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Калькулятор ХЕ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nefelibata+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nefelibata+Sans&display=swap" rel="stylesheet"> <!-- Подключение шрифта -->
     <style>
         body {
-            font-family: 'Nefelibata Sans', sans-serif;
+            font-family: 'Nefelibata Sans', sans-serif; /* Применение шрифта Nefelibata Sans */
             background-color: #F3E7C7;
-            color: #293b35;
+            color: #293b35; /* Установка цвета текста */
             margin: 0;
             padding: 0;
             display: flex;
@@ -29,20 +29,16 @@
             padding: 20px;
             border-radius: 10px;
             background-color: transparent;
-            height: 100vh;
+            height: 100hw;
             padding-bottom: 5vw;
-
-            /* Анимация появления */
             opacity: 0;
-            transform: translateY(20vh);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-            display: none;
+            transform: translateY(20vh); /* Начальное положение контейнера (ниже) */
+            transition: opacity 0.5s ease, transform 0.5s ease; /* Плавный переход */
         }
 
-        .container.show {
+        .container.visible {
             opacity: 1;
-            transform: translateY(0);
-            display: block;
+            transform: translateY(0); /* Контейнер поднимется на свое место */
         }
 
         .row {
@@ -73,6 +69,24 @@
             text-align: right;
         }
 
+        .controls {
+            font-size: 24px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+
+        .controls:hover {
+            color: #007bff;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        /* Стиль для навигационного меню */
         .tab-bar {
             position: fixed;
             bottom: 0;
@@ -82,25 +96,13 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-        }
-
-        .tab {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            color: white;
-            cursor: pointer;
-        }
-
-        .tab.active {
-            color: #e91e63;
+            overflow: visible;
+            margin-top: 30px;
         }
 
         .tab img {
-            width: 5vw;
-            height: auto;
+            width: 5vw; /* Устанавливаем ширину иконки как 5% от ширины экрана */
+            height: auto; /* Высота будет автоматически подстраиваться */
         }
 
         .active-svg {
@@ -124,40 +126,158 @@
             border-radius: 50%;
             z-index: 2;
         }
+
+        .tab {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            z-index: 3;
+        }
+
+        .tab.active {
+            color: #e91e63;
+        }
+
+        /* Адаптивность для экранов меньше 450px */
+        @media only screen and (max-width: 450px) {
+            .active-svg {
+                position: absolute;
+                top: -44%;
+                left: 25%;
+                transform: translateX(-50%);
+                width: 35vw;
+                height: auto;
+                z-index: 1;
+            }
+
+            input {
+                width: 20%;
+            }
+
+            .row span {
+                font-size: 3.5vw;
+            }
+
+            .tab img {
+                width: 10vw;
+            }
+
+            .container {
+                max-width: 80vw;
+            }
+
+            .tab {
+                top: -10%;
+            }
+
+            .active-circle {
+                width: 18vw;
+                height: 90%;
+            }
+
+            .row {
+                height: 10vw;
+            }
+
+            .container {
+                max-width: 80vw;
+                height: 140vw;
+            }
+        }
+
+        /* Адаптивность для экранов меньше 370px */
+        @media only screen and (max-width: 370px) {
+            #container1 {
+                height: 50vh; /* Установим высоту первого контейнера в 50% от высоты экрана */
+            }
+
+            .active-svg {
+                top: -44%;
+            }
+
+            .row span {
+                font-size: 4vw;
+            }
+
+            .active-circle {
+                position: absolute;
+                top: -5%;
+                left: 25%;
+                transform: translateX(-50%);
+                width: 18vw;
+                height: 80%;
+                border-radius: 50%;
+                z-index: 2;
+            }
+
+            .row {
+                height: 10vw;
+            }
+
+            .container {
+                max-width: 80vw;
+                height: 140vw;
+            }
+        }
+
     </style>
 </head>
 <body>
     <img src="decorative-image.jpg" alt="Декоративное изображение" class="decorative-image">
-    
-    <!-- Первый контейнер -->
     <div class="container" id="container1">
         <div class="row">
             <span>Количество углеводов:</span>
-            <input type="number" id="carbs" placeholder="Введите (г)">
+            <input type="number" id="carbs" placeholder="Введите (г)" />
         </div>
         <div class="row">
             <span>Хлебных единиц:</span>
             <span id="breadUnits">0</span>
         </div>
+        <div class="row">
+            <span>Граммов продукта в
+                <span class="controls" id="decreaseBtn">&lt;</span>
+                <span id="xeCount">1</span> ХЕ
+                <span class="controls" id="increaseBtn">&gt;</span>:
+            </span>
+            <span id="gramsPerXE">0</span>
+        </div>
+        <div class="error" id="errorMessage"></div>
     </div>
 
-    <!-- Второй контейнер -->
-    <div class="container" id="container2">
+    <!-- Второй контейнер (калькулятор ХЕ для печенья) -->
+    <div class="container" id="container2" style="display: none;">
         <div class="row">
             <span>Вес упаковки (г):</span>
-            <input type="number" id="packageWeight" placeholder="Введите вес">
+            <input type="number" id="packageWeight" placeholder="Введите вес упаковки" />
         </div>
         <div class="row">
-            <span>ХЕ в упаковке:</span>
-            <span id="xePerPackage">0</span>
+            <span>Количество углеводов в упаковке (г):</span>
+            <input type="number" id="carbsInPackage" placeholder="Введите углеводы в упаковке" />
         </div>
+        <div class="row">
+            <span>Количество печенюшек в упаковке:</span>
+            <input type="number" id="cookiesCount" placeholder="Введите количество печенюшек" />
+        </div>
+        <div class="row">
+            <span>Углеводов в 1 печенье:</span>
+            <span id="carbsPerCookie">0</span>
+        </div>
+        <div class="row">
+            <span>ХЕ в 1 печенье:</span>
+            <span id="xePerCookie">0</span>
+        </div>
+        <div class="error" id="cookieErrorMessage"></div>
     </div>
 
     <!-- Навигационное меню -->
     <div class="tab-bar">
         <img class="active-svg" src="curve.svg" alt="Активная горка">
         <div class="active-circle"></div>
-        <div class="tab active" id="tab1">
+        <div class="tab" id="tab1">
             <img src="icon1.svg">
         </div>
         <div class="tab" id="tab2">
@@ -166,42 +286,125 @@
     </div>
 
     <script>
-        const tabs = document.querySelectorAll('.tab');
-        const container1 = document.getElementById('container1');
-        const container2 = document.getElementById('container2');
-        const activeCircle = document.querySelector('.active-circle');
-        const activeSvg = document.querySelector('.active-svg');
+    // Переключение между контейнерами с анимацией
+const tabs = document.querySelectorAll('.tab');
+const container1 = document.getElementById('container1');
+const container2 = document.getElementById('container2');
+const activeCircle = document.querySelector('.active-circle');
+const activeSvg = document.querySelector('.active-svg');
 
-        tabs.forEach((tab) => {
-            tab.addEventListener('click', () => {
-                tabs.forEach(tab => tab.classList.remove('active'));
-                tab.classList.add('active');
+tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+        tabs.forEach(tab => tab.classList.remove('active'));
+        tab.classList.add('active');
 
-                const tabRect = tab.getBoundingClientRect();
-                const tabBarRect = tab.parentElement.getBoundingClientRect();
-                const offsetLeft = tabRect.left - tabBarRect.left + tabRect.width / 2;
+        const tabRect = tab.getBoundingClientRect();
+        const tabBarRect = tab.parentElement.getBoundingClientRect();
+        const offsetLeft = tabRect.left - tabBarRect.left + tabRect.width / 2;
 
-                activeCircle.style.left = `${offsetLeft}px`;
-                activeSvg.style.left = `${offsetLeft}px`;
+        activeCircle.style.left = `${offsetLeft}px`;
+        activeSvg.style.left = `${offsetLeft}px`;
 
-                // Убираем видимость у обоих контейнеров
-                container1.classList.remove('show');
-                container2.classList.remove('show');
+        // Переключаем видимость контейнеров с анимацией
+        if (tab.id === 'tab1') {
+            container1.classList.add('visible'); // Показываем первый контейнер
+            container2.classList.remove('visible'); // Прячем второй контейнер
+        } else if (tab.id === 'tab2') {
+            container1.classList.remove('visible'); // Прячем первый контейнер
+            container2.classList.add('visible'); // Показываем второй контейнер
+        }
+    });
+});
 
-                setTimeout(() => {
-                    if (tab.id === 'tab1') {
-                        container1.style.display = 'block';
-                        setTimeout(() => container1.classList.add('show'), 10);
-                    } else if (tab.id === 'tab2') {
-                        container2.style.display = 'block';
-                        setTimeout(() => container2.classList.add('show'), 10);
-                    }
-                }, 200);
-            });
-        });
+// Начальная настройка: показываем первый контейнер
+container1.classList.add('visible');
+container2.classList.remove('visible');
 
-        // Изначально показываем первый контейнер с анимацией
-        setTimeout(() => container1.classList.add('show'), 10);
-    </script>
-</body>
-</html>
+// Калькулятор ХЕ для первого контейнера (с углеводами)
+const carbsInput = document.getElementById('carbs');
+const breadUnitsElem = document.getElementById('breadUnits');
+const gramsPerXEElem = document.getElementById('gramsPerXE');
+const errorMessageElem = document.getElementById('errorMessage');
+const increaseBtn = document.getElementById('increaseBtn');
+const decreaseBtn = document.getElementById('decreaseBtn');
+const xeCountElem = document.getElementById('xeCount');
+
+let xeCount = 1; // Начальное количество ХЕ
+
+// Обработчик увеличения количества ХЕ
+increaseBtn.addEventListener('click', function () {
+    xeCount++;
+    xeCountElem.textContent = xeCount;
+    updateCalculations();
+});
+
+// Обработчик уменьшения количества ХЕ
+decreaseBtn.addEventListener('click', function () {
+    if (xeCount > 1) {
+        xeCount--;
+        xeCountElem.textContent = xeCount;
+        updateCalculations();
+    }
+});
+
+// Обработчик ввода углеводов
+carbsInput.addEventListener('input', updateCalculations);
+
+function updateCalculations() {
+    const carbs = parseFloat(carbsInput.value);
+
+    if (isNaN(carbs) || carbs <= 0) {
+        breadUnitsElem.textContent = '0';
+        gramsPerXEElem.textContent = '0';
+        errorMessageElem.textContent = 'Пожалуйста, введите корректное количество углеводов.';
+        return;
+    }
+
+    errorMessageElem.textContent = ''; // Очистка сообщения об ошибке
+
+    // Рассчитываем количество хлебных единиц и количество граммов в 1 ХЕ
+    const breadUnits = (carbs / 12).toFixed(2); // Хлебная единица = 12 г углеводов
+    const gramsPerXE = (100 * 12 / carbs).toFixed(2); // Граммов продукта в 1 ХЕ
+
+    breadUnitsElem.textContent = breadUnits;
+    gramsPerXEElem.textContent = gramsPerXE;
+}
+
+// Калькулятор ХЕ для второго контейнера (печенье)
+const packageWeightInput = document.getElementById('packageWeight');
+const carbsInPackageInput = document.getElementById('carbsInPackage');
+const cookiesCountInput = document.getElementById('cookiesCount');
+const carbsPerCookieElem = document.getElementById('carbsPerCookie');
+const xePerCookieElem = document.getElementById('xePerCookie');
+const cookieErrorMessageElem = document.getElementById('cookieErrorMessage');
+
+// Обработчик ввода данных в калькулятор печенья
+packageWeightInput.addEventListener('input', updateCookieCalculations);
+carbsInPackageInput.addEventListener('input', updateCookieCalculations);
+cookiesCountInput.addEventListener('input', updateCookieCalculations);
+
+function updateCookieCalculations() {
+    const packageWeight = parseFloat(packageWeightInput.value);
+    const carbsInPackage = parseFloat(carbsInPackageInput.value);
+    const cookiesCount = parseInt(cookiesCountInput.value);
+
+    if (isNaN(packageWeight) || isNaN(carbsInPackage) || isNaN(cookiesCount) || packageWeight <= 0 || carbsInPackage <= 0 || cookiesCount <= 0) {
+        cookieErrorMessageElem.textContent = 'Пожалуйста, введите корректные данные.';
+        carbsPerCookieElem.textContent = '0';
+        xePerCookieElem.textContent = '0';
+        return;
+    }
+
+    cookieErrorMessageElem.textContent = ''; // Очистка сообщения об ошибке
+
+    // Рассчитываем углеводы в одном печенье
+    const carbsPerCookie = (carbsInPackage / cookiesCount).toFixed(2);
+
+    // Рассчитываем ХЕ в одном печенье
+    const xePerCookie = (carbsPerCookie / 12).toFixed(2);
+
+    carbsPerCookieElem.textContent = carbsPerCookie;
+    xePerCookieElem.textContent = xePerCookie;
+}
+        </script>      
+</body>   
