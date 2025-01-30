@@ -292,8 +292,46 @@
 const tabs = document.querySelectorAll('.tab');
 const container1 = document.getElementById('container1');
 const container2 = document.getElementById('container2');
-const activeCircle = document.querySelector('.active-circle');
-const activeSvg = document.querySelector('.active-svg');
+
+// Функция для скрытия клавиатуры при нажатии Enter в последнем поле ввода
+function handleEnterKey(inputs) {
+    if (inputs.length === 0) return; // Если нет полей ввода, выходим
+
+    const lastInput = inputs[inputs.length - 1]; // Последнее поле ввода
+
+    lastInput.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Предотвращаем стандартное поведение
+            lastInput.blur(); // Убираем фокус, клавиатура скрывается
+        }
+    });
+}
+
+// Функция для автоматического переключения фокуса (для кнопки "→|")
+function handleNextKey(inputs) {
+    inputs.forEach((input, index) => {
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Останавливаем стандартное поведение
+
+                // Если есть следующее поле, переносим на него фокус
+                if (inputs[index + 1]) {
+                    inputs[index + 1].focus();
+                }
+            }
+        });
+    });
+}
+
+// Применяем логику к первому контейнеру
+const inputsContainer1 = container1.querySelectorAll('input');
+handleEnterKey(inputsContainer1);
+handleNextKey(inputsContainer1);
+
+// Применяем логику ко второму контейнеру
+const inputsContainer2 = container2.querySelectorAll('input');
+handleEnterKey(inputsContainer2);
+handleNextKey(inputsContainer2);
 
 // Обработчик для переключения вкладок
 tabs.forEach((tab) => {
