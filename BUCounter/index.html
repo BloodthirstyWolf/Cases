@@ -287,194 +287,178 @@
             <img src="icon2.svg">
         </div>
     </div>
-<script>
-// Переключение между контейнерами
-const tabs = document.querySelectorAll('.tab');
-const container1 = document.getElementById('container1');
-const container2 = document.getElementById('container2');
 
-// Функция для скрытия клавиатуры при нажатии Enter в последнем поле ввода
-function handleEnterKey(inputs) {
-    if (inputs.length === 0) return; // Если нет полей ввода, выходим
 
-    const lastInput = inputs[inputs.length - 1]; // Последнее поле ввода
+<script>  
+// Переключение между контейнерами  
+const tabs = document.querySelectorAll('.tab');  
+const container1 = document.getElementById('container1');  
+const container2 = document.getElementById('container2');  
+const activeCircle = document.querySelector('.active-circle');  
+const activeSvg = document.querySelector('.active-svg');  
+  
+// Обработчик для переключения вкладок  
+tabs.forEach((tab) => {  
+    tab.addEventListener('click', () => {  
+        tabs.forEach(tab => tab.classList.remove('active')); // Убираем активный класс с всех вкладок  
+        tab.classList.add('active'); // Добавляем активный класс на текущую вкладку  
+  
+        // Рассчитываем и перемещаем активный круг и SVG  
+        const tabRect = tab.getBoundingClientRect();  
+        const tabBarRect = tab.parentElement.getBoundingClientRect();  
+        const offsetLeft = tabRect.left - tabBarRect.left + tabRect.width / 2;  
+  
+        activeCircle.style.left = `${offsetLeft}px`;  
+        activeSvg.style.left = `${offsetLeft}px`;  
+  
+        // Скрываем оба контейнера перед анимацией  
+        container1.style.display = 'none';  
+        container2.style.display = 'none';  
+  
+        // Показываем нужный контейнер с анимацией  
+        if (tab.id === 'tab1') {  
+            container1.style.display = 'block';  
+            container1.classList.remove('fadeIn'); // Убираем класс для сброса анимации  
+            void container1.offsetWidth; // Перезапуск анимации  
+            container1.classList.add('fadeIn'); // Добавляем класс для анимации  
+        } else if (tab.id === 'tab2') {  
+            container2.style.display = 'block';  
+            container2.classList.remove('fadeIn'); // Убираем класс для сброса анимации  
+            void container2.offsetWidth; // Перезапуск анимации  
+            container2.classList.add('fadeIn'); // Добавляем класс для анимации  
+        }  
+    });  
+});  
+  
+// Начальная настройка: показываем первый контейнер  
+container1.style.display = 'block';  
+container2.style.display = 'none';  
+  
+// Калькулятор ХЕ для первого контейнера (с углеводами)  
+const carbsInput = document.getElementById('carbs');  
+const breadUnitsElem = document.getElementById('breadUnits');  
+const gramsPerXEElem = document.getElementById('gramsPerXE');  
+const errorMessageElem = document.getElementById('errorMessage');  
+const increaseBtn = document.getElementById('increaseBtn');  
+const decreaseBtn = document.getElementById('decreaseBtn');  
+const xeCountElem = document.getElementById('xeCount');  
+  
+let xeCount = 1; // Начальное количество ХЕ  
+  
+// Обработчик увеличения количества ХЕ  
+increaseBtn.addEventListener('click', function () {  
+    xeCount++;  
+    xeCountElem.textContent = xeCount;  
+    updateCalculations();  
+});  
+  
+// Обработчик уменьшения количества ХЕ  
+decreaseBtn.addEventListener('click', function () {  
+    if (xeCount > 1) {  
+        xeCount--;  
+        xeCountElem.textContent = xeCount;  
+        updateCalculations();  
+    }  
+});  
+  
+// Обработчик ввода углеводов  
+carbsInput.addEventListener('input', updateCalculations);  
+  
+function updateCalculations() {  
+    const carbs = parseFloat(carbsInput.value);  
+  
+    if (isNaN(carbs) || carbs <= 0) {  
+        breadUnitsElem.textContent = '0';  
+        gramsPerXEElem.textContent = '0';  
+        errorMessageElem.textContent = 'Пожалуйста, введите корректное количество углеводов.';  
+        return;  
+    }  
+  
+    errorMessageElem.textContent = ''; // Очистка сообщения об ошибке  
+  
+    // Рассчитываем количество хлебных единиц и количество граммов в 1 ХЕ  
+    const breadUnits = (carbs / 12).toFixed(2); // Хлебная единица = 12 г углеводов  
+    const gramsPerXE = (100 * 12 / carbs).toFixed(2); // Граммов продукта в 1 ХЕ  
+  
+    breadUnitsElem.textContent = breadUnits;  
+    gramsPerXEElem.textContent = gramsPerXE;  
+  
+    // Обновляем количество граммов для выбранного количества ХЕ  
+    const gramsForXE = (gramsPerXE * xeCount).toFixed(2);  
+    gramsPerXEElem.textContent = gramsForXE;  
+}  
+  
+// Калькулятор ХЕ для второго контейнера (для печенья)  
+const packageWeightInput = document.getElementById('packageWeight');  
+const carbsInPackageInput = document.getElementById('carbsInPackage');  
+const cookiesCountInput = document.getElementById('cookiesCount');  
+const carbsPerCookieElem = document.getElementById('carbsPerCookie');  
+const xePerCookieElem = document.getElementById('xePerCookie');  
+const cookieErrorMessageElem = document.getElementById('cookieErrorMessage');  
+  
+// Функция для расчета углеводов и ХЕ на 1 печенье  
+function calculateCookies() {  
+    const packageWeight = parseFloat(packageWeightInput.value);  
+    const carbsInPackage = parseFloat(carbsInPackageInput.value);  
+    const cookiesCount = parseFloat(cookiesCountInput.value);  
+  
+    if (isNaN(packageWeight) || isNaN(carbsInPackage) || isNaN(cookiesCount) || cookiesCount <= 0) {  
+        carbsPerCookieElem.textContent = '0';  
+        xePerCookieElem.textContent = '0';  
+        cookieErrorMessageElem.textContent = 'Пожалуйста, введите корректные данные.';  
+        return;  
+    }  
+  
+    cookieErrorMessageElem.textContent = ''; // Очистка ошибки  
+  
+    // Расчет углеводов на одно печенье  
+    const totalCarbs = (packageWeight * carbsInPackage) / 100; // Общее количество углеводов в упаковке  
+    const carbsPerCookie = (totalCarbs / cookiesCount).toFixed(2); // Углеводов в 1 печенье  
+  
+    // Расчет ХЕ для одного печенья  
+    const xePerCookie = (carbsPerCookie / 12).toFixed(2); // ХЕ = углеводы / 12  
+  
+    // Обновляем отображение  
+    carbsPerCookieElem.textContent = carbsPerCookie;  
+    xePerCookieElem.textContent = xePerCookie;  
+}  
+  
+// Функция для перемещения фокуса на следующее поле ввода  
+function moveFocusToNextField(currentInput) {  
+    const inputs = Array.from(document.querySelectorAll('.container2 input'));  
+    const currentIndex = inputs.indexOf(currentInput);  
+    const nextInput = inputs[currentIndex + 1];  
+  
+    if (nextInput) {  
+        nextInput.focus();  
+    }  
+}  
+  
+// Добавляем слушатели для всех полей ввода для расчета печенек  
+packageWeightInput.addEventListener('input', calculateCookies);  
+carbsInPackageInput.addEventListener('input', calculateCookies);  
+cookiesCountInput.addEventListener('input', calculateCookies);  
+ 
+// Функция для скрытия клавиатуры после последнего поля
+function handleEnterToHideKeyboard(inputs) {
+    if (inputs.length === 0) return; // Если нет полей, выходим
+
+    const lastInput = inputs[inputs.length - 1]; // Берем последнее поле ввода
 
     lastInput.addEventListener('keydown', function (event) {
         if (event.key === 'Enter') {
-            event.preventDefault(); // Предотвращаем стандартное поведение
-            lastInput.blur(); // Убираем фокус, клавиатура скрывается
+            lastInput.blur(); // Снимаем фокус, клавиатура сворачивается
         }
     });
 }
 
-// Функция для автоматического переключения фокуса (для кнопки "→|")
-function handleNextKey(inputs) {
-    inputs.forEach((input, index) => {
-        input.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter') {
-                event.preventDefault(); // Останавливаем стандартное поведение
+// Получаем все поля ввода в контейнерах
+const allInputsContainer1 = container1.querySelectorAll('input');
+const allInputsContainer2 = container2.querySelectorAll('input');
 
-                // Если есть следующее поле, переносим на него фокус
-                if (inputs[index + 1]) {
-                    inputs[index + 1].focus();
-                }
-            }
-        });
-    });
-}
-
-// Применяем логику к первому контейнеру
-const inputsContainer1 = container1.querySelectorAll('input');
-handleEnterKey(inputsContainer1);
-handleNextKey(inputsContainer1);
-
-// Применяем логику ко второму контейнеру
-const inputsContainer2 = container2.querySelectorAll('input');
-handleEnterKey(inputsContainer2);
-handleNextKey(inputsContainer2);
-
-// Обработчик для переключения вкладок
-tabs.forEach((tab) => {
-    tab.addEventListener('click', () => {
-        tabs.forEach(tab => tab.classList.remove('active')); // Убираем активный класс с всех вкладок
-        tab.classList.add('active'); // Добавляем активный класс на текущую вкладку
-
-        // Рассчитываем и перемещаем активный круг и SVG
-        const tabRect = tab.getBoundingClientRect();
-        const tabBarRect = tab.parentElement.getBoundingClientRect();
-        const offsetLeft = tabRect.left - tabBarRect.left + tabRect.width / 2;
-
-        activeCircle.style.left = `${offsetLeft}px`;
-        activeSvg.style.left = `${offsetLeft}px`;
-
-        // Скрываем оба контейнера перед анимацией
-        container1.style.display = 'none';
-        container2.style.display = 'none';
-
-        // Показываем нужный контейнер с анимацией
-        if (tab.id === 'tab1') {
-            container1.style.display = 'block';
-            container1.classList.remove('fadeIn'); // Убираем класс для сброса анимации
-            void container1.offsetWidth; // Перезапуск анимации
-            container1.classList.add('fadeIn'); // Добавляем класс для анимации
-        } else if (tab.id === 'tab2') {
-            container2.style.display = 'block';
-            container2.classList.remove('fadeIn'); // Убираем класс для сброса анимации
-            void container2.offsetWidth; // Перезапуск анимации
-            container2.classList.add('fadeIn'); // Добавляем класс для анимации
-        }
-    });
-});
-
-// Начальная настройка: показываем первый контейнер
-container1.style.display = 'block';
-container2.style.display = 'none';
-
-// Калькулятор ХЕ для первого контейнера (с углеводами)
-const carbsInput = document.getElementById('carbs');
-const breadUnitsElem = document.getElementById('breadUnits');
-const gramsPerXEElem = document.getElementById('gramsPerXE');
-const errorMessageElem = document.getElementById('errorMessage');
-const increaseBtn = document.getElementById('increaseBtn');
-const decreaseBtn = document.getElementById('decreaseBtn');
-const xeCountElem = document.getElementById('xeCount');
-
-let xeCount = 1; // Начальное количество ХЕ
-
-// Обработчик увеличения количества ХЕ
-increaseBtn.addEventListener('click', function () {
-    xeCount++;
-    xeCountElem.textContent = xeCount;
-    updateCalculations();
-});
-
-// Обработчик уменьшения количества ХЕ
-decreaseBtn.addEventListener('click', function () {
-    if (xeCount > 1) {
-        xeCount--;
-        xeCountElem.textContent = xeCount;
-        updateCalculations();
-    }
-});
-
-// Обработчик ввода углеводов
-carbsInput.addEventListener('input', updateCalculations);
-
-function updateCalculations() {
-    const carbs = parseFloat(carbsInput.value);
-
-    if (isNaN(carbs) || carbs <= 0) {
-        breadUnitsElem.textContent = '0';
-        gramsPerXEElem.textContent = '0';
-        errorMessageElem.textContent = 'Пожалуйста, введите корректное количество углеводов.';
-        return;
-    }
-
-    errorMessageElem.textContent = ''; // Очистка сообщения об ошибке
-
-    // Рассчитываем количество хлебных единиц и количество граммов в 1 ХЕ
-    const breadUnits = (carbs / 12).toFixed(2); // Хлебная единица = 12 г углеводов
-    const gramsPerXE = (100 * 12 / carbs).toFixed(2); // Граммов продукта в 1 ХЕ
-
-    breadUnitsElem.textContent = breadUnits;
-    gramsPerXEElem.textContent = gramsPerXE;
-
-    // Обновляем количество граммов для выбранного количества ХЕ
-    const gramsForXE = (gramsPerXE * xeCount).toFixed(2);
-    gramsPerXEElem.textContent = gramsForXE;
-}
-
-// Калькулятор ХЕ для второго контейнера (для печенья)
-const packageWeightInput = document.getElementById('packageWeight');
-const carbsInPackageInput = document.getElementById('carbsInPackage');
-const cookiesCountInput = document.getElementById('cookiesCount');
-const carbsPerCookieElem = document.getElementById('carbsPerCookie');
-const xePerCookieElem = document.getElementById('xePerCookie');
-const cookieErrorMessageElem = document.getElementById('cookieErrorMessage');
-
-// Функция для расчета углеводов и ХЕ на 1 печенье
-function calculateCookies() {
-    const packageWeight = parseFloat(packageWeightInput.value);
-    const carbsInPackage = parseFloat(carbsInPackageInput.value);
-    const cookiesCount = parseFloat(cookiesCountInput.value);
-
-    if (isNaN(packageWeight) || isNaN(carbsInPackage) || isNaN(cookiesCount) || cookiesCount <= 0) {
-        carbsPerCookieElem.textContent = '0';
-        xePerCookieElem.textContent = '0';
-        cookieErrorMessageElem.textContent = 'Пожалуйста, введите корректные данные.';
-        return;
-    }
-
-    cookieErrorMessageElem.textContent = ''; // Очистка ошибки
-
-    // Расчет углеводов на одно печенье
-    const totalCarbs = (packageWeight * carbsInPackage) / 100; // Общее количество углеводов в упаковке
-    const carbsPerCookie = (totalCarbs / cookiesCount).toFixed(2); // Углеводов в 1 печенье
-
-    // Расчет ХЕ для одного печенья
-    const xePerCookie = (carbsPerCookie / 12).toFixed(2); // ХЕ = углеводы / 12
-
-    // Обновляем отображение
-    carbsPerCookieElem.textContent = carbsPerCookie;
-    xePerCookieElem.textContent = xePerCookie;
-}
-
-// Функция для перемещения фокуса на следующее поле ввода
-function moveFocusToNextField(currentInput) {
-    const inputs = Array.from(document.querySelectorAll('.container2 input'));
-    const currentIndex = inputs.indexOf(currentInput);
-    const nextInput = inputs[currentIndex + 1];
-
-    if (nextInput) {
-        nextInput.focus();
-    }
-}
-
-// Добавляем слушатели для всех полей ввода для расчета печенек
-packageWeightInput.addEventListener('input', calculateCookies);
-carbsInPackageInput.addEventListener('input', calculateCookies);
-cookiesCountInput.addEventListener('input', calculateCookies);
-
+// Добавляем обработку Enter для последнего поля в каждом контейнере
+handleEnterToHideKeyboard(allInputsContainer1);
+handleEnterToHideKeyboard(allInputsContainer2);
 </script>
 </body>
 </html>
