@@ -422,7 +422,16 @@ function calculateCookies() {
     xePerCookieElem.textContent = xePerCookie;
 }
 
-// Добавляем слушатели для всех полей ввода
+// Слушаем событие нажатия клавиш на поле ввода углеводов
+carbsInput.addEventListener('keydown', function (event) {
+    // Проверяем, если нажата клавиша Enter
+    if (event.key === 'Enter') {
+        // Убираем фокус с поля ввода (это скрывает клавиатуру на большинстве устройств)
+        carbsInput.blur();
+    }
+});
+
+// Добавляем слушатели для всех полей ввода для расчета печенек
 packageWeightInput.addEventListener('input', calculateCookies);
 carbsInPackageInput.addEventListener('input', calculateCookies);
 cookiesCountInput.addEventListener('input', calculateCookies);
