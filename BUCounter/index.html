@@ -287,7 +287,6 @@
             <img src="icon2.svg">
         </div>
     </div>
-
 <script>
 // Переключение между контейнерами
 const tabs = document.querySelectorAll('.tab');
@@ -422,13 +421,29 @@ function calculateCookies() {
     xePerCookieElem.textContent = xePerCookie;
 }
 
-// Слушаем событие нажатия клавиш на поле ввода углеводов
-carbsInput.addEventListener('keydown', function (event) {
-    // Проверяем, если нажата клавиша Enter
-    if (event.key === 'Enter') {
-        // Убираем фокус с поля ввода (это скрывает клавиатуру на большинстве устройств)
-        carbsInput.blur();
+// Функция для перемещения фокуса на следующее поле ввода
+function moveFocusToNextField(currentInput) {
+    const inputs = Array.from(document.querySelectorAll('.container2 input'));
+    const currentIndex = inputs.indexOf(currentInput);
+    const nextInput = inputs[currentIndex + 1];
+
+    if (nextInput) {
+        nextInput.focus();
     }
+}
+
+// Обработчик клавиш для стрелочек
+const nextButton = document.querySelector('.next-button'); // Стрелочка →|
+const submitButton = document.querySelector('.submit-button'); // Стрелочка →
+
+nextButton.addEventListener('click', function () {
+    // Если нажата стрелочка →|, перемещаем фокус на следующее поле
+    moveFocusToNextField(document.activeElement);
+});
+
+submitButton.addEventListener('click', function () {
+    // Если нажата стрелочка →, убираем фокус с последнего поля и скрываем клавиатуру
+    document.activeElement.blur();
 });
 
 // Добавляем слушатели для всех полей ввода для расчета печенек
