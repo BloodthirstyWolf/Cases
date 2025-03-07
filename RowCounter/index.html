@@ -1,0 +1,106 @@
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+
+// Данные схемы
+const rows = [
+  { row: 1, operations: [{ type: 'Сбн', count: 6 }] },
+  { row: 2, operations: [{ type: 'Пр', count: 6 }] },
+  { row: 3, operations: [{ type: 'Пр', count: 1 }, { type: 'Сбн', count: 1 }, { type: 'Пр', count: 1 }, { type: 'Сбн', count: 1 }, { type: 'Пр', count: 1 }, { type: 'Сбн', count: 1 }] },
+  { row: 4, operations: [{ type: 'Пр', count: 1 }, { type: 'Сбн', count: 2 }, { type: 'Пр', count: 1 }, { type: 'Сбн', count: 2 }, { type: 'Пр', count: 1 }, { type: 'Сбн', count: 2 }] },
+  { row: 5, operations: [{ type: 'Пр', count: 1 }, { type: 'Сбн', count: 3 }, { type: 'Пр', count: 1 }, { type: 'Сбн', count: 3 }, { type: 'Пр', count: 1 }, { type: 'Сбн', count: 3 }] },
+  { row: 6, operations: [{ type: 'Пр', count: 1 }, { type: 'Сбн', count: 4 }, { type: 'Пр', count: 1 }, { type: 'Сбн', count: 4 }, { type: 'Пр', count: 1 }, { type: 'Сбн', count: 4 }] },
+  { row: 7, operations: [{ type: 'Сбн', count: 36 }] },
+  { row: 8, operations: [{ type: 'Сбн', count: 36 }] },
+  { row: 9, operations: [{ type: 'Сбн', count: 36 }] },
+  { row: 10, operations: [{ type: 'Сбн', count: 36 }] },
+  { row: 11, operations: [{ type: 'Сбн', count: 36 }] },
+  { row: 12, operations: [{ type: 'Сбн', count: 36 }] },
+  { row: 13, operations: [{ type: 'Уб', count: 6 }, { type: 'Сбн', count: 4 }] },
+  { row: 14, operations: [{ type: 'Уб', count: 6 }, { type: 'Сбн', count: 3 }] },
+  { row: 15, operations: [{ type: 'Уб', count: 1 }, { type: 'Сбн', count: 2 }, { type: 'Уб', count: 1 }, { type: 'Сбн', count: 2 }, { type: 'Уб', count: 1 }, { type: 'Сбн', count: 2 }] },
+  { row: 16, operations: [{ type: 'Уб', count: 1 }, { type: 'Сбн', count: 1 }, { type: 'Уб', count: 1 }, { type: 'Сбн', count: 1 }, { type: 'Уб', count: 1 }, { type: 'Сбн', count: 1 }] },
+  { row: 17, operations: [{ type: 'Уб', count: 6 }] }
+];
+
+const App = () => {
+  const [rowsData, setRowsData] = useState(rows);
+
+  const handlePress = (rowIndex, operationIndex) => {
+    const newRowsData = [...rowsData];
+    const operation = newRowsData[rowIndex].operations[operationIndex];
+
+    if (operation.count > 0) {
+      operation.count -= 1;
+      if (operation.count === 0) {
+        operation.completed = true;
+      }
+    }
+
+    setRowsData(newRowsData);
+  };
+
+  const renderOperation = (operation, rowIndex, operationIndex) => {
+    const isCompleted = operation.completed || operation.count === 0;
+    const opacity = isCompleted ? 0.5 : 1;
+
+    return (
+      <TouchableOpacity
+        key={operationIndex}
+        style={[styles.operation, { opacity }]}
+        onPress={() => handlePress(rowIndex, operationIndex)}
+      >
+        <Text style={isCompleted ? styles.completedText : styles.operationText}>
+          {operation.count} {operation.type}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+
+  const renderRow = (rowData, rowIndex) => (
+    <View key={rowIndex} style={styles.row}>
+      <Text style={styles.rowTitle}>Ряд {rowData.row}</Text>
+      {rowData.operations.map((operation, operationIndex) =>
+        renderOperation(operation, rowIndex, operationIndex)
+      )}
+    </View>
+  );
+
+  return (
+    <ScrollView style={styles.container}>
+      {rowsData.map((rowData, rowIndex) => renderRow(rowData, rowIndex))}
+    </ScrollView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+  },
+  row: {
+    marginBottom: 20,
+  },
+  rowTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  operation: {
+    padding: 10,
+    marginVertical: 5,
+    borderWidth: 1,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  operationText: {
+    fontSize: 16,
+  },
+  completedText: {
+    fontSize: 16,
+    textDecorationLine: 'line-through',
+    color: 'gray',
+  },
+});
+
+export default App;
