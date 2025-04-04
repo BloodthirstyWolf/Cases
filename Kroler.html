@@ -16,17 +16,7 @@
   <input type="text" id="userInput" placeholder="Например: Больше 1000" />
   <div id="range-display">Число от <span id="minVal">-∞</span> до <span id="maxVal">+∞</span></div>
   <div id="middle-value"></div>
-  <div>
-    <table>
-      <caption><strong>Большее число</strong></caption>
-      <tr><td id="greaterTable">-∞</td></tr>
-    </table>
-
-    <table>
-      <caption><strong>Меньшее число</strong></caption>
-      <tr><td id="lesserTable">+∞</td></tr>
-    </table>
-  </div>
+  
 
   <script>
     const inputField = document.getElementById("userInput");
@@ -79,7 +69,7 @@
       if (isFinite(greaterValue) && isFinite(lesserValue)) {
         const middle = Math.floor((greaterValue + lesserValue) / 2);
         rangeDisplay.textContent = `Число от ${greaterValue} до ${lesserValue}`;
-        middleDisplay.textContent = `Среднее: ${middle}`;
+        middleDisplay.textContent = `/number ${middle}`;
       } else {
         rangeDisplay.textContent = `Число от ${greaterValue} до ${lesserValue}`;
         middleDisplay.textContent = "";
