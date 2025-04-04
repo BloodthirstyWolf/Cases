@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Числовой Алгоритм</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        input {
+            padding: 5px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        table {
+            width: 200px;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        #message {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Алгоритм для вычисления чисел</h1>
+    <div id="message">Число от [Табличка1] до [Табличка2]</div>
+
+    <input type="text" id="inputMessage" placeholder="Введите сообщение (например, 'Больше 63845182')" oninput="updateTables()">
+    
+    <h2>Таблица большего числа</h2>
+    <table id="greaterTable">
+        <tr><th>Число</th></tr>
+    </table>
+
+    <h2>Таблица меньшего числа</h2>
+    <table id="lesserTable">
+        <tr><th>Число</th></tr>
+    </table>
+
+    <div id="result"></div>
+
+    <script>
+        // Начальные массивы с числами
+        let greaterNumbers = [];
+        let lesserNumbers = [];
+
+        function updateTables() {
+            const input = document.getElementById("inputMessage").value;
+            const message = input.trim().toLowerCase();
+
+            let number;
+            let isPositive = false;
+
+            // Проверяем, если ввод соответствует формату "больше X" или "меньше X"
+            if (message.includes("больше")) {
+                number = parseInt(message.split("больше")[1].trim());
+                isPositive = true;
+            } else if (message.includes("меньше")) {
+                number = parseInt(message.split("меньше")[1].trim());
+                isPositive = false;
+            }
+
+            // Проверка на корректность ввода
+            if (isNaN(number)) {
+                return;
+            }
+
+            // Очищаем текущие таблицы
+            greaterNumbers = [];
+            lesserNumbers = [];
+
+            // Логика распределения числа
+            if (isPositive) {
+                greaterNumbers.push(number);
+            } else {
+                lesserNumbers.push(number);
+            }
+
+            // Заполнение таблиц значениями
+            renderTables();
+        }
+
+        function renderTables() {
+            const greaterTable = document.getElementById("greaterTable");
+            const lesserTable = document.getElementById("lesserTable");
+
+            // Очистка таблиц перед рендером
+            greaterTable.innerHTML = "<tr><th>Число</th></tr>";
+            lesserTable.innerHTML = "<tr><th>Число</th></tr>";
+
+            // Добавление чисел в таблицы
+            greaterNumbers.forEach(number => {
+                let row = document.createElement("tr");
+                let cell = document.createElement("td");
+                cell.textContent = number;
+                row.appendChild(cell);
+                greaterTable.appendChild(row);
+            });
+
+            lesserNumbers.forEach(number => {
+                let row = document.createElement("tr");
+                let cell = document.createElement("td");
+                cell.textContent = number;
+                row.appendChild(cell);
+                lesserTable.appendChild(row);
+            });
+
+            // Если в обеих таблицах есть хотя бы одно число, вычисляем среднее
+            if (greaterNumbers.length > 0 && lesserNumbers.length > 0) {
+                const average = (greaterNumbers[0] + lesserNumbers[0]) / 2;
+                document.getElementById("result").textContent = `Среднее число: ${average}`;
+            } else {
+                document.getElementById("result").textContent = "Не достаточно данных для вычисления среднего числа.";
+            }
+        }
+    </script>
+</body>
+</html>
