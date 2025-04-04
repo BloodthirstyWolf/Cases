@@ -16,7 +16,16 @@
   <input type="text" id="userInput" placeholder="Например: Больше 1000" />
   <div id="range-display">Число от <span id="minVal">-∞</span> до <span id="maxVal">+∞</span></div>
   <div id="middle-value"></div>
-  
+  <div>
+    <table>
+      <caption><strong>Большее число</strong></caption>
+      <tr><td id="greaterTable">-∞</td></tr>
+    </table>
+    <table>
+      <caption><strong>Меньшее число</strong></caption>
+      <tr><td id="lesserTable">+∞</td></tr>
+    </table>
+  </div>
 
   <script>
     const inputField = document.getElementById("userInput");
