@@ -1,40 +1,82 @@
-import { useState } from "react"; import { Button } from "@/components/ui/button"; import { saveAs } from "file-saver"; import { PDFDocument } from "pdf-lib";
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Конвертация изображений в PDF</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      background-color: #f5f5f5;
+    }
+    h1 {
+      margin-bottom: 1rem;
+    }
+    input[type="file"] {
+      margin: 1rem 0;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Объединить изображения в PDF</h1>
+  <input type="file" id="images" accept="image/*" multiple>
+  <button onclick="generatePDF()">Скачать PDF</button>
 
-export default function ImageToPDF() { const [files, setFiles] = useState([]);
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    async function generatePDF() {
+      const { jsPDF } = window.jspdf;
+      const input = document.getElementById('images');
+      const files = [...input.files];
 
-const handleFiles = (event) => { const selected = Array.from(event.target.files); setFiles(selected); };
+      if (!files.length) return alert('Выберите изображения.');
 
-const convertToPDF = async () => { const pdfDoc = await PDFDocument.create();
+      const pdf = new jsPDF();
+      for (let i = 0; i < files.length; i++) {
+        const imgData = await fileToDataURL(files[i]);
+        const img = new Image();
+        img.src = imgData;
 
-for (const file of files) {
-  const imageBytes = await file.arrayBuffer();
-  let img, dims;
-  if (file.type === "image/png") {
-    img = await pdfDoc.embedPng(imageBytes);
-    dims = img.scale(1);
-  } else {
-    img = await pdfDoc.embedJpg(imageBytes);
-    dims = img.scale(1);
-  }
-  const page = pdfDoc.addPage([dims.width, dims.height]);
-  page.drawImage(img, { x: 0, y: 0, width: dims.width, height: dims.height });
-}
+        await new Promise(resolve => {
+          img.onload = () => {
+            const ratio = img.width / img.height;
+            const pageWidth = 210;
+            const pageHeight = pageWidth / ratio;
+            if (i !== 0) pdf.addPage();
+            pdf.addImage(img, 'JPEG', 0, 0, pageWidth, pageHeight);
+            resolve();
+          };
+        });
+      }
 
-const pdfBytes = await pdfDoc.save();
-const blob = new Blob([pdfBytes], { type: "application/pdf" });
-saveAs(blob, "combined.pdf");
+      pdf.save('output.pdf');
+    }
 
-};
-
-return ( <div className="min-h-screen flex flex-col items-center justify-center gap-6 p-4 bg-white"> <input
-type="file"
-accept="image/*"
-multiple
-onChange={handleFiles}
-className="hidden"
-id="file-input"
-/> <label htmlFor="file-input"> <Button className="rounded-full shadow-md px-6 py-3 text-white bg-black hover:bg-gray-800"> Загрузить изображения </Button> </label> {files.length > 0 && ( <Button
-onClick={convertToPDF}
-className="rounded-full shadow-md px-6 py-3 text-white bg-black hover:bg-gray-800"
-> Скачать PDF </Button> )} </div> ); }
-
+    function fileToDataURL(file) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.readAsDataURL(file);
+      });
+    }
+  </script>
+</body>
+</html>
