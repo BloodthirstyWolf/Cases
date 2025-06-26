@@ -1,34 +1,40 @@
-import { useState } from "react"; import { PDFDocument } from "pdf-lib"; import { Button } from "@/components/ui/button";
+import { useState } from "react"; import { Button } from "@/components/ui/button"; import { saveAs } from "file-saver"; import { PDFDocument } from "pdf-lib";
 
-export default function PDFMerger() { const [files, setFiles] = useState([]);
+export default function ImageToPDF() { const [files, setFiles] = useState([]);
 
-const handleFilesChange = (e) => { setFiles(Array.from(e.target.files)); };
+const handleFiles = (event) => { const selected = Array.from(event.target.files); setFiles(selected); };
 
-const mergePDFs = async () => { const mergedPdf = await PDFDocument.create();
+const convertToPDF = async () => { const pdfDoc = await PDFDocument.create();
 
 for (const file of files) {
-  const arrayBuffer = await file.arrayBuffer();
-  const pdf = await PDFDocument.load(arrayBuffer);
-  const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-  copiedPages.forEach((page) => mergedPdf.addPage(page));
+  const imageBytes = await file.arrayBuffer();
+  let img, dims;
+  if (file.type === "image/png") {
+    img = await pdfDoc.embedPng(imageBytes);
+    dims = img.scale(1);
+  } else {
+    img = await pdfDoc.embedJpg(imageBytes);
+    dims = img.scale(1);
+  }
+  const page = pdfDoc.addPage([dims.width, dims.height]);
+  page.drawImage(img, { x: 0, y: 0, width: dims.width, height: dims.height });
 }
 
-const mergedPdfBytes = await mergedPdf.save();
-const blob = new Blob([mergedPdfBytes], { type: "application/pdf" });
-const url = URL.createObjectURL(blob);
-const link = document.createElement("a");
-link.href = url;
-link.download = "merged.pdf";
-link.click();
-URL.revokeObjectURL(url);
+const pdfBytes = await pdfDoc.save();
+const blob = new Blob([pdfBytes], { type: "application/pdf" });
+saveAs(blob, "combined.pdf");
 
 };
 
-return ( <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6"> <input
+return ( <div className="min-h-screen flex flex-col items-center justify-center gap-6 p-4 bg-white"> <input
 type="file"
+accept="image/*"
 multiple
-accept="application/pdf"
-onChange={handleFilesChange}
-className="mb-4 rounded-lg shadow-md p-2 border border-gray-300"
-/> <Button onClick={mergePDFs} disabled={files.length === 0}> Скачать объединённый PDF </Button> </div> ); }
+onChange={handleFiles}
+className="hidden"
+id="file-input"
+/> <label htmlFor="file-input"> <Button className="rounded-full shadow-md px-6 py-3 text-white bg-black hover:bg-gray-800"> Загрузить изображения </Button> </label> {files.length > 0 && ( <Button
+onClick={convertToPDF}
+className="rounded-full shadow-md px-6 py-3 text-white bg-black hover:bg-gray-800"
+> Скачать PDF </Button> )} </div> ); }
 
