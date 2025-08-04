@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Level Constructor</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #fff;
+      color: #111;
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+    }
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 1rem;
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin-top: 0.25rem;
+      border: 1px solid #ccc;
+      border-radius: 0.25rem;
+    }
+    button {
+      background-color: #111;
+      color: #fff;
+      border: none;
+      margin-top: 2rem;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    pre {
+      background: #f3f3f3;
+      padding: 1rem;
+      margin-top: 2rem;
+      white-space: pre-wrap;
+      border-left: 3px solid #111;
+    }
+  </style>
+</head>
+<body>
+  <h1>Конструктор уровней</h1>
+
+  <label for="original">Фраза (оригинал):</label>
+  <textarea id="original"></textarea>
+
+  <label for="translit">Транслитерация (через пробел):</label>
+  <textarea id="translit"></textarea>
+
+  <label for="known">Известные буквы (латиница, через запятую):</label>
+  <input type="text" id="known" />
+
+  <button onclick="generateLevel()">Сгенерировать JSON</button>
+
+  <pre id="output"></pre>
+
+  <script>
+    function generateLevel() {
+      const original = document.getElementById('original').value.trim();
+      const translit = document.getElementById('translit').value.trim();
+      const known = document.getElementById('known').value.trim().split(',').map(l => l.trim().toLowerCase());
+      const letters = translit.split(/\s+/);
+      const answer = [];
+
+      for (let l of letters) {
+        if (known.includes(l)) {
+          answer.push(l);
+        } else {
+          answer.push(null);
+        }
+      }
+
+      if (original.length !== letters.length) {
+        alert('⚠️ Количество знаков в оригинале и транслитерации не совпадает! Проверьте пробелы и соответствие.');
+      }
+
+      const level = {
+        original,
+        translit,
+        known,
+        answer
+      };
+
+      const output = JSON.stringify(level, null, 2);
+      document.getElementById('output').textContent = output;
+    }
+  </script>
+</body>
+</html>
