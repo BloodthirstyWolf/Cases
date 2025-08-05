@@ -2,96 +2,110 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Level Constructor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Language App Start Menu</title>
   <style>
     body {
-      font-family: sans-serif;
-      background: #fff;
-      color: #111;
-      padding: 2rem;
-      max-width: 800px;
-      margin: auto;
-    }
-    h1 {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-    }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 1rem;
-    }
-    input, textarea, button {
-      width: 100%;
-      padding: 0.5rem;
-      font-size: 1rem;
-      margin-top: 0.25rem;
-      border: 1px solid #ccc;
-      border-radius: 0.25rem;
-    }
-    button {
-      background-color: #111;
-      color: #fff;
-      border: none;
-      margin-top: 2rem;
-      cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-    pre {
+      margin: 0;
+      padding: 0;
       background: #f3f3f3;
-      padding: 1rem;
-      margin-top: 2rem;
-      white-space: pre-wrap;
-      border-left: 3px solid #111;
+      font-family: sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .menu {
+      position: relative;
+      margin-bottom: 1vh;
+      width: 80px;
+      height: 80px;
+    }
+
+    .circle-btn {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%) translateY(0);
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition:
+        transform 0.4s ease,
+        opacity 0.4s ease;
+    }
+
+    .circle-btn.main {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    .menu.open .circle-btn.sub {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .circle-btn.sub:nth-child(1) {
+      transition-delay: 0s;
+    }
+    .circle-btn.sub:nth-child(2) {
+      transition-delay: 0.05s;
+    }
+    .circle-btn.sub:nth-child(3) {
+      transition-delay: 0.1s;
+    }
+    .circle-btn.sub:nth-child(4) {
+      transition-delay: 0.15s;
+    }
+    .circle-btn.sub:nth-child(5) {
+      transition-delay: 0.2s;
+    }
+
+    /* Default position: center */
+    .circle-btn.sub {
+      transform: translate(-50%, 0) translateY(0) rotate(0);
+    }
+
+    .menu.open .circle-btn.sub:nth-child(1) {
+      transform: translate(-50%, 0) rotate(-90deg) translateY(-120px);
+    }
+    .menu.open .circle-btn.sub:nth-child(2) {
+      transform: translate(-50%, 0) rotate(-45deg) translateY(-120px);
+    }
+    .menu.open .circle-btn.sub:nth-child(3) {
+      transform: translate(-50%, 0) rotate(0deg) translateY(-120px);
+    }
+    .menu.open .circle-btn.sub:nth-child(4) {
+      transform: translate(-50%, 0) rotate(45deg) translateY(-120px);
+    }
+    .menu.open .circle-btn.sub:nth-child(5) {
+      transform: translate(-50%, 0) rotate(90deg) translateY(-120px);
     }
   </style>
 </head>
 <body>
-  <h1>Конструктор уровней</h1>
-
-  <label for="original">Фраза (оригинал):</label>
-  <textarea id="original"></textarea>
-
-  <label for="translit">Транслитерация (через пробел):</label>
-  <textarea id="translit"></textarea>
-
-  <label for="known">Известные буквы (латиница, через запятую):</label>
-  <input type="text" id="known" />
-
-  <button onclick="generateLevel()">Сгенерировать JSON</button>
-
-  <pre id="output"></pre>
+  <div class="menu" id="menu">
+    <button class="circle-btn sub" onclick="alert('Профиль')">👤</button>
+    <button class="circle-btn sub" onclick="alert('Учиться')">📘</button>
+    <button class="circle-btn sub" onclick="alert('Выбор уровня')">🗂️</button>
+    <button class="circle-btn sub" onclick="alert('Буквы')">🔤</button>
+    <button class="circle-btn sub" onclick="alert('Настройки')">⚙️</button>
+    <button class="circle-btn main" onclick="toggleMenu()">☰</button>
+  </div>
 
   <script>
-    function generateLevel() {
-      const original = document.getElementById('original').value.trim();
-      const translit = document.getElementById('translit').value.trim();
-      const known = document.getElementById('known').value.trim().split(',').map(l => l.trim().toLowerCase());
-      const letters = translit.split(/\s+/);
-      const answer = [];
-
-      for (let l of letters) {
-        if (known.includes(l)) {
-          answer.push(l);
-        } else {
-          answer.push(null);
-        }
-      }
-
-      if (original.length !== letters.length) {
-        alert('⚠️ Количество знаков в оригинале и транслитерации не совпадает! Проверьте пробелы и соответствие.');
-      }
-
-      const level = {
-        original,
-        translit,
-        known,
-        answer
-      };
-
-      const output = JSON.stringify(level, null, 2);
-      document.getElementById('output').textContent = output;
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('open');
     }
   </script>
 </body>
