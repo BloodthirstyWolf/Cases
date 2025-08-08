@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<title>Видео в GIF конвертер</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 600px; margin: 30px auto; text-align: center; }
+  #result { margin-top: 20px; max-width: 100%; border: 1px solid #ccc; }
+  #progress-container { width: 100%; background: #eee; border-radius: 5px; overflow: hidden; margin: 15px 0; height: 20px; display: none; }
+  #progress-bar { height: 100%; width: 0; background: #4caf50; transition: width 0.3s; }
+  button { padding: 10px 20px; font-size: 16px; margin: 10px; cursor: pointer; }
+  input[type="file"] { display: none; }
+  label { padding: 10px 20px; background: #007bff; color: white; border-radius: 5px; cursor: pointer; }
+  label:hover { background: #0056b3; }
+</style>
+</head>
+<body>
+
+<h2>Конвертер видео в GIF</h2>
+
+<label for="uploader">Выбрать видео</label>
+<input type="file" id="uploader" accept="video/*" />
+
+<button id="downloadBtn" disabled>Скачать GIF</button>
+
+<div id="progress-container">
+  <div id="progress-bar"></div>
+</div>
+
+<img id="result" alt="Результат" />
+
+<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.7/dist/ffmpeg.min.js"></script>
+<script>
+  const { createFFmpeg, fetchFile } = FFmpeg;
+  const ffmpeg = createFFmpeg({ log: true });
+
+  const uploader = document.getElementById('uploader');
+  const resultImg = document.getElementById('result');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const progressContainer = document.getElementById('progress-container');
+  const progressBar = document.getElementById('progress-bar');
+
+  let gifUrl = null;
+
+  function updateProgress(percentage) {
+    progressContainer.style.display = 'block';
+    progressBar.style.width = percentage + '%';
+  }
+
+  uploader.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    downloadBtn.disabled = true;
+    resultImg.src = '';
+    if (gifUrl) {
+      URL.revokeObjectURL(gifUrl);
+      gifUrl = null;
+    }
+    updateProgress(0);
+
+    if (!ffmpeg.isLoaded()) {
+      await ffmpeg.load();
+    }
+
+    ffmpeg.setProgress(({ ratio }) => {
+      updateProgress(Math.round(ratio * 100));
+    });
+
+    try {
+      ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(file));
+
+      // Создаем палитру
+      await ffmpeg.run(
+        '-i', 'input.mp4',
+        '-vf', 'fps=15,scale=480:-1:flags=lanczos,palettegen',
+        '-y', 'palette.png'
+      );
+
+      // Конвертация в GIF с палитрой
+      await ffmpeg.run(
+        '-i', 'input.mp4',
+        '-i', 'palette.png',
+        '-filter_complex', 'fps=15,scale=480:-1:flags=lanczos[x];[x][1:v]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle',
+        '-y', 'output.gif'
+      );
+
+      const data = ffmpeg.FS('readFile', 'output.gif');
+      gifUrl = URL.createObjectURL(new Blob([data.buffer], { type: 'image/gif' }));
+
+      resultImg.src = gifUrl;
+      downloadBtn.disabled = false;
+      updateProgress(100);
+
+    } catch (err) {
+      alert('Ошибка при конвертации: ' + err.message);
+      progressContainer.style.display = 'none';
+    }
+  });
+
+  downloadBtn.addEventListener('click', () => {
+    if (!gifUrl) return;
+    const a = document.createElement('a');
+    a.href = gifUrl;
+    a.download = 'converted.gif';
+    a.click();
+  });
+</script>
+
+</body>
+</html>
