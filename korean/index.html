@@ -17,17 +17,25 @@
     }
 
     .menu {
-      position: relative;
-      margin-bottom: 1vh;
-      width: 80px;
-      height: 80px;
-    }
+  position: relative;
+  margin-bottom: 1vh;
+  width: 5%;
+  height: 11%;
+}
 
-    .circle-btn {
+    .circle-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0%;
+  width: 0px;
+  height: 150%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+
+    .circle-btn.sub {
       position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%) translateY(0);
       width: 80px;
       height: 80px;
       border-radius: 50%;
@@ -37,16 +45,9 @@
       font-size: 1.5em;
       cursor: pointer;
       opacity: 0;
-      pointer-events: none;
-      transition:
-        transform 0.4s ease,
-        opacity 0.4s ease;
-    }
-
-    .circle-btn.main {
-      opacity: 1;
-      pointer-events: auto;
-      z-index: 10;
+      transform-origin: center bottom;
+      transform: rotate(0deg) translateY(0);
+      transition: transform 0.4s ease, opacity 0.4s ease;
     }
 
     .menu.open .circle-btn.sub {
@@ -54,51 +55,51 @@
       pointer-events: auto;
     }
 
-    .circle-btn.sub:nth-child(1) {
-      transition-delay: 0s;
-    }
-    .circle-btn.sub:nth-child(2) {
-      transition-delay: 0.05s;
-    }
-    .circle-btn.sub:nth-child(3) {
-      transition-delay: 0.1s;
-    }
-    .circle-btn.sub:nth-child(4) {
-      transition-delay: 0.15s;
-    }
-    .circle-btn.sub:nth-child(5) {
-      transition-delay: 0.2s;
-    }
-
-    /* Default position: center */
-    .circle-btn.sub {
-      transform: translate(-50%, 0) translateY(0) rotate(0);
-    }
-
     .menu.open .circle-btn.sub:nth-child(1) {
-      transform: translate(-50%, 0) rotate(-90deg) translateY(-120px);
+      transform: rotate(-90deg) translateY(-120px);
     }
     .menu.open .circle-btn.sub:nth-child(2) {
-      transform: translate(-50%, 0) rotate(-45deg) translateY(-120px);
+      transform: rotate(-45deg) translateY(-120px);
     }
     .menu.open .circle-btn.sub:nth-child(3) {
-      transform: translate(-50%, 0) rotate(0deg) translateY(-120px);
+      transform: rotate(0deg) translateY(-120px);
     }
     .menu.open .circle-btn.sub:nth-child(4) {
-      transform: translate(-50%, 0) rotate(45deg) translateY(-120px);
+      transform: rotate(45deg) translateY(-120px);
     }
     .menu.open .circle-btn.sub:nth-child(5) {
-      transform: translate(-50%, 0) rotate(90deg) translateY(-120px);
+      transform: rotate(90deg) translateY(-120px);
     }
+
+    .circle-btn.main {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 1;
+  pointer-events: auto;
+}
+
   </style>
 </head>
 <body>
   <div class="menu" id="menu">
-    <button class="circle-btn sub" onclick="alert('Профиль')">👤</button>
-    <button class="circle-btn sub" onclick="alert('Учиться')">📘</button>
-    <button class="circle-btn sub" onclick="alert('Выбор уровня')">🗂️</button>
-    <button class="circle-btn sub" onclick="alert('Буквы')">🔤</button>
-    <button class="circle-btn sub" onclick="alert('Настройки')">⚙️</button>
+    <div class="circle-wrapper">
+      <button class="circle-btn sub" onclick="alert('Профиль')">👤</button>
+      <button class="circle-btn sub" onclick="alert('Учиться')">📘</button>
+      <button class="circle-btn sub" onclick="alert('Выбор уровня')">🗂️</button>
+      <button class="circle-btn sub" onclick="alert('Буквы')">🔤</button>
+      <button class="circle-btn sub" onclick="alert('Настройки')">⚙️</button>
+    </div>
     <button class="circle-btn main" onclick="toggleMenu()">☰</button>
   </div>
 
