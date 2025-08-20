@@ -16,6 +16,28 @@
       align-items: flex-end;
     }
 
+.app {
+  display: flex;
+  flex-direction: column;   /* вертикально */
+  align-items: center;      /* по центру */
+  gap: 2vh;                 /* расстояние между цитатой и меню */
+  margin-bottom: 3vh;       /* отступ от низа */
+}
+
+.quote {
+  font-size: 1.2em;
+  font-weight: 500;
+  text-align: center;
+  max-width: 80%;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.quote.show {
+  opacity: 1;
+}
+    
+    
     .menu {
   position: relative;
   margin-bottom: 1vh;
@@ -92,16 +114,19 @@
   </style>
 </head>
 <body>
-  <div class="menu" id="menu">
-    <div class="circle-wrapper">
-      <button class="circle-btn sub" onclick="alert('Профиль')">👤</button>
-      <button class="circle-btn sub" onclick="alert('Учиться')">📘</button>
-      <button class="circle-btn sub" onclick="alert('Выбор уровня')">🗂️</button>
-      <button class="circle-btn sub" onclick="alert('Буквы')">🔤</button>
-      <button class="circle-btn sub" onclick="alert('Настройки')">⚙️</button>
+  <div class="app">
+    <div id="quote" class="quote"></div>
+
+    <div class="menu" id="menu">
+      <div class="circle-wrapper">
+        <button class="circle-btn sub" onclick="alert('Профиль')">👤</button>
+        <button class="circle-btn sub" onclick="alert('Учиться')">📘</button>
+        <button class="circle-btn sub" onclick="alert('Выбор уровня')">🗂️</button>
+        <button class="circle-btn sub" onclick="alert('Буквы')">🔤</button>
+        <button class="circle-btn sub" onclick="alert('Настройки')">⚙️</button>
+      </div>
+      <button class="circle-btn main" onclick="toggleMenu()">☰</button>
     </div>
-    <button class="circle-btn main" onclick="toggleMenu()">☰</button>
-  </div>
 
   <script>
     function toggleMenu() {
