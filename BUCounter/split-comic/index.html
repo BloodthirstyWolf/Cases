@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<title>Comic Splitter 9:16</title>
+<style>
+  body {
+    font-family: sans-serif;
+    background: #111;
+    color: #eee;
+    margin: 0;
+    padding: 20px;
+  }
+
+  h1 { font-size: 20px; }
+
+  input {
+    margin: 10px 0;
+  }
+
+  #output {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+
+  .chunk {
+    background: #222;
+    padding: 6px;
+    border-radius: 6px;
+  }
+
+  .chunk img {
+    width: 100%;
+    display: block;
+  }
+
+  .chunk a {
+    display: block;
+    margin-top: 6px;
+    text-align: center;
+    color: #9cf;
+    text-decoration: none;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Вертикальный разрез комикса (≥ 9:16)</h1>
+<input type="file" accept="image/*" id="fileInput" />
+
+<div id="output"></div>
+
+<script>
+const input = document.getElementById('fileInput');
+const output = document.getElementById('output');
+
+input.addEventListener('change', () => {
+  const file = input.files[0];
+  if (!file) return;
+
+  const img = new Image();
+  img.onload = () => splitImage(img);
+  img.src = URL.createObjectURL(file);
+});
+
+function splitImage(img) {
+  output.innerHTML = '';
+
+  const W = img.naturalWidth;
+  const H = img.naturalHeight;
+
+  // 9:16 → высота = ширина * 16 / 9
+  const minSliceHeight = Math.ceil(W * 16 / 9);
+
+  let y = 0;
+  let index = 1;
+
+  while (y < H) {
+    const sliceHeight = Math.min(minSliceHeight, H - y);
+
+    const canvas = document.createElement('canvas');
+    canvas.width = W;
+    canvas.height = sliceHeight;
+
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(
+      img,
+      0, y, W, sliceHeight,
+      0, 0, W, sliceHeight
+    );
+
+    const url = canvas.toDataURL('image/png');
+
+    const div = document.createElement('div');
+    div.className = 'chunk';
+
+    const image = document.createElement('img');
+    image.src = url;
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `chunk_${index}.png`;
+    link.textContent = `Скачать ${index}`;
+
+    div.appendChild(image);
+    div.appendChild(link);
+    output.appendChild(div);
+
+    y += sliceHeight;
+    index++;
+  }
+}
+</script>
+
+</body>
+</html>
