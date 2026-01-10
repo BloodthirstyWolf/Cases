@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8" />
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 <title>Comic Splitter 9:16</title>
 <style>
   body {
@@ -43,6 +44,40 @@
     text-decoration: none;
     font-size: 14px;
   }
+
+    button {
+    background: none;
+    color: #9cf;
+    border: 1px solid #333;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  button:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  button:hover:not(:disabled) {
+    border-color: #555;
+  }
+
+  input[type="file"] {
+  color: #eee;
+  background: transparent;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  background: #222;
+  color: #eee;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 6px 10px;
+}
+
+
+  
 </style>
 </head>
 <body>
@@ -50,15 +85,28 @@
 <h1>Вертикальный разрез комикса (≥ 9:16)</h1>
 <input type="file" accept="image/*" id="fileInput" />
 
+<button id="downloadZip" disabled>Скачать всё (ZIP)</button>
 <div id="output"></div>
+
 
 <script>
 const input = document.getElementById('fileInput');
 const output = document.getElementById('output');
+const downloadZipBtn = document.getElementById('downloadZip');
+
+let zip;
+let expectedSlices = 0;
+let readySlices = 0;
 
 input.addEventListener('change', () => {
   const file = input.files[0];
   if (!file) return;
+
+  zip = new JSZip();
+  output.innerHTML = '';
+  downloadZipBtn.disabled = true;
+  expectedSlices = 0;
+  readySlices = 0;
 
   const img = new Image();
   img.onload = () => splitImage(img);
@@ -66,16 +114,22 @@ input.addEventListener('change', () => {
 });
 
 function splitImage(img) {
-  output.innerHTML = '';
-
   const W = img.naturalWidth;
   const H = img.naturalHeight;
-
-  // 9:16 → высота = ширина * 16 / 9
   const minSliceHeight = Math.ceil(W * 16 / 9);
 
   let y = 0;
   let index = 1;
+
+  // 🔢 сначала считаем, сколько будет кусков
+  while (y < H) {
+    expectedSlices++;
+    y += minSliceHeight;
+  }
+
+  // 🔁 теперь реально режем
+  y = 0;
+  index = 1;
 
   while (y < H) {
     const sliceHeight = Math.min(minSliceHeight, H - y);
@@ -85,33 +139,56 @@ function splitImage(img) {
     canvas.height = sliceHeight;
 
     const ctx = canvas.getContext('2d');
-    ctx.drawImage(
-      img,
-      0, y, W, sliceHeight,
-      0, 0, W, sliceHeight
-    );
+    ctx.drawImage(img, 0, y, W, sliceHeight, 0, 0, W, sliceHeight);
 
-    const url = canvas.toDataURL('image/png');
+    const pad = String(index).padStart(2, '0');
+    const filename = `chunk_${pad}.png`;
 
-    const div = document.createElement('div');
-    div.className = 'chunk';
+    canvas.toBlob(blob => {
+      zip.file(filename, blob);
+      readySlices++;
 
-    const image = document.createElement('img');
-    image.src = url;
+      const url = URL.createObjectURL(blob);
 
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `chunk_${index}.png`;
-    link.textContent = `Скачать ${index}`;
+      const div = document.createElement('div');
+      div.className = 'chunk';
 
-    div.appendChild(image);
-    div.appendChild(link);
-    output.appendChild(div);
+      const image = document.createElement('img');
+      image.src = url;
+
+      const label = document.createElement('div');
+      label.style.textAlign = 'center';
+      label.style.marginTop = '6px';
+      label.style.fontSize = '14px';
+      label.style.opacity = '0.7';
+      label.textContent = filename;
+
+      div.appendChild(image);
+      div.appendChild(label);
+      output.appendChild(div);
+
+      // ✅ ВСЕ ГОТОВЫ → включаем кнопку
+      if (readySlices === expectedSlices) {
+        downloadZipBtn.disabled = false;
+      }
+    }, 'image/png');
 
     y += sliceHeight;
     index++;
   }
 }
+
+downloadZipBtn.addEventListener('click', async () => {
+  const blob = await zip.generateAsync({ type: 'blob' });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'slices.zip';
+  a.click();
+
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+});
 </script>
 
 </body>
