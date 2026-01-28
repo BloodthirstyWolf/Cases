@@ -5,25 +5,56 @@
   <title>Horse Game MVP</title>
 
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       font-family: system-ui, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      width: 100vw;
+      height: 100vh;
       background: #1e1e1e;
       color: #eaeaea;
-      margin: 0;
-      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #app {
+      width: 80vw;
+      max-width: 700px;
+      min-height: 80vh;
+      border: 1px solid #555;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
     }
 
     h1 {
       margin-top: 0;
     }
 
-    .location {
-      margin-bottom: 20px;
+    button {
+      background: #333;
+      color: #eaeaea;
+      border: 1px solid #555;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 14px;
+      width: 100%;
+    }
+
+    button:hover {
+      background: #444;
     }
 
     .stalls {
       margin: 10px 0;
-      padding-left: 10px;
+      width: 100%;
     }
 
     .stall {
@@ -31,110 +62,178 @@
       opacity: 0.8;
     }
 
-    button {
-      background: #333;
-      color: #eaeaea;
-      border: 1px solid #555;
-      padding: 8px 12px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    button:hover {
-      background: #444;
-    }
-
     .hint {
       opacity: 0.6;
       font-size: 13px;
       margin-top: 10px;
+      text-align: center;
+    }
+
+    .footer {
+      margin-top: auto;
+      font-size: 12px;
+      opacity: 0.6;
+      text-align: center;
     }
   </style>
 </head>
+
 <body>
 
-  <div id="app"></div>
+<div id="app"></div>
 
-  <script>
-    // ===== GAME STATE =====
-    const state = {
-      location: "stable", // "stable" | "street"
+<script>
+  // ===== VERSION =====
+  const GAME_VERSION = "0.0.1-pre";
+
+  // ===== APP STATE =====
+  const appState = {
+    screen: "menu", // "menu" | "game"
+    game: null
+  };
+
+  // ===== GAME STATE FACTORY =====
+  function createNewGame() {
+    return {
+      location: "stable",
       stalls: [null, null, null, null]
     };
+  }
 
-    // ===== NAVIGATION =====
-    function goTo(location) {
-      state.location = location;
-      render();
-    }
-
-    // ===== RENDER =====
-    function render() {
-      const app = document.getElementById("app");
-      app.innerHTML = "";
-
-      if (state.location === "stable") {
-        renderStable(app);
-      }
-
-      if (state.location === "street") {
-        renderStreet(app);
-      }
-    }
-
-    function renderStable(root) {
-      const title = document.createElement("h1");
-      title.textContent = "Конюшня";
-      root.appendChild(title);
-
-      const stallsContainer = document.createElement("div");
-      stallsContainer.className = "stalls";
-
-      state.stalls.forEach((stall, index) => {
-        const div = document.createElement("div");
-        div.className = "stall";
-
-        if (stall === null) {
-          div.textContent = `Стойло ${index + 1}: пусто`;
-        } else {
-          div.textContent = `Стойло ${index + 1}: ???`;
-        }
-
-        stallsContainer.appendChild(div);
-      });
-
-      root.appendChild(stallsContainer);
-
-      const btn = document.createElement("button");
-      btn.textContent = "Выйти на улицу";
-      btn.onclick = () => goTo("street");
-      root.appendChild(btn);
-
-      const hint = document.createElement("div");
-      hint.className = "hint";
-      hint.textContent = "Здесь будут жить лошади. Пока что стойла пустые.";
-      root.appendChild(hint);
-    }
-
-    function renderStreet(root) {
-      const title = document.createElement("h1");
-      title.textContent = "Улица";
-      root.appendChild(title);
-
-      const text = document.createElement("div");
-      text.textContent = "Тихо. Пусто. Пока здесь делать нечего.";
-      root.appendChild(text);
-
-      const btn = document.createElement("button");
-      btn.style.marginTop = "20px";
-      btn.textContent = "Вернуться в конюшню";
-      btn.onclick = () => goTo("stable");
-      root.appendChild(btn);
-    }
-
-    // ===== START =====
+  // ===== NAVIGATION =====
+  function startNewGame() {
+    appState.game = createNewGame();
+    appState.screen = "game";
     render();
-  </script>
+  }
+
+  function exitGame() {
+    appState.screen = "menu";
+    appState.game = null;
+    render();
+  }
+
+  function goTo(location) {
+    appState.game.location = location;
+    render();
+  }
+
+  // ===== RENDER ROOT =====
+  function render() {
+    const app = document.getElementById("app");
+    app.innerHTML = "";
+
+    if (appState.screen === "menu") {
+      renderMenu(app);
+    }
+
+    if (appState.screen === "game") {
+      renderGame(app);
+    }
+  }
+
+  // ===== MENU =====
+  function renderMenu(root) {
+    const title = document.createElement("h1");
+    title.textContent = "HORSE GAME";
+    root.appendChild(title);
+
+    const newGameBtn = document.createElement("button");
+    newGameBtn.textContent = "Новая игра";
+    newGameBtn.onclick = startNewGame;
+    root.appendChild(newGameBtn);
+
+    const loadBtn = document.createElement("button");
+    loadBtn.textContent = "Загрузить игру";
+    loadBtn.onclick = () => alert("Загрузка будет позже 🙂");
+    root.appendChild(loadBtn);
+
+    const settingsBtn = document.createElement("button");
+    settingsBtn.textContent = "Настройки";
+    settingsBtn.onclick = () => alert("Настройки позже");
+    root.appendChild(settingsBtn);
+
+    const exitBtn = document.createElement("button");
+    exitBtn.textContent = "Выход";
+    exitBtn.onclick = () => alert("Просто закрой вкладку 🙂");
+    root.appendChild(exitBtn);
+
+    const footer = document.createElement("div");
+    footer.className = "footer";
+    footer.textContent = `v${GAME_VERSION}`;
+    root.appendChild(footer);
+  }
+
+  // ===== GAME =====
+  function renderGame(root) {
+    if (appState.game.location === "stable") {
+      renderStable(root);
+    }
+
+    if (appState.game.location === "street") {
+      renderStreet(root);
+    }
+  }
+
+  function renderStable(root) {
+    const title = document.createElement("h1");
+    title.textContent = "Конюшня";
+    root.appendChild(title);
+
+    const stallsContainer = document.createElement("div");
+    stallsContainer.className = "stalls";
+
+    appState.game.stalls.forEach((stall, index) => {
+      const div = document.createElement("div");
+      div.className = "stall";
+      div.textContent = stall === null
+        ? `Стойло ${index + 1}: пусто`
+        : `Стойло ${index + 1}: ???`;
+      stallsContainer.appendChild(div);
+    });
+
+    root.appendChild(stallsContainer);
+
+    const btn = document.createElement("button");
+    btn.textContent = "Выйти на улицу";
+    btn.onclick = () => goTo("street");
+    root.appendChild(btn);
+
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = "Здесь будут жить лошади. Пока что стойла пустые.";
+    root.appendChild(hint);
+
+    const back = document.createElement("button");
+    back.textContent = "В меню";
+    back.onclick = exitGame;
+    root.appendChild(back);
+  }
+
+  function renderStreet(root) {
+    const title = document.createElement("h1");
+    title.textContent = "Улица";
+    root.appendChild(title);
+
+    const text = document.createElement("div");
+    text.textContent = "Тихо. Пусто. Пока здесь делать нечего.";
+    root.appendChild(text);
+
+    const btn = document.createElement("button");
+    btn.style.marginTop = "20px";
+    btn.textContent = "Вернуться в конюшню";
+    btn.onclick = () => goTo("stable");
+    root.appendChild(btn);
+
+    const back = document.createElement("button");
+    back.textContent = "В меню";
+    back.onclick = exitGame;
+    root.appendChild(back);
+  }
+
+  // ===== START =====
+  render();
+</script>
 
 </body>
 </html>
