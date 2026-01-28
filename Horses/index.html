@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Horse Game MVP</title>
+
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #1e1e1e;
+      color: #eaeaea;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    .location {
+      margin-bottom: 20px;
+    }
+
+    .stalls {
+      margin: 10px 0;
+      padding-left: 10px;
+    }
+
+    .stall {
+      padding: 6px 0;
+      opacity: 0.8;
+    }
+
+    button {
+      background: #333;
+      color: #eaeaea;
+      border: 1px solid #555;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background: #444;
+    }
+
+    .hint {
+      opacity: 0.6;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app"></div>
+
+  <script>
+    // ===== GAME STATE =====
+    const state = {
+      location: "stable", // "stable" | "street"
+      stalls: [null, null, null, null]
+    };
+
+    // ===== NAVIGATION =====
+    function goTo(location) {
+      state.location = location;
+      render();
+    }
+
+    // ===== RENDER =====
+    function render() {
+      const app = document.getElementById("app");
+      app.innerHTML = "";
+
+      if (state.location === "stable") {
+        renderStable(app);
+      }
+
+      if (state.location === "street") {
+        renderStreet(app);
+      }
+    }
+
+    function renderStable(root) {
+      const title = document.createElement("h1");
+      title.textContent = "Конюшня";
+      root.appendChild(title);
+
+      const stallsContainer = document.createElement("div");
+      stallsContainer.className = "stalls";
+
+      state.stalls.forEach((stall, index) => {
+        const div = document.createElement("div");
+        div.className = "stall";
+
+        if (stall === null) {
+          div.textContent = `Стойло ${index + 1}: пусто`;
+        } else {
+          div.textContent = `Стойло ${index + 1}: ???`;
+        }
+
+        stallsContainer.appendChild(div);
+      });
+
+      root.appendChild(stallsContainer);
+
+      const btn = document.createElement("button");
+      btn.textContent = "Выйти на улицу";
+      btn.onclick = () => goTo("street");
+      root.appendChild(btn);
+
+      const hint = document.createElement("div");
+      hint.className = "hint";
+      hint.textContent = "Здесь будут жить лошади. Пока что стойла пустые.";
+      root.appendChild(hint);
+    }
+
+    function renderStreet(root) {
+      const title = document.createElement("h1");
+      title.textContent = "Улица";
+      root.appendChild(title);
+
+      const text = document.createElement("div");
+      text.textContent = "Тихо. Пусто. Пока здесь делать нечего.";
+      root.appendChild(text);
+
+      const btn = document.createElement("button");
+      btn.style.marginTop = "20px";
+      btn.textContent = "Вернуться в конюшню";
+      btn.onclick = () => goTo("stable");
+      root.appendChild(btn);
+    }
+
+    // ===== START =====
+    render();
+  </script>
+
+</body>
+</html>
